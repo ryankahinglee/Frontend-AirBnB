@@ -9,14 +9,13 @@ import {
 } from 'react-router-dom';
 
 const makeRequest = (route, method, body) => {
-  const options = {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-      Accept: 'application/json',
-      Authorization: ''
-    },
-  };
+  const headers = {
+    'Content-Type': 'application/json; charset=UTF-8',
+    Accept: 'application/json',
+    Authorization: null // Adjust with global token, can place with parameter
+  }
+
+  const options = { method, headers }
   if (body !== undefined) {
     options.body = JSON.stringify(body);
   }
@@ -31,7 +30,7 @@ const makeRequest = (route, method, body) => {
       }
     })
     .catch((error) => {
-      console.error(error.message);
+      alert(error.message);
     });
 }
 
@@ -56,6 +55,7 @@ const Login = () => {
         // Send fetch
         const body = { email, password }
         makeRequest('/user/auth/login', 'post', body);
+        // Change/show popup of successful login
 
         // Clear input fields
         setEmail('');
@@ -88,6 +88,7 @@ const Login = () => {
 }
 
 const Register = () => {
+  const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirm, setConfirm] = React.useState('');
@@ -104,13 +105,26 @@ const Register = () => {
         }
 
         // Send fetch
+        const body = { name, email, password }
+        makeRequest('/user/auth/register', 'post', body);
         console.log(email);
 
         // Clear input fields
+        setName('');
         setEmail('');
         setPassword('');
         setConfirm('');
       }}>
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            onChange={event => setName(event.target.value)}
+            value = {name}
+          />
+        </label>
+        <br />
         <label>
           Email
           <input
