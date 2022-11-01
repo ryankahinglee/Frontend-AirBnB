@@ -45,27 +45,8 @@ const makeRequest = async (route, method, body, token) => {
 
 // Route pages
 const Home = () => {
-  const { getters, setters } = React.useContext(tokenContext);
-  if (getters.token === '') {
-    return (
-      <div>
-        <button><Link to='/login'>Login</Link></button>
-        <button><Link to='/register'>Register</Link></button>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        <button onClick = {() => {
-          makeRequest('/user/auth/logout', 'post', undefined, getters.token).then(() => {
-            setters.setToken('');
-          })
-        }}>
-          Logout
-        </button>
-      </div>
-    )
-  }
+  // Landing screen, list airbnbs here
+  return <></>
 }
 
 const Login = () => {
@@ -75,7 +56,6 @@ const Login = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <button><Link to='/'>Back to Home</Link></button>
       <form onSubmit={ (e) => {
         e.preventDefault();
 
@@ -128,7 +108,6 @@ const Register = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <button><Link to='/'>Back to Home</Link></button>
       <form onSubmit={(e) => {
         e.preventDefault();
 
@@ -198,6 +177,30 @@ const Register = () => {
   )
 }
 
+const Nav = () => {
+  const { getters, setters } = React.useContext(tokenContext);
+  if (getters.token === '') {
+    return (
+      <div>
+        <button><Link to='/login'>Login</Link></button>
+        <button><Link to='/register'>Register</Link></button>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <button onClick = {() => {
+          makeRequest('/user/auth/logout', 'post', undefined, getters.token).then(() => {
+            setters.setToken('');
+          })
+        }}>
+          Logout
+        </button>
+      </div>
+    )
+  }
+}
+
 // Note propType validation in eslint has been temporarily disabled. Resolve after propType Lecture
 function App () {
   const [token, setToken] = React.useState('');
@@ -211,6 +214,8 @@ function App () {
   return (
     <tokenContext.Provider value = {{ getters, setters }}>
       <BrowserRouter>
+        <Nav />
+        <br />
         <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/login' element={<Login />} />
