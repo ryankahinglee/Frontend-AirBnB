@@ -5,58 +5,89 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link
+  Link,
+  useNavigate
 } from 'react-router-dom';
+import { tokenContext } from './token-context';
+// useContext for light/dark themes, accessibility
+// Global variables
+// const [token, setToken] = React.useState('');
 
-const makeRequest = (route, method, body) => {
+const makeRequest = async (route, method, body, token) => {
   const headers = {
     'Content-Type': 'application/json; charset=UTF-8',
     Accept: 'application/json',
-    Authorization: null // Adjust with global token, can place with parameter
+    Authorization: token // Adjust with global token, can place with parameter
   }
 
   const options = { method, headers }
   if (body !== undefined) {
     options.body = JSON.stringify(body);
   }
-  console.log(options.body);
-  fetch('http://localhost:5005' + route, options)
-    .then((res) => {
-      if (res.ok) {
-        console.log(res);
-        return (res.json());
-      } else {
-        throw res.status;
-      }
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+
+  try {
+    const response = await fetch('http://localhost:5005' + route, options);
+    if (!response.ok) {
+      throw Error(response.status);
+    }
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    if (error.message === '400') {
+      alert('Error Status 400: Invalid Input');
+    } else if (error.message === '403') {
+      alert('Error Status 403: Invalid Token');
+    } else {
+      alert(error);
+    }
+  }
 }
 
+// Route pages
 const Home = () => {
-  return (
-    <div>
-      <button><Link to='/login'>Login</Link></button>
-      <button><Link to='/register'>Register</Link></button>
-    </div>
-  )
+  const { getters, setters } = React.useContext(tokenContext);
+  if (getters.token === '') {
+    return (
+      <div>
+        <button><Link to='/login'>Login</Link></button>
+        <button><Link to='/register'>Register</Link></button>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <button onClick = {() => {
+          makeRequest('/user/auth/logout', 'post', undefined, getters.token).then(() => {
+            setters.setToken('');
+          })
+        }}>
+          Logout
+        </button>
+      </div>
+    )
+  }
 }
 
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { setters } = React.useContext(tokenContext);
+  const navigate = useNavigate();
   return (
     <div>
       <button><Link to='/'>Back to Home</Link></button>
-      <form onSubmit={(e) => {
+      <form onSubmit={ (e) => {
         e.preventDefault();
 
         // Send fetch
         const body = { email, password }
-        makeRequest('/user/auth/login', 'post', body);
+        makeRequest('/user/auth/login', 'post', body, '').then((res) => {
+          if (res !== undefined) {
+            setters.setToken(res.token);
+            navigate('/');
+          }
+        })
         // Change/show popup of successful login
-
         // Clear input fields
         setEmail('');
         setPassword('');
@@ -93,6 +124,8 @@ const Register = () => {
   const [password, setPassword] = React.useState('');
   const [confirm, setConfirm] = React.useState('');
 
+  const { setters } = React.useContext(tokenContext);
+  const navigate = useNavigate();
   return (
     <div>
       <button><Link to='/'>Back to Home</Link></button>
@@ -106,8 +139,12 @@ const Register = () => {
 
         // Send fetch
         const body = { name, email, password }
-        makeRequest('/user/auth/register', 'post', body);
-        console.log(email);
+        makeRequest('/user/auth/register', 'post', body, '').then((res) => {
+          if (res !== undefined) {
+            setters.setToken(res.token);
+            navigate('/');
+          }
+        })
 
         // Clear input fields
         setName('');
@@ -163,14 +200,24 @@ const Register = () => {
 
 // Note propType validation in eslint has been temporarily disabled. Resolve after propType Lecture
 function App () {
+  const [token, setToken] = React.useState('');
+  const getters = {
+    token
+  }
+  const setters = {
+    setToken
+  }
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+    <tokenContext.Provider value = {{ getters, setters }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home/>} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+    </tokenContext.Provider>
   )
 }
 
