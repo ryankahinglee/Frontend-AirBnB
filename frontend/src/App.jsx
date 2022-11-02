@@ -9,6 +9,7 @@ import {
   useNavigate
 } from 'react-router-dom';
 import { tokenContext } from './token-context';
+import ListingCard from './components/ListingCard';
 // useContext for light/dark themes, accessibility
 // Global variables
 // const [token, setToken] = React.useState('');
@@ -46,7 +47,24 @@ const makeRequest = async (route, method, body, token) => {
 // Route pages
 const Home = () => {
   // Landing screen, list airbnbs here
-  return <></>
+  // meant to be token here also in make request
+  const [listings, setListings] = React.useState([]);
+
+  React.useEffect(() => {
+    makeRequest('/listings', 'get', undefined, '').then((res) => {
+      if (res !== undefined) {
+        setListings(res.listings)
+      }
+    })
+  }, [])
+  // bookings of accepted and stuff and then alphabetic sorting
+  return (
+    <div>
+      {listings.map((data, index) => (
+        <ListingCard key={`listing-${index}`} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews}/>
+      ))}
+    </div>
+  )
 }
 
 const Login = () => {
