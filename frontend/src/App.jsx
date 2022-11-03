@@ -1,17 +1,16 @@
 import React from 'react';
 import './App.css';
-// import Button from './components/Button';
 import {
   BrowserRouter,
   Routes,
   Route,
   Link,
-  useNavigate
+  // useNavigate
 } from 'react-router-dom';
 import { tokenContext } from './token-context';
+import Login from './pages/Login';
+import Register from './pages/Register';
 // useContext for light/dark themes, accessibility
-// Global variables
-// const [token, setToken] = React.useState('');
 
 const makeRequest = async (route, method, body, token) => {
   const headers = {
@@ -43,140 +42,13 @@ const makeRequest = async (route, method, body, token) => {
   }
 }
 
-// Route pages
+// Route Home page
 const Home = () => {
   // Landing screen, list airbnbs here
   return <></>
 }
 
-const Login = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const { setters } = React.useContext(tokenContext);
-  const navigate = useNavigate();
-  return (
-    <div>
-      <form onSubmit={ (e) => {
-        e.preventDefault();
-
-        // Send fetch
-        const body = { email, password }
-        makeRequest('/user/auth/login', 'post', body, '').then((res) => {
-          if (res !== undefined) {
-            setters.setToken(res.token);
-            navigate('/');
-          }
-        })
-        // Change/show popup of successful login
-        // Clear input fields
-        setEmail('');
-        setPassword('');
-      }}>
-        <label>
-          Email
-          <input
-            type="text"
-            name="email"
-            onChange={event => setEmail(event.target.value)}
-            value = {email}
-          />
-        </label>
-        <br />
-        <label>
-          Password
-          <input
-            type="text"
-            name="password"
-            onChange={event => setPassword(event.target.value)}
-            value = {password}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-  )
-}
-
-const Register = () => {
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirm, setConfirm] = React.useState('');
-
-  const { setters } = React.useContext(tokenContext);
-  const navigate = useNavigate();
-  return (
-    <div>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-
-        if (password !== confirm) {
-          alert('Passwords are not the same');
-          return;
-        }
-
-        // Send fetch
-        const body = { name, email, password }
-        makeRequest('/user/auth/register', 'post', body, '').then((res) => {
-          if (res !== undefined) {
-            setters.setToken(res.token);
-            navigate('/');
-          }
-        })
-
-        // Clear input fields
-        setName('');
-        setEmail('');
-        setPassword('');
-        setConfirm('');
-      }}>
-        <label>
-          Name
-          <input
-            type="text"
-            name="name"
-            onChange={event => setName(event.target.value)}
-            value = {name}
-          />
-        </label>
-        <br />
-        <label>
-          Email
-          <input
-            type="text"
-            name="email"
-            onChange={event => setEmail(event.target.value)}
-            value = {email}
-          />
-        </label>
-        <br />
-        <label>
-          Password
-          <input
-            type="text"
-            name="password"
-            onChange={event => setPassword(event.target.value)}
-            value = {password}
-          />
-        </label>
-        <br />
-        <label>
-          Confirm Password
-          <input
-            type="text"
-            name="confirm-password"
-            onChange={event => setConfirm(event.target.value)}
-            value = {confirm}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-  )
-}
-
+// Navigationo bar
 const Nav = () => {
   const { getters, setters } = React.useContext(tokenContext);
   if (getters.token === '') {
@@ -201,7 +73,6 @@ const Nav = () => {
   }
 }
 
-// Note propType validation in eslint has been temporarily disabled. Resolve after propType Lecture
 function App () {
   const [token, setToken] = React.useState('');
   const getters = {
