@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import EditButton from './EditButton';
+import DeleteButton from './DeleteButton';
 
-export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price }) {
+export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId }) {
   // return all info in a card
   // include a delete and edit button
   // should i pass in id for that?
@@ -34,6 +36,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <img alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <div>{`Price/night : ${price}`}</div>
+      {/* https://www.tutorialspoint.com/How-to-draw-a-star-in-HTML5-SVG */}
       {
         (new Array(starAmount)).map((_, index) => (
           <svg key={`star-${index}`} viewBox="0 0 200 200" height="50px" width="50px">
@@ -42,6 +45,8 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         )
         )
       }
+      <EditButton route={`/editlisting/${lId}`} desc={'Edit Listing'}/>
+      <DeleteButton route={`/deletelisting/${lId}`} desc={'Delete Listing'}/>
     </div>
   );
 }
@@ -52,5 +57,6 @@ DetailedListingCard.propTypes = {
   type: PropTypes.string,
   bedrooms: PropTypes.array,
   numBathrooms: PropTypes.number,
-  price: PropTypes.number
+  price: PropTypes.number,
+  lId: PropTypes.number
 }
