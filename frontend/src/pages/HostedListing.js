@@ -42,6 +42,10 @@ export default function HostedListing () {
           price={parseInt(listing.price)}
           thumbnail={listing.thumbnail}
           lId={listing.id}
+          listingSetter={(lId) => {
+            setFullListings(fullListings.filter(listing => listing.id !== lId))
+          }}
+          published={listing.published}
         />
       ))}
     </div>

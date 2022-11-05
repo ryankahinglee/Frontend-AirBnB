@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-// import { useNavigate } from 'react-router-dom'
-
-export default function DeleteButton ({ route, desc }) {
-  // const navigate = useNavigate();
+import makeRequest from '../makeRequest';
+import { tokenContext } from '../token-context';
+export default function DeleteButton ({ lId, desc, listingSetter }) {
+  const { getters } = React.useContext(tokenContext);
   return (
     <div>
       <button onClick={() => {
-        // make request here
-        // navigate(route);
+        makeRequest(`/listings/${lId}`, 'delete', undefined, getters.token).then((res) => {
+          if (!('error' in res)) {
+            listingSetter(lId)
+          }
+        })
       }}>
         {desc}
       </button>
@@ -16,6 +19,7 @@ export default function DeleteButton ({ route, desc }) {
   );
 }
 DeleteButton.propTypes = {
-  route: PropTypes.string,
-  desc: PropTypes.string
+  lId: PropTypes.number,
+  desc: PropTypes.string,
+  listingSetter: PropTypes.func
 }

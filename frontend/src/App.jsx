@@ -21,6 +21,7 @@ import HostedListing from './pages/HostedListing';
 import EditListing from './pages/EditListing';
 import CreateListing from './pages/CreateListing';
 import AdvancedSearch from './pages/AdvancedSearch';
+import ListingAvailabilities from './pages/ListingAvailabilities';
 // useContext for light/dark themes, accessibility
 // Global variables
 // const [token, setToken] = React.useState('');
@@ -120,6 +121,7 @@ function App () {
           <Route path='/editlisting/:lId' element={<EditListing/>} />
           <Route path='/advancedSearch' element={<AdvancedSearch/>}/>
           {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
+          <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities/>} />
         </Routes>
       </BrowserRouter>
     </tokenContext.Provider>

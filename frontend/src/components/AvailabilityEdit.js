@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
-
-export default function EditButton ({ lId, desc }) {
+export default function AvailabilityEdit ({ lId, desc }) {
   const navigate = useNavigate();
   return (
     <div>
       <button onClick={() => {
-        navigate(`/editlisting/${lId}`);
+        navigate(`/listingavailabilities/${lId}`);
       }}>
         {desc}
       </button>
     </div>
   );
 }
-EditButton.propTypes = {
+AvailabilityEdit.propTypes = {
   lId: PropTypes.number,
   desc: PropTypes.string
 }

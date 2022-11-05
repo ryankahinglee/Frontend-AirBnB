@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import AvailabilityEdit from './AvailabilityEdit';
 
-export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId }) {
-  // return all info in a card
-  // include a delete and edit button
-  // should i pass in id for that?
+export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
   const [bedCounter, setBedCounter] = React.useState(0);
   const [reviewCounter, setReviewCounter] = React.useState(0);
   const [starAmount, setStarAmount] = React.useState(0);
@@ -45,8 +43,17 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         )
         )
       }
-      <EditButton route={`/editlisting/${lId}`} desc={'Edit Listing'}/>
-      <DeleteButton route={`/deletelisting/${lId}`} desc={'Delete Listing'}/>
+      {/* pass in ID, not route */}
+      <EditButton lId={lId} desc={'Edit Listing'}/>
+      <DeleteButton lId={lId} desc={'Delete Listing'} listingSetter={listingSetter} />
+      {!published && (
+        <AvailabilityEdit lId={lId} desc={'Set Availabilities'}/>
+      )}
+      {published && (
+        <button>
+          Unpublish Listing
+        </button>
+      )}
     </div>
   );
 }
@@ -58,5 +65,7 @@ DetailedListingCard.propTypes = {
   bedrooms: PropTypes.array,
   numBathrooms: PropTypes.number,
   price: PropTypes.number,
-  lId: PropTypes.number
+  lId: PropTypes.number,
+  listingSetter: PropTypes.func,
+  published: PropTypes.bool
 }
