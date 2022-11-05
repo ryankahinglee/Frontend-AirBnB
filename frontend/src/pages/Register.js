@@ -43,7 +43,7 @@ export default function Register () {
             type="text"
             name="name"
             onChange={event => setName(event.target.value)}
-            value = {name}
+            value={name}
           />
         </label>
         <br />
@@ -53,7 +53,7 @@ export default function Register () {
             type="text"
             name="email"
             onChange={event => setEmail(event.target.value)}
-            value = {email}
+            value={email}
           />
         </label>
         <br />
@@ -63,7 +63,7 @@ export default function Register () {
             type="text"
             name="password"
             onChange={event => setPassword(event.target.value)}
-            value = {password}
+            value={password}
           />
         </label>
         <br />
@@ -73,7 +73,7 @@ export default function Register () {
             type="text"
             name="confirm-password"
             onChange={event => setConfirm(event.target.value)}
-            value = {confirm}
+            value={confirm}
           />
         </label>
         <br />

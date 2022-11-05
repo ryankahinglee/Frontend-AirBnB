@@ -11,7 +11,7 @@ export default function Login () {
 
   return (
     <div>
-      <form onSubmit={ (e) => {
+      <form onSubmit={(e) => {
         e.preventDefault();
         // Send fetch
         const data = { email, password }
@@ -32,7 +32,7 @@ export default function Login () {
             type="text"
             name="email"
             onChange={event => setEmail(event.target.value)}
-            value = {email}
+            value={email}
           />
         </label>
         <br />
@@ -42,7 +42,7 @@ export default function Login () {
             type="text"
             name="password"
             onChange={event => setPassword(event.target.value)}
-            value = {password}
+            value={password}
           />
         </label>
         <br />
