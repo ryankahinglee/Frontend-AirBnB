@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import HostedListing from './pages/HostedListing';
 import EditListing from './pages/EditListing';
 import CreateListing from './pages/CreateListing';
+import ListingAvailabilities from './pages/ListingAvailabilities';
 // useContext for light/dark themes, accessibility
 // Global variables
 // const [token, setToken] = React.useState('');
@@ -121,7 +122,7 @@ function App () {
           <Route path='/createlisting' element={<CreateListing />} />
           <Route path='/mylistings' element={<HostedListing />} />
           <Route path='/editlisting/:lId' element={<EditListing/>} />
-          {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
+          <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities/>} />
         </Routes>
       </BrowserRouter>
     </tokenContext.Provider>
