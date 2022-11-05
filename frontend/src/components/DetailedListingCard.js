@@ -38,16 +38,16 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       {
         (new Array(starAmount)).map((_, index) => (
           <svg key={`star-${index}`} viewBox="0 0 200 200" height="50px" width="50px">
-            <polygon points="100,10 40,180 190,60 10,60 160,180"/>
+            <polygon points="100,10 40,180 190,60 10,60 160,180" />
           </svg>
         )
         )
       }
       {/* pass in ID, not route */}
-      <EditButton lId={lId} desc={'Edit Listing'}/>
+      <EditButton lId={lId} desc={'Edit Listing'} />
       <DeleteButton lId={lId} desc={'Delete Listing'} listingSetter={listingSetter} />
       {!published && (
-        <AvailabilityEdit lId={lId} desc={'Set Availabilities'}/>
+        <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
       )}
       {published && (
         <button>

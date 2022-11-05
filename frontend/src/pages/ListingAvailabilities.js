@@ -36,7 +36,6 @@ export default function ListingAvailabilities () {
       <button onClick={() => {
         const newAvailabilities = availabilities
         // check for conflicts
-        console.log(newAvailabilities)
         if (!dateConflict(createAvailStart, createAvailEnd, newAvailabilities)) {
           newAvailabilities.push({
             start: createAvailStart,
@@ -59,17 +58,17 @@ export default function ListingAvailabilities () {
             start={data.start}
             end={data.end}
             availStartSetter={(newStart) => {
-              const newAvailabilities = availabilities
+              const newAvailabilities = [...availabilities]
               newAvailabilities[index].start = newStart
               setAvailabilities(newAvailabilities)
             }}
             availEndSetter={(newEnd) => {
-              const newAvailabilities = availabilities
+              const newAvailabilities = [...availabilities]
               newAvailabilities[index].end = newEnd
               setAvailabilities(newAvailabilities)
             }}
             availDelete={() => {
-              const newAvailabilities = availabilities
+              const newAvailabilities = [...availabilities]
               newAvailabilities.splice(index, 1)
               setAvailabilities([...newAvailabilities])
             }}

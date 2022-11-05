@@ -91,7 +91,7 @@ export default function EditListing () {
           type="text"
           name="title"
           onChange={event => setTitle(event.target.value)}
-          value = {title}
+          value={title}
         />
       </label>
       <br />
@@ -101,7 +101,7 @@ export default function EditListing () {
           type="text"
           name="streetNumName"
           onChange={event => setStreetDetails(event.target.value)}
-          value = {streetDetails}
+          value={streetDetails}
         />
       </label>
       <br />
@@ -111,7 +111,7 @@ export default function EditListing () {
           type="text"
           name="city"
           onChange={event => setCity(event.target.value)}
-          value = {city}
+          value={city}
         />
       </label>
       <br />
@@ -121,7 +121,7 @@ export default function EditListing () {
           type="text"
           name="state"
           onChange={event => setState(event.target.value)}
-          value = {state}
+          value={state}
         />
       </label>
       <br />
@@ -131,7 +131,7 @@ export default function EditListing () {
           type="number"
           name="postcode"
           onChange={event => setPostcode(event.target.value)}
-          value = {postcode}
+          value={postcode}
         />
       </label>
       <br />
@@ -141,7 +141,7 @@ export default function EditListing () {
           type="text"
           name="country"
           onChange={event => setCountry(event.target.value)}
-          value = {country}
+          value={country}
         />
       </label>
       <br />
@@ -151,7 +151,7 @@ export default function EditListing () {
           type="number"
           name="price"
           onChange={event => setPrice(event.target.value)}
-          value = {price}
+          value={price}
         />
       </label>
       <br />
@@ -161,7 +161,7 @@ export default function EditListing () {
           type="text"
           name="thumbnail"
           onChange={event => setThumbnail(event.target.value)}
-          value = {thumbnail}
+          value={thumbnail}
         />
       </label>
       <br />
@@ -171,7 +171,7 @@ export default function EditListing () {
           type="text"
           name="type"
           onChange={event => setType(event.target.value)}
-          value = {type}
+          value={type}
         />
       </label>
       <br />
@@ -181,7 +181,7 @@ export default function EditListing () {
           type="number"
           name="bathrooms"
           onChange={event => setBathrooms(event.target.value)}
-          value = {bathrooms}
+          value={bathrooms}
         />
       </label>
       <br />
@@ -190,7 +190,7 @@ export default function EditListing () {
           Available bedrooms:&nbsp;
           <br />
           Type: &nbsp;
-          <select onChange = {event => setBedroomType(event.target.value)}>
+          <select onChange={event => setBedroomType(event.target.value)}>
             {options.map((option, index) => (
               <option key={`bedroom-${index}`} value={option.value}>{option.label}</option>
             ))}
@@ -200,10 +200,10 @@ export default function EditListing () {
             type="number"
             name="bedCount"
             onChange={event => setBedCount(event.target.value)}
-            value = {bedCount}
+            value={bedCount}
           />
           <br />
-          <button onClick = {(event) => {
+          <button onClick={(event) => {
             event.preventDefault();
             const newBedrooms = bedrooms
             // if bedcount is nothing or 0, dont allow pushing on. get an error up or alert
@@ -226,7 +226,7 @@ export default function EditListing () {
           type="text"
           name="amenities"
           onChange={event => setAmenities(event.target.value)}
-          value = {amenities}
+          value={amenities}
         />
       </label>
       <br />
@@ -235,10 +235,30 @@ export default function EditListing () {
     <div>
       {bedrooms.length > 0 && (
         bedrooms.map((data, index) => (
-          <Bedroom key={`bedroom-${index}`} type={data.roomType} count={parseInt(data.numBeds)}/>
+          <Bedroom
+            key={`bedroom-${index}`}
+            bedroomType={data.roomType}
+            bedCount={parseInt(data.numBeds)}
+            options={options}
+            onBedroomTypeChange={(newType) => {
+              const newBedrooms = [...bedrooms]
+              newBedrooms[index].roomType = newType
+              setBedrooms(newBedrooms)
+            }}
+            onBedCountChange={(newCount) => {
+              const newBedrooms = [...bedrooms]
+              newBedrooms[index].numBeds = newCount
+              setBedrooms(newBedrooms)
+            }}
+            bedroomDelete={() => {
+              const newBedrooms = [...bedrooms]
+              newBedrooms.splice(index, 1)
+              setBedrooms(newBedrooms)
+            }}
+          />
         ))
       )}
     </div>
-   </div>
+  </div>
   )
 }
