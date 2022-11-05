@@ -2,12 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tokenContext } from '../token-context';
 import makeRequest from '../makeRequest';
+// From material ui
+import Alert from '@mui/material/Alert';
 
 export default function Register () {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirm, setConfirm] = React.useState('');
+  const [samePassword, setSamePassword] = React.useState(true);
 
   const { setters } = React.useContext(tokenContext);
   const navigate = useNavigate();
@@ -62,7 +65,14 @@ export default function Register () {
           <input
             type="text"
             name="password"
-            onChange={event => setPassword(event.target.value)}
+            onChange={event => {
+              if (event.target.value !== confirm) {
+                setSamePassword(false);
+              } else {
+                setSamePassword(true);
+              }
+              setPassword(event.target.value)
+            }}
             value = {password}
           />
         </label>
@@ -72,13 +82,23 @@ export default function Register () {
           <input
             type="text"
             name="confirm-password"
-            onChange={event => setConfirm(event.target.value)}
+            onChange={event => {
+              if (event.target.value !== password) {
+                setSamePassword(false);
+              } else {
+                setSamePassword(true);
+              }
+              setConfirm(event.target.value)
+            }}
             value = {confirm}
           />
         </label>
         <br />
         <input type="submit" value="Submit" />
       </form>
+      {!samePassword && (
+        <Alert severity="warning">Passwords are not the same!</Alert>
+      )}
     </div>
   )
 }
