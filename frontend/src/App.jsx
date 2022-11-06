@@ -15,6 +15,7 @@ import SearchFilter from './components/SearchFilter';
 
 // Page impmorts
 import { tokenContext } from './token-context';
+import { ownerContext } from './ownerContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import HostedListing from './pages/HostedListing';
@@ -100,31 +101,39 @@ const Nav = () => {
 // Note propType validation in eslint has been temporarily disabled. Resolve after propType Lecture
 function App () {
   const [token, setToken] = React.useState('');
+  const [owner, setOwner] = React.useState('');
   const getters = {
     token
   }
   const setters = {
     setToken
   }
-
+  const ownerGetter = {
+    owner
+  }
+  const ownerSetter = {
+    setOwner
+  }
   return (
-    <tokenContext.Provider value = {{ getters, setters }}>
-      <BrowserRouter>
-        <Nav />
-        <br />
-        <Routes>
-          <Route path='/' element={<Home/>} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/createlisting' element={<CreateListing />} />
-          <Route path='/mylistings' element={<HostedListing />} />
-          <Route path='/editlisting/:lId' element={<EditListing/>} />
-          <Route path='/advancedSearch' element={<AdvancedSearch/>}/>
-          {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
-          <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities/>} />
-        </Routes>
-      </BrowserRouter>
-    </tokenContext.Provider>
+    <ownerContext.Provider value= {{ ownerGetter, ownerSetter }}>
+      <tokenContext.Provider value = {{ getters, setters }}>
+        <BrowserRouter>
+          <Nav />
+          <br />
+          <Routes>
+            <Route path='/' element={<Home/>} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/createlisting' element={<CreateListing />} />
+            <Route path='/mylistings' element={<HostedListing />} />
+            <Route path='/editlisting/:lId' element={<EditListing/>} />
+            <Route path='/advancedSearch' element={<AdvancedSearch/>}/>
+            {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
+            <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities/>} />
+          </Routes>
+        </BrowserRouter>
+      </tokenContext.Provider>
+    </ownerContext.Provider>
   )
 }
 
