@@ -31,7 +31,9 @@ export default function AdvancedSearch () {
     }).then((res) => {
       for (let i = res.length - 1; i >= 0; i -= 1) {
         const queryListing = res[i].value.listing;
-        let dateInterval;
+        if (queryListing.availability === undefined) {
+          continue;
+        }
         for (const [key, value] of Object.entries(conditions)) {
           if (key === 'title' && queryListing.title !== value) {
             res.splice(i, 1);
@@ -52,30 +54,29 @@ export default function AdvancedSearch () {
             res.splice(i, 1);
             break;
           } else if (key === 'startDate') {
-            const availablities = queryListing.availablity
-            for (let i = 0; i < availablities.length; i += 1) {
-              if (availablities[i].start <= value && availablities[i].end > value) {
-                dateInterval = null;
+            const availabilities = queryListing.availability
+            console.log(availabilities);
+            let startValid = true;
+            for (let i = 0; i < availabilities.length; i += 1) {
+              if (new Date(value) < new Date(availabilities[i].start)) {
+                startValid = false;
                 break;
               }
-              if (dateInterval === undefined || availablities[i].start < dateInterval) {
-                dateInterval = availablities[i].start;
-              }
             }
-            if (dateInterval === null) {
+            if (startValid === false) {
               res.splice(i, 1);
               break;
             }
           } else if (key === 'endDate') {
-            const availablities = queryListing.availablity
-            let hasEnd;
-            for (let i = 0; i < availablities.length; i += 1) {
-              if (availablities[i].start < value && availablities[i].end >= value) {
-                hasEnd = null;
+            const availabilities = queryListing.availability
+            let endValid = true;
+            for (let i = 0; i < availabilities.length; i += 1) {
+              if (new Date(value) > new Date(availabilities[i].end)) {
+                endValid = false
                 break;
               }
             }
-            if (hasEnd === null || value > dateInterval) {
+            if (endValid === false) {
               res.splice(i, 1);
               break;
             }

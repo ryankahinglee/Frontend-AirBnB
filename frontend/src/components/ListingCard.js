@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 export default function ListingCard ({ title, thumbnail, reviews }) {
-  console.log(title);
   return (
     <div>
       <div>{title}</div>
