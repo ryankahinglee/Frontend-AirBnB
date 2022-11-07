@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tokenContext } from '../token-context';
+import { ownerContext } from '../ownerContext';
 import makeRequest from '../makeRequest';
 // From material ui
 import Alert from '@mui/material/Alert';
@@ -11,7 +12,7 @@ export default function Register () {
   const [password, setPassword] = React.useState('');
   const [confirm, setConfirm] = React.useState('');
   const [samePassword, setSamePassword] = React.useState(true);
-
+  const { ownerSetter } = React.useContext(ownerContext);
   const { setters } = React.useContext(tokenContext);
   const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ export default function Register () {
 
         // Send fetch
         const data = { name, email, password }
+        ownerSetter.setOwner(email)
         makeRequest('/user/auth/register', 'post', data, '').then((res) => {
           if (res !== undefined) {
             setters.setToken(res.token);
