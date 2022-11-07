@@ -32,7 +32,7 @@ export default function FormDialog () {
 
   const navigate = useNavigate();
   const submitSearch = () => {
-    const params = { title, city, minBeds, maxBeds, minPrice, maxPrice, startDate, endDate, sortByHighest }
+    const params = { title, city, minBedrooms, maxBedrooms, minPrice, maxPrice, startDate, endDate, sortByHighest }
 
     navigate({
       pathname: '/advancedSearch',
@@ -44,8 +44,8 @@ export default function FormDialog () {
   const [endDate, setEndDate] = React.useState();
   const [title, setTitle] = React.useState();
   const [city, setCity] = React.useState();
-  const [minBeds, setMinimumBeds] = React.useState();
-  const [maxBeds, setMaximumBeds] = React.useState();
+  const [minBedrooms, setMinimumBeds] = React.useState();
+  const [maxBedrooms, setMaximumBeds] = React.useState();
   const [minPrice, setMinimumPrice] = React.useState();
   const [maxPrice, setMaximumPrice] = React.useState();
   const [sortByHighest, setSortRating] = React.useState(true)
@@ -85,7 +85,7 @@ export default function FormDialog () {
               <TextField
                 autoFocus
                 margin="dense"
-                id="minBeds"
+                id="minBedrooms"
                 label="Minimum Bedrooms"
                 type="number"
                 variant="standard"
@@ -95,7 +95,7 @@ export default function FormDialog () {
               <TextField
                 autoFocus
                 margin="dense"
-                id="maxBeds"
+                id="maxBedrooms"
                 label="Maximum Bedrooms"
                 type="number"
                 variant="standard"
@@ -107,7 +107,7 @@ export default function FormDialog () {
                 autoFocus
                 margin="dense"
                 id="minPrice"
-                label="Minimum Price"
+                label="Minimum Price (per night)"
                 type="number"
                 variant="standard"
                 onChange={event => setMinimumPrice(event.target.value)}
@@ -117,7 +117,7 @@ export default function FormDialog () {
                 autoFocus
                 margin="dense"
                 id="maxPrice"
-                label="Maximum Price"
+                label="Maximum Price (per night)"
                 type="number"
                 variant="standard"
                 onChange={event => setMaximumPrice(event.target.value)}
