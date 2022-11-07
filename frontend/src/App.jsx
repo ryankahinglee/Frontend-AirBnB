@@ -5,7 +5,8 @@ import {
   Routes,
   Route,
   Link,
-  useNavigate
+  useNavigate,
+  createSearchParams
 } from 'react-router-dom';
 import makeRequest from './makeRequest';
 
@@ -47,11 +48,30 @@ const Home = () => {
     const stringOne = a.title.toLowerCase();
     return stringOne.localeCompare(stringTwo);
   })
-  console.log(currentListings);
+
+  const [title, setTitle] = React.useState('');
+  const navigate = useNavigate();
+
   return (
     <div>
       <div>
-        <input type='text' placeholder='Search by Title'></input>
+        <form>
+          <input type='text'
+            placeholder='Search by Title'
+            onChange = {event => setTitle(event.target.value)}
+            onKeyPress = {event => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                const sortByHighest = true;
+                const params = { title, sortByHighest }
+                navigate({
+                  pathname: '/advancedSearch',
+                  search: `?${createSearchParams(params)}`,
+                });
+              }
+            }}
+          ></input>
+        </form>
       </div>
       <SearchFilter />
       <h1> Available Listings </h1>
