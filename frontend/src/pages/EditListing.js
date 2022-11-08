@@ -11,7 +11,7 @@ export default function EditListing () {
   const [streetDetails, setStreetDetails] = React.useState('');
   const [city, setCity] = React.useState('');
   const [state, setState] = React.useState('');
-  const [postcode, setPostcode] = React.useState('');
+  const [postcode, setPostcode] = React.useState(0);
   const [country, setCountry] = React.useState('');
   const [price, setPrice] = React.useState(0);
   const [thumbnail, setThumbnail] = React.useState('');
@@ -65,14 +65,14 @@ export default function EditListing () {
           streetDetails,
           city,
           state,
-          postcode,
+          postcode: parseInt(postcode),
           country
         },
-        price,
+        price: parseInt(price),
         thumbnail,
         metadata: {
           type,
-          bathrooms,
+          bathrooms: parseInt(bathrooms),
           amenities,
           bedrooms,
           images
@@ -130,7 +130,7 @@ export default function EditListing () {
         <input
           type="number"
           name="postcode"
-          onChange={event => setPostcode(event.target.value)}
+          onChange={event => setPostcode(parseInt(event.target.value))}
           value={postcode}
         />
       </label>
@@ -150,7 +150,7 @@ export default function EditListing () {
         <input
           type="number"
           name="price"
-          onChange={event => setPrice(event.target.value)}
+          onChange={event => setPrice(parseInt(event.target.value))}
           value={price}
         />
       </label>
@@ -199,7 +199,7 @@ export default function EditListing () {
           <input
             type="number"
             name="bedCount"
-            onChange={event => setBedCount(event.target.value)}
+            onChange={event => setBedCount(parseInt(event.target.value))}
             value={bedCount}
           />
           <br />

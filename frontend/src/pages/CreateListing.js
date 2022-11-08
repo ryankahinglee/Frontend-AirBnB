@@ -11,7 +11,7 @@ export default function CreateListing () {
   const [streetDetails, setStreetDetails] = React.useState('');
   const [city, setCity] = React.useState('');
   const [state, setState] = React.useState('');
-  const [postcode, setPostcode] = React.useState('');
+  const [postcode, setPostcode] = React.useState(0);
   const [country, setCountry] = React.useState('');
   const [price, setPrice] = React.useState(0);
   const [thumbnail, setThumbnail] = React.useState('');
@@ -45,13 +45,13 @@ export default function CreateListing () {
       const body = {
         title,
         address: {
-          streetDetails, city, state, postcode, country
+          streetDetails, city, state, postcode: parseInt(postcode), country
         },
-        price,
+        price: parseInt(price),
         thumbnail,
         metadata: {
           type,
-          bathrooms,
+          bathrooms: parseInt(bathrooms),
           amenities,
           bedrooms,
           images: []

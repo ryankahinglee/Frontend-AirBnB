@@ -13,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slider from '@mui/material/Slider';
 import makeRequest from '../makeRequest';
+import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'
 
 export default function ListingCard ({ id, title, thumbnail, reviews, bookings }) {
   const { ownerGetter } = React.useContext(ownerContext);
@@ -61,7 +62,15 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const valuetext = (value) => {
     return `${value} stars`;
   }
-
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const conditions = [];
+  for (const [key, value] of searchParams.entries()) {
+    if (value !== 'undefined' && (key === 'startDate' || key === 'endDate')) {
+      conditions[key] = value;
+    }
+  }
+  console.log(conditions);
   return (
     <div>
       <div>{title}</div>
@@ -111,6 +120,21 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
           </DialogActions>
         </Dialog>
       </div>}
+      <div>Number of reviews: {reviews.length}</div>
+      <button onClick={() => {
+        let params = {}
+        if (conditions.startDate !== undefined && conditions.endDate !== undefined) {
+          const startDate = conditions.startDate;
+          const endDate = conditions.endDate;
+          params = { startDate, endDate };
+        }
+        navigate({
+          pathname: `/listingdetails/${id}`,
+          search: `?${createSearchParams(params)}`,
+        });
+      }}>
+        View Details
+      </button>
     </div>
   );
 }
@@ -119,5 +143,5 @@ ListingCard.propTypes = {
   title: PropTypes.string,
   thumbnail: PropTypes.string,
   reviews: PropTypes.array,
-  bookings: PropTypes.array
+  bookings: PropTypes.array,
 }

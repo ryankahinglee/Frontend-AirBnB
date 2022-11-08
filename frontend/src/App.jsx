@@ -22,7 +22,8 @@ import EditListing from './pages/EditListing';
 import CreateListing from './pages/CreateListing';
 import AdvancedSearch from './pages/AdvancedSearch';
 import ListingAvailabilities from './pages/ListingAvailabilities';
-
+import ListingDetails from './pages/ListingDetails';
+// useContext for light/dark themes, accessibility
 // Global variables
 import { tokenContext } from './token-context';
 import { ownerContext } from './ownerContext';
@@ -36,12 +37,12 @@ const Home = () => {
 
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
-      console.log(res);
       if (res !== undefined) {
         return Promise.allSettled(res.listings.map((listing) => {
           return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
             return {
               published: res.listing.published,
+              id: listing.id,
               ...res.listing
             }
           })
@@ -170,10 +171,11 @@ function App () {
             <Route path='/register' element={<Register />} />
             <Route path='/createlisting' element={<CreateListing />} />
             <Route path='/mylistings' element={<HostedListing />} />
-            <Route path='/editlisting/:lId' element={<EditListing/>} />
-            <Route path='/advancedSearch' element={<AdvancedSearch/>}/>
+            <Route path='/editlisting/:lId' element={<EditListing />} />
+            <Route path='/advancedSearch' element={<AdvancedSearch />}/>
             {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
-            <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities/>} />
+            <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities />} />
+            <Route path='/listingdetails/:lId' element={<ListingDetails />} />
           </Routes>
         </BrowserRouter>
       </tokenContext.Provider>

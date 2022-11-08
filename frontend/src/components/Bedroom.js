@@ -2,13 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 export default function Bedroom ({ bedroomType, bedCount, options, onBedroomTypeChange, onBedCountChange, bedroomDelete }) {
-  // pass in bedroom anon fn setter
-  // add stuff like this:
-  // need delete btn too
   return (
     <div>
-      {/* <div>{type}</div>
-      <div>{count}</div> */}
       Type: &nbsp;
       <select
         value={bedroomType}
