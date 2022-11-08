@@ -1,10 +1,10 @@
 import React from 'react';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 import { useNavigate, useParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import Availability from '../components/Availability';
 export default function ListingAvailabilities () {
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   const params = useParams();
   const navigate = useNavigate();
   const [availabilities, setAvailabilities] = React.useState([]);
@@ -91,10 +91,6 @@ export default function ListingAvailabilities () {
 
 function dateConflict (start, end, newAvailabilities) {
   for (const dateRange of newAvailabilities) {
-    console.log(new Date(start).getTime())
-    console.log(new Date(end).getTime())
-    console.log(new Date(dateRange.end).getTime())
-    console.log(new Date(dateRange.start).getTime())
     if ((new Date(start).getTime() <= new Date(dateRange.end).getTime()) && (new Date(end).getTime() >= new Date(dateRange.start).getTime())) {
       return true
     }

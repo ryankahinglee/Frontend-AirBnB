@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import makeRequest from '../makeRequest';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 export default function DeleteButton ({ lId, desc, listingSetter }) {
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   return (
     <div>
       <button onClick={() => {

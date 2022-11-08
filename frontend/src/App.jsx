@@ -3,165 +3,40 @@ import './App.css';
 import {
   BrowserRouter,
   Routes,
-  Route,
-  Link,
-  useNavigate,
-  createSearchParams
+  Route
 } from 'react-router-dom';
-import makeRequest from './makeRequest';
 
-// Component imports
-import ListingCard from './components/ListingCard';
-import SearchFilter from './components/SearchFilter';
-
-// Page impmorts
-import Login from './pages/Login';
-import Register from './pages/Register';
-import HostedListing from './pages/HostedListing';
-import EditListing from './pages/EditListing';
-import CreateListing from './pages/CreateListing';
-import AdvancedSearch from './pages/AdvancedSearch';
-import ListingAvailabilities from './pages/ListingAvailabilities';
-import ListingDetails from './pages/ListingDetails';
+// Page imports
+import Login from './pages/LoginPage';
+import Register from './pages/RegisterPage';
+import HostedListing from './pages/HostedListingPage';
+import EditListing from './pages/EditListingPage';
+import CreateListing from './pages/CreateListingPage';
+import AdvancedSearch from './pages/AdvancedSearchPage';
+import ListingAvailabilities from './pages/ListingAvailabilitiesPage';
+import ListingDetails from './pages/ListingDetailsPage';
+import Home from './pages/HomePage';
 // useContext for light/dark themes, accessibility
 // Global variables
-import { tokenContext } from './token-context';
-import { ownerContext } from './ownerContext';
+import { contextVariables } from './contextVariables';
 // useContext for light/dark themes, accessibility
 
-const Home = () => {
-  // Landing screen, list airbnbs here
-  const [listings, setListings] = React.useState([]);
-  const [bookings, setBookings] = React.useState([]);
-  const { getters } = React.useContext(tokenContext);
-
-  React.useEffect(() => {
-    makeRequest('/listings', 'get', undefined, '').then((res) => {
-      if (res !== undefined) {
-        return Promise.allSettled(res.listings.map((listing) => {
-          return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
-            return {
-              published: res.listing.published,
-              id: listing.id,
-              ...res.listing
-            }
-          })
-        }))
-      }
-    }).then((res) => {
-      const newListings = [];
-      res.forEach((listing) => {
-        if (listing.value.published === true) {
-          newListings.push(listing.value);
-        }
-      })
-      setListings(newListings)
-    }).then(() => {
-      if (getters.token !== '') {
-        makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
-          if (res !== undefined) {
-            setBookings(res.bookings)
-          }
-        })
-      }
-    })
-  }, [])
-  // bookings of accepted and stuff and then alphabetic sorting
-  const currentListings = listings;
-  if (currentListings.length > 1) {
-    currentListings.sort(function (a, b) {
-      const stringTwo = b.title.toLowerCase();
-      const stringOne = a.title.toLowerCase();
-      return stringOne.localeCompare(stringTwo);
-    })
-  }
-  const [title, setTitle] = React.useState('');
-  const navigate = useNavigate();
-  return (
-    <div>
-      <div>
-        <form>
-          <input type='text'
-            placeholder='Search by Title'
-            onChange = {event => setTitle(event.target.value)}
-            onKeyPress = {event => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                const sortByHighest = true;
-                const params = { title, sortByHighest }
-                navigate({
-                  pathname: '/advancedSearch',
-                  search: `?${createSearchParams(params)}`,
-                });
-              }
-            }}
-          ></input>
-        </form>
-      </div>
-      <SearchFilter />
-      <h1> Available Listings </h1>
-      <hr></hr>
-      {currentListings.map((data, index) => (
-        <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-      ))}
-    </div>
-  )
-}
-
-const Nav = () => {
-  const { getters, setters } = React.useContext(tokenContext);
-  const navigate = useNavigate();
-  let navBar = <></>
-  if (getters.token === '') {
-    navBar = (
-      <>
-        <button><Link to='/login'>Login</Link></button>
-        <button><Link to='/register'>Register</Link></button>
-      </>
-    )
-  } else {
-    navBar = (<>
-      <button><Link to='/createlisting'>Create Listing</Link></button>
-      <button><Link to='/mylistings'>My Listings</Link></button>
-      <button onClick = {() => {
-        makeRequest('/user/auth/logout', 'post', undefined, getters.token).then(() => {
-          setters.setToken('');
-          navigate('/');
-        })
-      }}>
-        Logout
-      </button>
-    </>)
-  }
-  return (
-    <div>
-      <button onClick = {() => { navigate('/') }}>
-        Home
-      </button>
-      {navBar}
-    </div>
-  )
-}
-
+// Component imports
+import Nav from './components/NavBar';
 // Note propType validation in eslint has been temporarily disabled. Resolve after propType Lecture
 function App () {
   const [token, setToken] = React.useState('');
   const [owner, setOwner] = React.useState('');
   const getters = {
-    token
-  }
-  const setters = {
-    setToken
-  }
-  const ownerGetter = {
+    token,
     owner
   }
-  const ownerSetter = {
+  const setters = {
+    setToken,
     setOwner
   }
   return (
-    <ownerContext.Provider value= {{ ownerGetter, ownerSetter }}>
-      <tokenContext.Provider value = {{ getters, setters }}>
+      <contextVariables.Provider value = {{ getters, setters }}>
         <BrowserRouter>
           <Nav />
           <br />
@@ -173,13 +48,11 @@ function App () {
             <Route path='/mylistings' element={<HostedListing />} />
             <Route path='/editlisting/:lId' element={<EditListing />} />
             <Route path='/advancedSearch' element={<AdvancedSearch />}/>
-            {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
             <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities />} />
             <Route path='/listingdetails/:lId' element={<ListingDetails />} />
           </Routes>
         </BrowserRouter>
-      </tokenContext.Provider>
-    </ownerContext.Provider>
+      </contextVariables.Provider>
   )
 }
 

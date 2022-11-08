@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import Bedroom from '../components/Bedroom';
 
 export default function CreateListing () {
   const navigate = useNavigate();
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   const [title, setTitle] = React.useState('');
   const [streetDetails, setStreetDetails] = React.useState('');
   const [city, setCity] = React.useState('');
@@ -37,7 +37,6 @@ export default function CreateListing () {
   ];
   React.useEffect(() => {
   }, [bedrooms])
-  // console.log(getters.token);
   return (<div>
     <form onSubmit={(e) => {
       e.preventDefault();

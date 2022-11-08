@@ -1,15 +1,13 @@
 import React from 'react';
-import { ownerContext } from '../ownerContext';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import Review from '../components/Review';
 import Booking from '../components/Booking';
+import Star from '../components/Star';
 
 export default function ListingDetails () {
-  // to implement booking status if logged in and made booking. (display all booking statuses if more than one)
-  const { ownerGetter } = React.useContext(ownerContext);
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   const params = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = React.useState('');
@@ -75,7 +73,7 @@ export default function ListingDetails () {
       makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
         const bookings = res.bookings
         if (bookings.length !== 0) {
-          setOwnedBookings(bookings.filter(booking => booking.owner === ownerGetter.owner))
+          setOwnedBookings(bookings.filter(booking => booking.owner === getters.owner))
         }
       })
     }
@@ -94,9 +92,7 @@ export default function ListingDetails () {
       <div>{`Rating: ${rating}`}</div>
       {
         (new Array(rating)).map((_, index) => (
-          <svg key={`star-${index}`} viewBox="0 0 200 200" height="50px" width="50px">
-            <polygon points="100,10 40,180 190,60 10,60 160,180" />
-          </svg>
+          <Star key={`star-${index}`}/>
         )
         )
       }

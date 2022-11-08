@@ -1,17 +1,15 @@
 import React from 'react';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import DetailedListingCard from '../components/DetailedListingCard';
-import { ownerContext } from '../ownerContext';
 
 export default function HostedListing () {
-  const { getters } = React.useContext(tokenContext);
-  const { ownerGetter } = React.useContext(ownerContext);
+  const { getters } = React.useContext(contextVariables);
   const [fullListings, setFullListings] = React.useState([]);
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
       if (res !== undefined) {
-        return Promise.allSettled(res.listings.filter(listing => listing.owner === ownerGetter.owner).map((listing) => {
+        return Promise.allSettled(res.listings.filter(listing => listing.owner === getters.owner).map((listing) => {
           return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
             return {
               id: listing.id,

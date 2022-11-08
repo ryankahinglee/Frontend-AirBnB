@@ -4,14 +4,15 @@ import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import AvailabilityEdit from './AvailabilityEdit';
 import makeRequest from '../makeRequest';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
+import Star from './Star';
 
 export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
   const [bedCounter, setBedCounter] = React.useState(0);
   const [reviewCounter, setReviewCounter] = React.useState(0);
   const [starAmount, setStarAmount] = React.useState(0);
   const [publishStatus, setPublishStatus] = React.useState(published);
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   React.useEffect(() => {
     let bedNum = 0
     for (const bedroom of bedrooms) {
@@ -41,9 +42,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       {/* https://www.tutorialspoint.com/How-to-draw-a-star-in-HTML5-SVG */}
       {
         (new Array(starAmount)).map((_, index) => (
-          <svg key={`star-${index}`} viewBox="0 0 200 200" height="50px" width="50px">
-            <polygon points="100,10 40,180 190,60 10,60 160,180" />
-          </svg>
+          <Star key={`star-${index}`}/>
         )
         )
       }

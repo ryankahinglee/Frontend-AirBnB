@@ -3,12 +3,12 @@ import {
   useSearchParams
 } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import ListingCard from '../components/ListingCard';
 
 export default function AdvancedSearch () {
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   const [listings, setListings] = React.useState([]);
   const [bookings, setBookings] = React.useState([]);
 
@@ -67,7 +67,6 @@ export default function AdvancedSearch () {
             break;
           } else if (key === 'startDate') {
             const availabilities = queryListing.availability
-            console.log(availabilities);
             let startValid = true;
             for (let i = 0; i < availabilities.length; i += 1) {
               if (new Date(value) < new Date(availabilities[i].start)) {

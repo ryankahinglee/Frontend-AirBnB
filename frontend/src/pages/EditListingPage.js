@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import Bedroom from '../components/Bedroom';
 
 export default function EditListing () {
   const navigate = useNavigate();
-  const { getters } = React.useContext(tokenContext);
+  const { getters } = React.useContext(contextVariables);
   const [title, setTitle] = React.useState('');
   const [streetDetails, setStreetDetails] = React.useState('');
   const [city, setCity] = React.useState('');

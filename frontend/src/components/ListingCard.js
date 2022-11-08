@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { ownerContext } from '../ownerContext';
-import { tokenContext } from '../token-context';
+import { contextVariables } from '../contextVariables';
 
 // From material ui
 import Button from '@mui/material/Button';
@@ -16,10 +15,9 @@ import makeRequest from '../makeRequest';
 import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'
 
 export default function ListingCard ({ id, title, thumbnail, reviews, bookings }) {
-  const { ownerGetter } = React.useContext(ownerContext);
   const [rating, setRating] = React.useState(3);
   const [comment, setComment] = React.useState('');
-  const { getters } = React.useContext(tokenContext)
+  const { getters } = React.useContext(contextVariables)
   const [currentBooking, setBooking] = React.useState(undefined);
   const [hasBooking, setHasBooking] = React.useState(false);
   const [currentReviews, setCurrentReviews] = React.useState(reviews);
@@ -37,9 +35,8 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   React.useEffect(() => {
     let i = 0;
     while (bookings[i.toString()] !== undefined) {
-      console.log(i);
       const booking = bookings[i.toString()];
-      if (ownerGetter.owner === booking.owner && booking.status === 'accepted' && parseInt(booking.listingId) === id) {
+      if (getters.owner === booking.owner && booking.status === 'accepted' && parseInt(booking.listingId) === id) {
         setBooking(booking)
         setHasBooking(true);
         break;
@@ -70,7 +67,6 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       conditions[key] = value;
     }
   }
-  console.log(conditions);
   return (
     <div>
       <div>{title}</div>
