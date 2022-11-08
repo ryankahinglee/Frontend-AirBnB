@@ -12,7 +12,6 @@ export default function HostedListing () {
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
       if (res !== undefined) {
-        console.log(ownerGetter.owner)
         return Promise.allSettled(res.listings.filter(listing => listing.owner === ownerGetter.owner).map((listing) => {
           return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
             return {
