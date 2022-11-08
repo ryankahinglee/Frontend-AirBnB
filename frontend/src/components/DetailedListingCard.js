@@ -3,11 +3,15 @@ import PropTypes from 'prop-types'
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import AvailabilityEdit from './AvailabilityEdit';
+import makeRequest from '../makeRequest';
+import { tokenContext } from '../token-context';
 
 export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
   const [bedCounter, setBedCounter] = React.useState(0);
   const [reviewCounter, setReviewCounter] = React.useState(0);
   const [starAmount, setStarAmount] = React.useState(0);
+  const [publishStatus, setPublishStatus] = React.useState(published);
+  const { getters } = React.useContext(tokenContext);
   React.useEffect(() => {
     let bedNum = 0
     for (const bedroom of bedrooms) {
@@ -46,11 +50,15 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       {/* pass in ID, not route */}
       <EditButton lId={lId} desc={'Edit Listing'} />
       <DeleteButton lId={lId} desc={'Delete Listing'} listingSetter={listingSetter} />
-      {!published && (
+      {!publishStatus && (
         <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
       )}
-      {published && (
-        <button>
+      {publishStatus && (
+        <button onClick={() => {
+          makeRequest(`/listings/unpublish/${lId}`, 'put', undefined, getters.token).then((res) => {
+            setPublishStatus(false)
+          })
+        }}>
           Unpublish Listing
         </button>
       )}

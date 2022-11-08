@@ -24,6 +24,7 @@ import EditListing from './pages/EditListing';
 import CreateListing from './pages/CreateListing';
 import AdvancedSearch from './pages/AdvancedSearch';
 import ListingAvailabilities from './pages/ListingAvailabilities';
+import ListingDetails from './pages/ListingDetails';
 // useContext for light/dark themes, accessibility
 // Global variables
 // const [token, setToken] = React.useState('');
@@ -77,7 +78,7 @@ const Home = () => {
       <h1> Available Listings </h1>
       <hr></hr>
       {currentListings.map((data, index) => (
-        <ListingCard key={`listing-${index}`} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews}/>
+        <ListingCard key={`listing-${index}`} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} lId={parseInt(data.id)}/>
       ))}
     </div>
   )
@@ -146,10 +147,11 @@ function App () {
             <Route path='/register' element={<Register />} />
             <Route path='/createlisting' element={<CreateListing />} />
             <Route path='/mylistings' element={<HostedListing />} />
-            <Route path='/editlisting/:lId' element={<EditListing/>} />
-            <Route path='/advancedSearch' element={<AdvancedSearch/>}/>
+            <Route path='/editlisting/:lId' element={<EditListing />} />
+            <Route path='/advancedSearch' element={<AdvancedSearch />}/>
             {/* <Route path='/deletelisting/:lId' element={<DeleteListing/>} /> */}
-            <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities/>} />
+            <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities />} />
+            <Route path='/listingdetails/:lId' element={<ListingDetails />} />
           </Routes>
         </BrowserRouter>
       </tokenContext.Provider>

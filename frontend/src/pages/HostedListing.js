@@ -8,11 +8,9 @@ export default function HostedListing () {
   const { getters } = React.useContext(tokenContext);
   const { ownerGetter } = React.useContext(ownerContext);
   const [fullListings, setFullListings] = React.useState([]);
-  // probably have to check if its actually my listing
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
       if (res !== undefined) {
-        console.log(ownerGetter.owner)
         return Promise.allSettled(res.listings.filter(listing => listing.owner === ownerGetter.owner).map((listing) => {
           return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
             return {
@@ -20,12 +18,6 @@ export default function HostedListing () {
               ...res.listing
             }
           })
-          // return new Promise((resolve, reject) => {
-          //   resolve({
-          //     id: listing.id,
-          //     listingData: makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token)
-          //   })
-          // })
         }))
       }
     }).then((res) => {
