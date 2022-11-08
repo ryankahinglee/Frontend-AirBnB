@@ -10,6 +10,7 @@ import ListingCard from '../components/ListingCard';
 export default function AdvancedSearch () {
   const { getters } = React.useContext(tokenContext);
   const [listings, setListings] = React.useState([]);
+  const [bookings, setBookings] = React.useState([]);
 
   const [searchParams] = useSearchParams();
   const conditions = [];
@@ -24,13 +25,24 @@ export default function AdvancedSearch () {
       if (res !== undefined) {
         return Promise.allSettled(res.listings.map((listing) => {
           return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
-            return res
+            return {
+              id: listing.id,
+              ...res.listing
+            }
           })
         }))
       }
     }).then((res) => {
+      const newListings = [];
+      res.forEach((listing) => {
+        if (listing.value.published === true) {
+          newListings.push({ value: listing.value });
+        }
+      })
+      return newListings;
+    }).then((res) => {
       for (let i = res.length - 1; i >= 0; i -= 1) {
-        const queryListing = res[i].value.listing;
+        const queryListing = res[i].value;
         if (queryListing.availability === undefined) {
           continue;
         }
@@ -87,7 +99,7 @@ export default function AdvancedSearch () {
     }).then((res) => {
       const result = []
       res.forEach((temp) => {
-        result.push(temp.value.listing);
+        result.push(temp.value);
       })
       // Sort listings by rating
       result.sort(function (a, b) {
@@ -110,6 +122,14 @@ export default function AdvancedSearch () {
         }
       })
       setListings(result);
+    }).then(() => {
+      if (getters.token !== '') {
+        makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
+          if (res !== undefined) {
+            setBookings(res.bookings)
+          }
+        })
+      }
     })
   }, [])
   return (
@@ -117,7 +137,7 @@ export default function AdvancedSearch () {
       <h1> Available Listings from Advanced Search</h1>
       <hr></hr>
       {listings.map((data, index) => (
-        <ListingCard key={`listing-${index}`} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews}/>
+        <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
       ))}
     </div>
   );
