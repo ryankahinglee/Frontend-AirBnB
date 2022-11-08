@@ -1,7 +1,7 @@
 import React from 'react';
 import { ownerContext } from '../ownerContext';
 import { tokenContext } from '../token-context';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import Review from '../components/Review';
 import Booking from '../components/Booking';
@@ -15,7 +15,8 @@ export default function ListingDetails () {
   const [title, setTitle] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [amenities, setAmenities] = React.useState('');
-  // const [price, setPrice] = React.useState(0);
+  const [price, setPrice] = React.useState(0);
+  const [perStay, setPerStay] = React.useState(false);
   const [images, setImages] = React.useState([]);
   const [type, setType] = React.useState('');
   const [reviews, setReviews] = React.useState([]);
@@ -28,6 +29,7 @@ export default function ListingDetails () {
   const dateString = date.toISOString().split('T')[0]
   const [bookingStart, setBookingStart] = React.useState(dateString);
   const [bookingEnd, setBookingEnd] = React.useState(dateString);
+  const [searchParams] = useSearchParams();
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, '').then((res) => {
       const listing = res.listing
@@ -36,6 +38,21 @@ export default function ListingDetails () {
       setAddress(`${listing.address.streetDetails}, ${listing.address.city}, ${listing.address.state}, ${listing.address.postcode}, ${listing.address.country}`)
       setAmenities(listing.metadata.amenities)
       // setPrice(listing.price)
+      const conditions = [];
+      for (const [key, value] of searchParams.entries()) {
+        if (value !== 'undefined') {
+          conditions[key] = value;
+        }
+      }
+      // Using general code of finding difference between two date objects in days
+      let difference = new Date(conditions.endDate).getTime() - new Date(conditions.startDate).getTime();
+      difference = Math.ceil(difference / (1000 * 3600 * 24))
+      if (difference > 0) {
+        setPrice(difference * listing.price)
+        setPerStay(true);
+      } else {
+        setPrice(listing.price)
+      }
       setImages(listing.metadata.images)
       setType(listing.metadata.type)
       setReviews(listing.reviews)
@@ -63,13 +80,17 @@ export default function ListingDetails () {
       })
     }
   }, [])
-
   return (
     <div>
       <div>{`Title: ${title}`}</div>
       <div>{`Address: ${address}`}</div>
       <div>{`Amenities: ${amenities}`}</div>
-      {/* price per stay vs per night */}
+      { perStay && (
+        <div>{`Price per Stay: ${price}`}</div>
+      )}
+      { perStay === false && (
+        <div>{`Price per Night: ${price}`}</div>
+      )}
       <div>{`Rating: ${rating}`}</div>
       {
         (new Array(rating)).map((_, index) => (

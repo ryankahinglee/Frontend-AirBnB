@@ -15,8 +15,6 @@ import ListingCard from './components/ListingCard';
 import SearchFilter from './components/SearchFilter';
 
 // Page impmorts
-import { tokenContext } from './token-context';
-import { ownerContext } from './ownerContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import HostedListing from './pages/HostedListing';
@@ -27,32 +25,58 @@ import ListingAvailabilities from './pages/ListingAvailabilities';
 import ListingDetails from './pages/ListingDetails';
 // useContext for light/dark themes, accessibility
 // Global variables
-// const [token, setToken] = React.useState('');
+import { tokenContext } from './token-context';
+import { ownerContext } from './ownerContext';
+// useContext for light/dark themes, accessibility
 
 const Home = () => {
   // Landing screen, list airbnbs here
-  // meant to be token here also in make request
   const [listings, setListings] = React.useState([]);
+  const [bookings, setBookings] = React.useState([]);
+  const { getters } = React.useContext(tokenContext);
 
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
       if (res !== undefined) {
-        setListings(res.listings)
+        return Promise.allSettled(res.listings.map((listing) => {
+          return makeRequest(`/listings/${listing.id}`, 'get', undefined, getters.token).then((res) => {
+            return {
+              published: res.listing.published,
+              id: listing.id,
+              ...res.listing
+            }
+          })
+        }))
+      }
+    }).then((res) => {
+      const newListings = [];
+      res.forEach((listing) => {
+        if (listing.value.published === true) {
+          newListings.push(listing.value);
+        }
+      })
+      setListings(newListings)
+    }).then(() => {
+      if (getters.token !== '') {
+        makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
+          if (res !== undefined) {
+            setBookings(res.bookings)
+          }
+        })
       }
     })
   }, [])
   // bookings of accepted and stuff and then alphabetic sorting
-
-  const currentListings = listings
-  currentListings.sort(function (a, b) {
-    const stringTwo = b.title.toLowerCase();
-    const stringOne = a.title.toLowerCase();
-    return stringOne.localeCompare(stringTwo);
-  })
-
+  const currentListings = listings;
+  if (currentListings.length > 1) {
+    currentListings.sort(function (a, b) {
+      const stringTwo = b.title.toLowerCase();
+      const stringOne = a.title.toLowerCase();
+      return stringOne.localeCompare(stringTwo);
+    })
+  }
   const [title, setTitle] = React.useState('');
   const navigate = useNavigate();
-
   return (
     <div>
       <div>
@@ -78,7 +102,7 @@ const Home = () => {
       <h1> Available Listings </h1>
       <hr></hr>
       {currentListings.map((data, index) => (
-        <ListingCard key={`listing-${index}`} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} lId={parseInt(data.id)}/>
+        <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
       ))}
     </div>
   )
