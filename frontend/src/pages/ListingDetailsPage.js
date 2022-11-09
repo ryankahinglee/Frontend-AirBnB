@@ -102,7 +102,7 @@ export default function ListingDetails () {
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <div> Property Images </div>
       {images.map((img, index) => (
-        <img key={`review-${index}`} src={img.src}/>
+        <img style={{ height: '50px', width: '50px' }} key={`image-${index}`} src={img}/>
       ))}
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (
@@ -140,7 +140,11 @@ export default function ListingDetails () {
                 end: bookingEnd
               },
               totalPrice: 0
-            }, getters.token)
+            }, getters.token).then((res) => {
+              if (!('error' in res)) {
+                alert('Booking made!')
+              }
+            })
           }}>
             Make Booking
           </button>

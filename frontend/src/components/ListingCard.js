@@ -70,7 +70,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   return (
     <div>
       <div>{title}</div>
-      <img alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <div>Number of reviews: {currentReviews.length}</div>
       {hasBooking && <div>
         <Button variant="outlined" onClick={handleClickOpen}>
@@ -116,7 +116,6 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
           </DialogActions>
         </Dialog>
       </div>}
-      <div>Number of reviews: {reviews.length}</div>
       <button onClick={() => {
         let params = {}
         if (conditions.startDate !== undefined && conditions.endDate !== undefined) {

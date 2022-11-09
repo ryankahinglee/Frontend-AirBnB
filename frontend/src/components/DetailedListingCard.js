@@ -37,9 +37,8 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <div>{`Number of Reviews: ${reviewCounter}`}</div>
       <div>{`Rating: ${starAmount}`}</div>
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
-      <img alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <div>{`Price/night : ${price}`}</div>
-      {/* https://www.tutorialspoint.com/How-to-draw-a-star-in-HTML5-SVG */}
       {
         (new Array(starAmount)).map((_, index) => (
           <Star key={`star-${index}`}/>

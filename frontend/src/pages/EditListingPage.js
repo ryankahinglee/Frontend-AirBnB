@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import Bedroom from '../components/Bedroom';
+import { fileToDataUrl } from '../imageToURLHelper';
 
 export default function EditListing () {
   const navigate = useNavigate();
@@ -158,12 +159,19 @@ export default function EditListing () {
       <label>
         Thumbnail of Airbnb:&nbsp;
         <input
-          type="text"
+          type="file"
           name="thumbnail"
-          onChange={event => setThumbnail(event.target.value)}
-          value={thumbnail}
+          onChange={event => {
+            const file = event.target.files[0]
+            fileToDataUrl(file).then(result => {
+              setThumbnail(result)
+            })
+          }}
         />
       </label>
+      {thumbnail !== '' && (
+        <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
+      )}
       <br />
       <label>
         Type of property:&nbsp;
@@ -220,6 +228,28 @@ export default function EditListing () {
           </button>
         </label>
       </div>
+      <br />
+      <label>
+        Add Property Images:&nbsp;
+        <input
+          type="file"
+          name="images"
+          onChange={event => {
+            const file = event.target.files[0]
+            fileToDataUrl(file).then(result => {
+              const newImages = [...images]
+              newImages.push(result)
+              setImages(newImages)
+            })
+          }}
+        />
+      </label>
+      {
+        images.map((img, index) => (
+          <img style={{ height: '50px', width: '50px' }} key={`image-${index}`} src={img}/>
+        ))
+      }
+      <br />
       <label>
         Amenities:&nbsp;
         <input
