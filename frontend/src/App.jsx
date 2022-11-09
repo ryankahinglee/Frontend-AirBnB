@@ -16,6 +16,7 @@ import AdvancedSearch from './pages/AdvancedSearchPage';
 import ListingAvailabilities from './pages/ListingAvailabilitiesPage';
 import ListingDetails from './pages/ListingDetailsPage';
 import Home from './pages/HomePage';
+import BookingHistory from './pages/BookingHistory';
 // useContext for light/dark themes, accessibility
 // Global variables
 import { contextVariables } from './contextVariables';
@@ -50,6 +51,7 @@ function App () {
             <Route path='/advancedSearch' element={<AdvancedSearch />}/>
             <Route path='/listingavailabilities/:lId' element={<ListingAvailabilities />} />
             <Route path='/listingdetails/:lId' element={<ListingDetails />} />
+            <Route path='/bookingHistory/:lId' element={<BookingHistory />} />
           </Routes>
         </BrowserRouter>
       </contextVariables.Provider>

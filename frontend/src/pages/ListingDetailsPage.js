@@ -139,7 +139,7 @@ export default function ListingDetails () {
                 start: bookingStart,
                 end: bookingEnd
               },
-              totalPrice: 0
+              totalPrice: price
             }, getters.token).then((res) => {
               if (!('error' in res)) {
                 alert('Booking made!')
