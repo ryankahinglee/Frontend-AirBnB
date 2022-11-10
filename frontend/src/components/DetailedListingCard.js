@@ -14,9 +14,6 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
   const [publishStatus, setPublishStatus] = React.useState(published);
   const { getters } = React.useContext(contextVariables);
   const [isVideo, setIsVideo] = React.useState(false);
-  if (thumbnail.includes('https://www.youtube.com/embed/')) {
-    console.log(thumbnail);
-  }
   React.useEffect(() => {
     let bedNum = 0
     for (const bedroom of bedrooms) {
