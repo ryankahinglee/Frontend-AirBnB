@@ -3,7 +3,7 @@ import {
   useNavigate,
   createSearchParams
 } from 'react-router-dom';
-// Components from material.mui
+// Components of material.mui from https://mui.com/material-ui/react-dialog/
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -14,7 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-// Components from mui x using npm install @mui/x-date-pickers and npm install datejs
+// Components of mui x from https://mui.com/x/
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';

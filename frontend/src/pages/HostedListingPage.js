@@ -2,10 +2,12 @@ import React from 'react';
 import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import DetailedListingCard from '../components/DetailedListingCard';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 
 export default function HostedListing () {
   const { getters } = React.useContext(contextVariables);
   const [fullListings, setFullListings] = React.useState([]);
+  const navigate = useNavigate();
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
       if (res !== undefined) {
@@ -24,7 +26,7 @@ export default function HostedListing () {
   }, [])
   return (
     <div>
-      {fullListings.map((listing, index) => (
+      {fullListings.map((listing, index) => (<>
         <DetailedListingCard
           key={`detailedListing-${index}`}
           title={listing.title}
@@ -40,7 +42,16 @@ export default function HostedListing () {
           }}
           published={listing.published}
         />
-      ))}
+        <button onClick={ () => {
+          const params = listing.postedOn
+          navigate({
+            pathname: `/bookingHistory/${listing.id}`,
+            search: `?${createSearchParams({ params })}`,
+          })
+        }}>
+          View Requests
+        </button>
+      </>))}
     </div>
   )
 }
