@@ -2,6 +2,7 @@ import React from 'react';
 import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import DetailedListingCard from '../components/DetailedListingCard';
+import ProfitGraph from '../components/ProfitGraph';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 
 export default function HostedListing () {
@@ -51,6 +52,7 @@ export default function HostedListing () {
         }}>
           View Requests
         </button>
+        <ProfitGraph lId={listing.id}/>
       </>))}
     </div>
   )
