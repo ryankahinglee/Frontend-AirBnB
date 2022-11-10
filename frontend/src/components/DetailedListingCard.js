@@ -13,6 +13,10 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
   const [starAmount, setStarAmount] = React.useState(0);
   const [publishStatus, setPublishStatus] = React.useState(published);
   const { getters } = React.useContext(contextVariables);
+  const [isVideo, setIsVideo] = React.useState(false);
+  if (thumbnail.includes('https://www.youtube.com/embed/')) {
+    console.log(thumbnail);
+  }
   React.useEffect(() => {
     let bedNum = 0
     for (const bedroom of bedrooms) {
@@ -27,6 +31,9 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     if (reviews.length !== 0) {
       setStarAmount(Math.round(ratingSum / reviews.length))
     }
+    if (thumbnail.includes('https://www.youtube.com/embed/')) {
+      setIsVideo(true);
+    }
   }, [])
   // calculate actual rating for SVG
   return (
@@ -37,7 +44,12 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <div>{`Number of Reviews: ${reviewCounter}`}</div>
       <div>{`Rating: ${starAmount}`}</div>
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
-      <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      {!isVideo && (
+        <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      )}
+      {isVideo && (
+        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
+      )}
       <div>{`Price/night : ${price}`}</div>
       {
         (new Array(starAmount)).map((_, index) => (

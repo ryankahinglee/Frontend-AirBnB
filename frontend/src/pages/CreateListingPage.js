@@ -22,6 +22,7 @@ export default function CreateListing () {
   const [bedCount, setBedCount] = React.useState(0);
   const [bedroomType, setBedroomType] = React.useState('master');
   const [amenities, setAmenities] = React.useState('');
+  const [useVideo, setUseVideo] = React.useState(false);
   const options = [
     {
       label: 'Master',
@@ -146,22 +147,52 @@ export default function CreateListing () {
         />
       </label>
       <br />
-      <label>
-        Thumbnail of Airbnb:&nbsp;
+      {!useVideo && (<>
+        <label>
+          Image Thumbnail of Airbnb:&nbsp;
+          <input
+            type="file"
+            name="thumbnail"
+            onChange={event => {
+              const file = event.target.files[0]
+              fileToDataUrl(file).then(result => {
+                setThumbnail(result)
+              })
+            }}
+          />
+        </label>
+        {thumbnail !== '' && (
+          <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
+        )}
+        <button onClick = {(event) => {
+          event.preventDefault();
+          setUseVideo(true);
+        }}>
+          Video Thumbnail
+        </button>
+      </>)}
+      <br />
+      {useVideo && (<>
+        <label>
+        Video Thumbnail of Airbnb
         <input
-          type="file"
+          type="text"
           name="thumbnail"
-          onChange={event => {
-            const file = event.target.files[0]
-            fileToDataUrl(file).then(result => {
-              setThumbnail(result)
-            })
+          onChange={(event) => {
+            setThumbnail(event.target.value)
           }}
         />
-      </label>
-      {thumbnail !== '' && (
-        <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
-      )}
+        </label>
+        <button onClick = {(event) => {
+          event.preventDefault();
+          setUseVideo(false);
+        }}>
+          Image Thumbnail
+        </button>
+        {thumbnail !== '' && useVideo && (
+          <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
+        )}
+      </>)}
       <br />
       <label>
         Type of property:&nbsp;

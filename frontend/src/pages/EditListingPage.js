@@ -24,6 +24,7 @@ export default function EditListing () {
   const [images, setImages] = React.useState([]);
   const [bedCount, setBedCount] = React.useState(0);
   const [bedroomType, setBedroomType] = React.useState('master');
+  const [useVideo, setUseVideo] = React.useState(false);
   const options = [
     {
       label: 'Master',
@@ -50,6 +51,9 @@ export default function EditListing () {
       setCountry(listing.address.country)
       setPrice(listing.price)
       setThumbnail(listing.thumbnail)
+      if (listing.thumbnail.includes('https://www.youtube.com/embed/')) {
+        setUseVideo(true);
+      }
       setType(listing.metadata.type)
       setBathrooms(listing.metadata.bathrooms)
       setBedrooms(listing.metadata.bedrooms)
@@ -157,22 +161,53 @@ export default function EditListing () {
         />
       </label>
       <br />
-      <label>
-        Thumbnail of Airbnb:&nbsp;
+      {!useVideo && (<>
+        <label>
+          Thumbnail of Airbnb:&nbsp;
+          <input
+            type="file"
+            name="thumbnail"
+            onChange={event => {
+              const file = event.target.files[0]
+              fileToDataUrl(file).then(result => {
+                setThumbnail(result)
+              })
+            }}
+          />
+        </label>
+        {thumbnail !== '' && (
+          <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
+        )}
+        <button onClick = {(event) => {
+          event.preventDefault();
+          setUseVideo(true);
+        }}>
+          Video Thumbnail
+        </button>
+      </>)}
+      <br />
+      {useVideo && (<>
+        <label>
+        Video Thumbnail of Airbnb
         <input
-          type="file"
+          type="text"
           name="thumbnail"
-          onChange={event => {
-            const file = event.target.files[0]
-            fileToDataUrl(file).then(result => {
-              setThumbnail(result)
-            })
+          onChange={(event) => {
+            setThumbnail(event.target.value)
           }}
         />
-      </label>
-      {thumbnail !== '' && (
-        <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
-      )}
+        </label>
+        <button onClick = {(event) => {
+          event.preventDefault();
+          setThumbnail('');
+          setUseVideo(false);
+        }}>
+          Image Thumbnail
+        </button>
+        {thumbnail !== '' && useVideo && (
+          <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
+        )}
+      </>)}
       <br />
       <label>
         Type of property:&nbsp;
