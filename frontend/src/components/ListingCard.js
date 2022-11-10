@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { contextVariables } from '../contextVariables';
 
-// From material ui
+// Components of material.mui from https://mui.com/material-ui/react-dialog/
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
