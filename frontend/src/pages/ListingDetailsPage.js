@@ -105,7 +105,9 @@ export default function ListingDetails () {
       {/* {images.map((img, index) => (
         <img style={{ height: '50px', width: '50px' }} key={`image-${index}`} src={img}/>
       ))} */}
-      <ImageDisplay images={images}/>
+      {images.length !== 0 && (
+        <ImageDisplay images={images}/>
+      )}
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (
         <Review key={`review-${index}`} rating={rev.rating} comment={rev.comment}/>
