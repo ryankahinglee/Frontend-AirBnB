@@ -4,6 +4,7 @@ import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../imageToURLHelper';
+import Cross from '../components/Cross';
 
 export default function EditListing () {
   const navigate = useNavigate();
@@ -246,7 +247,11 @@ export default function EditListing () {
       </label>
       {
         images.map((img, index) => (
-          <img style={{ height: '50px', width: '50px' }} key={`image-${index}`} src={img}/>
+          <div key={`image-${index}`}>
+            <img style={{ height: '50px', width: '50px' }} src={img}/>
+            <Cross images={images} imagesSetter={setImages} img={img}
+            />
+          </div>
         ))
       }
       <br />

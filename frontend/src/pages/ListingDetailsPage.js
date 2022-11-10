@@ -5,6 +5,7 @@ import makeRequest from '../makeRequest';
 import Review from '../components/Review';
 import Booking from '../components/Booking';
 import Star from '../components/Star';
+import ImageDisplay from '../components/ImageDisplay';
 
 export default function ListingDetails () {
   const { getters } = React.useContext(contextVariables);
@@ -101,9 +102,10 @@ export default function ListingDetails () {
       <div>{`Number of beds: ${numBeds}`}</div>
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <div> Property Images </div>
-      {images.map((img, index) => (
+      {/* {images.map((img, index) => (
         <img style={{ height: '50px', width: '50px' }} key={`image-${index}`} src={img}/>
-      ))}
+      ))} */}
+      <ImageDisplay images={images}/>
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (
         <Review key={`review-${index}`} rating={rev.rating} comment={rev.comment}/>
