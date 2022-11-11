@@ -4,6 +4,7 @@ import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../imageToURLHelper';
+import { jsonReader } from '../listingUploadHelper';
 
 export default function CreateListing () {
   const navigate = useNavigate();
@@ -40,6 +41,22 @@ export default function CreateListing () {
   React.useEffect(() => {
   }, [bedrooms])
   return (<div>
+    <label>
+      Upload JSON File:&nbsp;
+      <input
+        type="file"
+        name="JSONupload"
+        onChange={event => {
+          const file = event.target.files[0]
+          jsonReader(file).then(result => {
+            if (result !== null) {
+              console.log(result)
+              console.log('nice')
+            }
+          })
+        }}
+      />
+    </label>
     <form onSubmit={(e) => {
       e.preventDefault();
       // Send fetch
