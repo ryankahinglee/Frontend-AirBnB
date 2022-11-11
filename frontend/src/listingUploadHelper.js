@@ -3,7 +3,13 @@ export function jsonReader (file) {
     const reader = new FileReader();
     const jsonPromise = new Promise((resolve, reject) => {
       reader.onerror = reject;
-      reader.onload = () => resolve(JSON.parse(reader.result));
+      reader.onload = () => {
+        try {
+          resolve(JSON.parse(reader.result));
+        } catch (e) {
+          resolve(null);
+        }
+      }
     });
     reader.readAsText(file);
     return jsonPromise;
