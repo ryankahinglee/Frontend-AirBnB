@@ -27,9 +27,9 @@ export default function HostedListing () {
   }, [])
   return (
     <div>
-      {fullListings.map((listing, index) => (<>
+      {fullListings.map((listing, index) => (
+      <div key={`fullListing-${index}`}>
         <DetailedListingCard
-          key={`detailedListing-${index}`}
           title={listing.title}
           type={listing.metadata.type}
           bedrooms={listing.metadata.bedrooms}
@@ -53,7 +53,8 @@ export default function HostedListing () {
           View Requests
         </button>
         <ProfitGraph lId={listing.id}/>
-      </>))}
+      </div>
+      ))}
     </div>
   )
 }
