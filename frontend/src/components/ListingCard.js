@@ -21,6 +21,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const [currentBooking, setBooking] = React.useState(undefined);
   const [hasBooking, setHasBooking] = React.useState(false);
   const [currentReviews, setCurrentReviews] = React.useState(reviews);
+  const [isVideo, setIsVideo] = React.useState(false);
   // Material ui variables
   const [open, setOpen] = React.useState(false);
 
@@ -42,6 +43,9 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
         break;
       }
       i += 1;
+    }
+    if (thumbnail.includes('https://www.youtube.com/embed/')) {
+      setIsVideo(true);
     }
   })
 
@@ -70,7 +74,12 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   return (
     <div>
       <div>{title}</div>
-      <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      {!isVideo && (
+        <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      )}
+      {isVideo && (
+        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
+      )}
       <div>Number of reviews: {currentReviews.length}</div>
       {hasBooking && <div>
         <Button variant="outlined" onClick={handleClickOpen}>
