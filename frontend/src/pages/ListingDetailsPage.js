@@ -6,6 +6,9 @@ import Review from '../components/Review';
 import Booking from '../components/Booking';
 import Star from '../components/Star';
 import ImageDisplay from '../components/ImageDisplay';
+// https://v4.mui.com/components/tooltips/#simple-tooltips
+import { Tooltip } from '@mui/material';
+import SpecificRatingReviews from '../components/SpecificRatingReviews';
 
 export default function ListingDetails () {
   const { getters } = React.useContext(contextVariables);
@@ -19,6 +22,8 @@ export default function ListingDetails () {
   const [images, setImages] = React.useState([]);
   const [type, setType] = React.useState('');
   const [reviews, setReviews] = React.useState([]);
+  const [reviewRatingFilter, setReviewRatingFilter] = React.useState(0);
+  const [reviewsBreakdown, setReviewsBreakdown] = React.useState([]);
   const [rating, setRating] = React.useState(0);
   const [numBedrooms, setNumBedrooms] = React.useState(0);
   const [numBeds, setNumBeds] = React.useState(0);
@@ -28,6 +33,7 @@ export default function ListingDetails () {
   const dateString = date.toISOString().split('T')[0]
   const [bookingStart, setBookingStart] = React.useState(dateString);
   const [bookingEnd, setBookingEnd] = React.useState(dateString);
+  const [openReview, setOpenReview] = React.useState(false);
   const [searchParams] = useSearchParams();
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, '').then((res) => {
@@ -59,6 +65,58 @@ export default function ListingDetails () {
       for (const review of listing.reviews) {
         ratingSum += parseInt(review.rating)
       }
+      let oneStars = 0;
+      let twoStars = 0;
+      let threeStars = 0;
+      let fourStars = 0;
+      let fiveStars = 0;
+      for (const review of listing.reviews) {
+        switch (review.rating) {
+          case 1:
+            oneStars++;
+            break;
+          case 2:
+            twoStars++;
+            break;
+          case 3:
+            threeStars++;
+            break;
+          case 4:
+            fourStars++;
+            break;
+          case 5:
+            fiveStars++;
+            break;
+          default:
+        }
+      }
+      setReviewsBreakdown([
+        {
+          rating: 1,
+          count: oneStars,
+          percentage: listing.reviews.length !== 0 ? Math.round((100 * oneStars) / listing.reviews.length) : 0
+        },
+        {
+          rating: 2,
+          count: twoStars,
+          percentage: listing.reviews.length !== 0 ? Math.round((100 * twoStars) / listing.reviews.length) : 0
+        },
+        {
+          rating: 3,
+          count: threeStars,
+          percentage: listing.reviews.length !== 0 ? Math.round((100 * threeStars) / listing.reviews.length) : 0
+        },
+        {
+          rating: 4,
+          count: fourStars,
+          percentage: listing.reviews.length !== 0 ? Math.round((100 * fourStars) / listing.reviews.length) : 0
+        },
+        {
+          rating: 5,
+          count: fiveStars,
+          percentage: listing.reviews.length !== 0 ? Math.round((100 * fiveStars) / listing.reviews.length) : 0
+        }
+      ])
       if (listing.reviews.length !== 0) {
         setRating(Math.round(ratingSum / listing.reviews.length))
       }
@@ -78,9 +136,13 @@ export default function ListingDetails () {
         }
       })
     }
+    const temp = <SpecificRatingReviews />
+    console.log(temp)
+    console.log(openReview);
   }, [])
   return (
     <div>
+      <SpecificRatingReviews state={openReview} stateSetter={setOpenReview} reviews={reviews} rating={reviewRatingFilter}/>
       <div>{`Title: ${title}`}</div>
       <div>{`Address: ${address}`}</div>
       <div>{`Amenities: ${amenities}`}</div>
@@ -90,13 +152,36 @@ export default function ListingDetails () {
       { perStay === false && (
         <div>{`Price per Night: ${price}`}</div>
       )}
-      <div>{`Rating: ${rating}`}</div>
-      {
-        (new Array(rating)).map((_, index) => (
-          <Star key={`star-${index}`}/>
-        )
-        )
-      }
+      <Tooltip
+        title={
+          <React.Fragment>
+            {
+              reviewsBreakdown.map((review, index) => (
+                <div
+                  key={`review-${index}`}
+                  onClick = {() => {
+                    setOpenReview(!openReview)
+                    setReviewRatingFilter(review.rating)
+                  }}
+                >
+                  {`${review.rating} stars: ${review.count} ratings, ${review.percentage}% of ratings `}
+                </div>
+              ))
+            }
+          </React.Fragment>
+        }
+        placement="bottom"
+      >
+        <div>
+          <div>{`Rating: ${rating}`}</div>
+          {
+            (new Array(rating).fill(0)).map((_, index) => (
+              <Star key={`star-${index}`}/>
+            )
+            )
+          }
+        </div>
+      </Tooltip>
       <div>{`Property Type: ${type}`}</div>
       <div>{`Number of bedrooms: ${numBedrooms}`}</div>
       <div>{`Number of beds: ${numBeds}`}</div>
