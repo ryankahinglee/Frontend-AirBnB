@@ -1,11 +1,11 @@
 // https://mui.com/material-ui/react-dialog/
-import React from 'react'
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export default function SpecificRatingReviews ({ state, stateSetter, reviews, rating }) {
   const handleClose = () => {
