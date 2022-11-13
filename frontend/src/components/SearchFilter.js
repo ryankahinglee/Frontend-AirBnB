@@ -130,6 +130,7 @@ export default function FormDialog () {
                   label="Start date"
                   value={startDate}
                   onChange={(newDate) => {
+                    newDate.$d.setHours(11, 0, 0);
                     setStartDate(newDate.$d);
                   }}
                   renderInput={(params) => <TextField {...params} />}
@@ -140,6 +141,7 @@ export default function FormDialog () {
                 label="End date"
                 value={endDate}
                 onChange={(newDate) => {
+                  newDate.$d.setHours(11, 0, 0);
                   setEndDate(newDate.$d);
                 }}
                 renderInput={(params) => <TextField {...params} />}
