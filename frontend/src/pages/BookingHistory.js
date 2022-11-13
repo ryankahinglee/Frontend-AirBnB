@@ -30,24 +30,22 @@ export default function Login () {
         const currentBookings = data.filter(booking => booking.listingId === params.lId)
         setBookings(currentBookings);
         let dayCount = 0;
+        let profitSum = 0;
         currentBookings.forEach((booking) => {
           if ((new Date(booking.dateRange.end)).getFullYear() === (new Date()).getFullYear()) {
-            const days = Math.ceil(new Date(booking.dateRange.end) - new Date(booking.dateRange.start));
-            dayCount += Math.ceil(days / (1000 * 3600 * 24));
+            let daysLength = Math.ceil(new Date(booking.dateRange.end) - new Date(booking.dateRange.start));
+            daysLength = Math.ceil(daysLength / (1000 * 3600 * 24));
+            dayCount += daysLength
+            if (booking.status === 'accepted') {
+              profitSum += booking.totalPrice * daysLength;
+            }
           }
         })
         setDaysBooked(dayCount);
-        let profitSum = 0;
-        currentBookings.forEach((booking) => {
-          if (booking.status === 'accepted' && (new Date(booking.dateRange.end)).getFullYear() === (new Date()).getFullYear()) {
-            profitSum += booking.totalPrice
-          }
-        })
         setProfit(profitSum)
       }
     })
   }, [])
-  console.log(bookings);
   return (
     <div>
       <div>This listing has been published for {daysOnline} days and {hoursOnline} hours</div>
@@ -72,7 +70,9 @@ export default function Login () {
                       booking.status = 'accepted'
                       setBookings([...currentBookings]);
                       if ((new Date(booking.dateRange.end)).getFullYear() === (new Date()).getFullYear()) {
-                        setProfit(profit + booking.totalPrice);
+                        let daysLength = Math.ceil(new Date(booking.dateRange.end) - new Date(booking.dateRange.start));
+                        daysLength = Math.ceil(daysLength / (1000 * 3600 * 24));
+                        setProfit(profit + booking.totalPrice * daysLength);
                       }
                     }
                   })

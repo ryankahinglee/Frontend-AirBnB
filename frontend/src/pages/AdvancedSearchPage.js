@@ -114,6 +114,7 @@ export default function AdvancedSearch () {
       result.sort(function (a, b) {
         const reviewsOne = a.reviews
         const reviewsTwo = b.reviews;
+
         let averageOne = 0;
         reviewsOne.forEach(review => {
           averageOne += parseInt(review.rating);
@@ -123,8 +124,8 @@ export default function AdvancedSearch () {
         reviewsTwo.forEach(review => {
           averageTwo += parseInt(review.rating);
         })
-        averageTwo = averageOne / reviewsTwo.length;
-        if (conditions.sortByHighest) {
+        averageTwo = averageTwo / reviewsTwo.length;
+        if (conditions.sortByHighest === 'true') {
           return averageTwo - averageOne
         } else {
           return averageOne - averageTwo
