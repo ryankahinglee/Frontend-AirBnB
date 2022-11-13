@@ -16,6 +16,8 @@ export default function Home () {
   const [listings, setListings] = React.useState([]);
   const [bookings, setBookings] = React.useState([]);
   const { getters } = React.useContext(contextVariables);
+  const [title, setTitle] = React.useState('');
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     makeRequest('/listings', 'get', undefined, '').then((res) => {
@@ -48,7 +50,7 @@ export default function Home () {
       }
     })
   }, [])
-  // bookings of accepted and stuff and then alphabetic sorting
+  // Sort listings via alphabetic sorting
   const currentListings = listings;
   if (currentListings.length > 1) {
     currentListings.sort(function (a, b) {
@@ -57,8 +59,31 @@ export default function Home () {
       return stringOne.localeCompare(stringTwo);
     })
   }
-  const [title, setTitle] = React.useState('');
-  const navigate = useNavigate();
+  // Sort listings by Accepted, Pending, and None
+  const acceptedListings = [];
+  const pendingListings = [];
+  const remainingListings = [];
+  if (getters.token !== '') {
+    currentListings.forEach((listing) => {
+      let hasStatus = false;
+      for (let i = 0; i < bookings.length; i += 1) {
+        if (bookings[i].owner === getters.owner && bookings[i].listingId === listing.id.toString()) {
+          if (bookings[i].status === 'accepted') {
+            acceptedListings.push(listing);
+            hasStatus = true;
+            break;
+          } else if (bookings[i].status === 'pending') {
+            pendingListings.push(listing);
+            hasStatus = true;
+            break;
+          }
+        }
+      }
+      if (hasStatus === false) {
+        remainingListings.push(listing);
+      }
+    })
+  }
   return (
     <div>
       <div>
@@ -81,11 +106,30 @@ export default function Home () {
         </form>
       </div>
       <SearchFilter />
-      <h1> Available Listings </h1>
-      <hr></hr>
-      {currentListings.map((data, index) => (
-        <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-      ))}
+      {getters.token === '' && (<div>
+        <h1> Available Listings </h1>
+        <hr></hr>
+        {currentListings.map((data, index) => (
+          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+        ))}
+      </div>)}
+      {getters.token !== '' && (<div>
+        <h1> Accepted Listings </h1>
+        <hr></hr>
+        {acceptedListings.map((data, index) => (
+          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+        ))}
+        <h1> Pending Listings </h1>
+        <hr></hr>
+        {pendingListings.map((data, index) => (
+          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+        ))}
+        <h1> Available Listings </h1>
+        <hr></hr>
+        {remainingListings.map((data, index) => (
+          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+        ))}
+      </div>)}
     </div>
   )
 }

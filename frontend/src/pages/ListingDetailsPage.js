@@ -132,13 +132,10 @@ export default function ListingDetails () {
       makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
         const bookings = res.bookings
         if (bookings.length !== 0) {
-          setOwnedBookings(bookings.filter(booking => booking.owner === getters.owner))
+          setOwnedBookings(bookings.filter(booking => booking.owner === getters.owner && params.lId === booking.listingId))
         }
       })
     }
-    const temp = <SpecificRatingReviews />
-    console.log(temp)
-    console.log(openReview);
   }, [])
   return (
     <div>
