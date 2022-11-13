@@ -17,7 +17,7 @@ export default function Login () {
 
   let daysOnline = 0
   let hoursOnline = 0;
-  if (posted.params !== null) {
+  if (posted.params !== 'null') {
     const timeOnline = new Date() - new Date(posted.params);
     daysOnline = Math.floor(timeOnline / (1000 * 3600 * 24));
     hoursOnline = Math.floor((timeOnline / (1000 * 3600 * 24) - daysOnline) * 24);
@@ -31,8 +31,10 @@ export default function Login () {
         setBookings(currentBookings);
         let dayCount = 0;
         currentBookings.forEach((booking) => {
-          const days = Math.ceil(new Date(booking.dateRange.end) - new Date(booking.dateRange.start));
-          dayCount += Math.ceil(days / (1000 * 3600 * 24));
+          if ((new Date(booking.dateRange.end)).getFullYear() === (new Date()).getFullYear()) {
+            const days = Math.ceil(new Date(booking.dateRange.end) - new Date(booking.dateRange.start));
+            dayCount += Math.ceil(days / (1000 * 3600 * 24));
+          }
         })
         setDaysBooked(dayCount);
         let profitSum = 0;
@@ -45,17 +47,19 @@ export default function Login () {
       }
     })
   }, [])
+  console.log(bookings);
   return (
     <div>
-      <div>Listing has been published for {daysOnline} days and {hoursOnline} hours</div>
-      <div>Is booked for {daysBooked} days</div>
-      <div>Profit of {profit} dollars</div>
-      <br></br><br></br>
-      {bookings.map((booking, index) => (<>
-        booking is {booking.id}
+      <div>This listing has been published for {daysOnline} days and {hoursOnline} hours</div>
+      <div>This listing has been booked for {daysBooked} days for this year</div>
+      <div>The current profit made is {profit} dollars</div>
+      <br /> <br />
+      {bookings.map((booking, index) => (
+        <div key={`booking-${index}`}>
+        Booking is {booking.id} for {booking.dateRange.start} to {booking.dateRange.end}
         <br></br>
         status is {booking.status}
-        {booking.status === 'pending' && (<>
+        {booking.status === 'pending' && (<div>
           <button
             onClick={() => {
               makeRequest(`/bookings/accept/${booking.id}`, 'put', undefined, getters.token).then((res) => {
@@ -67,10 +71,9 @@ export default function Login () {
                     if (query.id === booking.id) {
                       booking.status = 'accepted'
                       setBookings([...currentBookings]);
-                      const days = Math.ceil(new Date(query.dateRange.end) - new Date(query.dateRange.start));
-                      const newDays = daysBooked + Math.ceil(days / (1000 * 3600 * 24));
-                      setDaysBooked(newDays);
-                      setProfit(profit + booking.totalPrice);
+                      if ((new Date(booking.dateRange.end)).getFullYear() === (new Date()).getFullYear()) {
+                        setProfit(profit + booking.totalPrice);
+                      }
                     }
                   })
                 }
@@ -96,9 +99,10 @@ export default function Login () {
             }}>
             Decline Booking
           </button>
-        </>)}
+        </div>)}
         <br></br>
-      </>))}
+      </div>
+      ))}
     </div>
   );
 }

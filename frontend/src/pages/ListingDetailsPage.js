@@ -136,9 +136,6 @@ export default function ListingDetails () {
         }
       })
     }
-    const temp = <SpecificRatingReviews />
-    console.log(temp)
-    console.log(openReview);
   }, [])
   return (
     <div>

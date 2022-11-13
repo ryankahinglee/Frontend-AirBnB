@@ -4,7 +4,7 @@ import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import PropTypes from 'prop-types'
 // Components from https://recharts.org/en-US/examples/SimpleBarChart from recharts library
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from 'recharts';
 
 export default function ProfitGraph ({ lId }) {
   const { getters } = React.useContext(contextVariables);
@@ -22,10 +22,7 @@ export default function ProfitGraph ({ lId }) {
         if (start <= 30 && start >= 0) {
           let length = new Date(range.end).getTime() - new Date(range.start).getTime();
           length = Math.ceil(length / (1000 * 3600 * 24))
-          let price = booking.totalPrice / length
-          if (length === 0) {
-            price = 0;
-          }
+          const price = booking.totalPrice
           filteredData.push({ length, start, price });
         }
       })
@@ -57,13 +54,17 @@ export default function ProfitGraph ({ lId }) {
       margin={{
         top: 5,
         right: 30,
-        left: 20,
-        bottom: 5,
+        left: 50,
+        bottom: 50,
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="daysAgo" />
-      <YAxis />
+      <XAxis dataKey="daysAgo">
+        <Label value="Days ago" position="bottom" offset={30}></Label>
+      </XAxis>
+      <YAxis>
+        <Label value="Profit made" position="left" angle="-90"></Label>
+      </YAxis>
       <Tooltip />
       <Legend />
       <Bar dataKey="profit" fill="#82ca9d" />

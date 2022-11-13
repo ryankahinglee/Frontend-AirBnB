@@ -43,11 +43,12 @@ export default function AdvancedSearch () {
     }).then((res) => {
       for (let i = res.length - 1; i >= 0; i -= 1) {
         const queryListing = res[i].value;
+        const validStarts = [];
         if (queryListing.availability === undefined) {
           continue;
         }
         for (const [key, value] of Object.entries(conditions)) {
-          if (key === 'title' && queryListing.title !== value) {
+          if (key === 'title' && queryListing.title.toLowerCase() !== value.toLowerCase()) {
             res.splice(i, 1);
             break;
           } else if (key === 'city' && queryListing.address.city !== value) {
@@ -67,11 +68,11 @@ export default function AdvancedSearch () {
             break;
           } else if (key === 'startDate') {
             const availabilities = queryListing.availability
-            let startValid = true;
+            let startValid = false;
             for (let i = 0; i < availabilities.length; i += 1) {
-              if (new Date(value) < new Date(availabilities[i].start)) {
-                startValid = false;
-                break;
+              if (new Date(value) >= new Date(availabilities[i].start)) {
+                startValid = true;
+                validStarts.push(i);
               }
             }
             if (startValid === false) {
@@ -80,11 +81,20 @@ export default function AdvancedSearch () {
             }
           } else if (key === 'endDate') {
             const availabilities = queryListing.availability
-            let endValid = true;
-            for (let i = 0; i < availabilities.length; i += 1) {
-              if (new Date(value) > new Date(availabilities[i].end)) {
-                endValid = false
-                break;
+            let endValid = false;
+            if (validStarts.length === 0) {
+              for (let i = 0; i < availabilities.length; i += 1) {
+                if (new Date(value) <= new Date(availabilities[i].end)) {
+                  endValid = true
+                  break;
+                }
+              }
+            } else {
+              for (let i = 0; i < validStarts.length; i += 1) {
+                if (new Date(value) <= new Date(availabilities[validStarts[i]].end)) {
+                  endValid = true
+                  break;
+                }
               }
             }
             if (endValid === false) {
