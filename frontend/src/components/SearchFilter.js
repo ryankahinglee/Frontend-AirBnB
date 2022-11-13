@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Box from '@mui/material/Box';
 // Components of mui x from https://mui.com/x/
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -51,8 +52,14 @@ export default function FormDialog () {
   const [sortByHighest, setSortRating] = React.useState(true)
 
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+    <Box>
+      <Button
+        variant="contained"
+        onClick={handleClickOpen}
+        style = {{
+          height: '56px'
+        }}
+      >
         Advanced Search
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -64,7 +71,6 @@ export default function FormDialog () {
             <TextField
               autoFocus
               margin="dense"
-              id="title"
               label="Title"
               type="string"
               fullWidth
@@ -74,7 +80,6 @@ export default function FormDialog () {
             <TextField
               autoFocus
               margin="dense"
-              id="city"
               label="City"
               type="string"
               fullWidth
@@ -85,7 +90,6 @@ export default function FormDialog () {
               <TextField
                 autoFocus
                 margin="dense"
-                id="minBedrooms"
                 label="Minimum Bedrooms"
                 type="number"
                 variant="standard"
@@ -95,7 +99,6 @@ export default function FormDialog () {
               <TextField
                 autoFocus
                 margin="dense"
-                id="maxBedrooms"
                 label="Maximum Bedrooms"
                 type="number"
                 variant="standard"
@@ -106,7 +109,6 @@ export default function FormDialog () {
               <TextField
                 autoFocus
                 margin="dense"
-                id="minPrice"
                 label="Minimum Price (per night)"
                 type="number"
                 variant="standard"
@@ -116,7 +118,6 @@ export default function FormDialog () {
               <TextField
                 autoFocus
                 margin="dense"
-                id="maxPrice"
                 label="Maximum Price (per night)"
                 type="number"
                 variant="standard"
@@ -172,6 +173,6 @@ export default function FormDialog () {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

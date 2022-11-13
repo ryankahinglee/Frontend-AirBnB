@@ -40,7 +40,6 @@ function App () {
       <contextVariables.Provider value = {{ getters, setters }}>
         <BrowserRouter>
           <Nav />
-          <br />
           <Routes>
             <Route path='/' element={<Home/>} />
             <Route path='/login' element={<Login />} />

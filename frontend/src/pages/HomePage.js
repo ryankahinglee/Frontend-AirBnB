@@ -8,8 +8,10 @@ import makeRequest from '../makeRequest';
 
 import ListingCard from '../components/ListingCard';
 import SearchFilter from '../components/SearchFilter';
+import { Box, TextField } from '@mui/material'
 
 import { contextVariables } from '../contextVariables';
+import { styled } from '@mui/system';
 
 export default function Home () {
   // Landing screen, list airbnbs here
@@ -84,51 +86,71 @@ export default function Home () {
       }
     })
   }
+
+  const ListingBox = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: '0px 20px',
+    justifyContent: 'flex-start'
+  })
+
+  const ListingTitle = styled('h1')({
+    color: '#1976d2',
+    margin: '10px'
+  })
   return (
     <div>
-      <div>
-        <form>
-          <input type='text'
-            placeholder='Search by Title'
-            onChange = {event => setTitle(event.target.value)}
-            onKeyPress = {event => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                const sortByHighest = true;
-                const params = { title, sortByHighest }
-                navigate({
-                  pathname: '/advancedSearch',
-                  search: `?${createSearchParams(params)}`,
-                });
-              }
-            }}
-          ></input>
-        </form>
-      </div>
-      <SearchFilter />
+      <Box style={{ display: 'flex', justifyContent: 'center', margin: '10px', height: '56px' }}>
+        <TextField
+          label="Search by Title"
+          type="search"
+          style = {{
+            height: '56px'
+          }}
+          onChange = {event => setTitle(event.target.value)}
+          onKeyPress = {event => {
+            console.log(event.key);
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              const sortByHighest = true;
+              const params = { title, sortByHighest }
+              navigate({
+                pathname: '/advancedSearch',
+                search: `?${createSearchParams(params)}`,
+              });
+            }
+          }}
+        />
+        <SearchFilter />
+      </Box>
       {getters.token === '' && (<div>
-        <h1> Available Listings </h1>
-        <hr></hr>
-        {currentListings.map((data, index) => (
-          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-        ))}
+        <ListingTitle> Available Listings </ListingTitle>
+        <ListingBox>
+          {currentListings.map((data, index) => (
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+          ))}
+        </ListingBox>
       </div>)}
       {getters.token !== '' && (<div>
-        <h1> Accepted Listings </h1>
-        <hr></hr>
-        {acceptedListings.map((data, index) => (
-          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-        ))}
-        <h1> Pending Listings </h1>
-        <hr></hr>
-        {pendingListings.map((data, index) => (
-          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-        ))}
-        <h1> Available Listings </h1>
-        <hr></hr>
-        {remainingListings.map((data, index) => (
-          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-        ))}
+        <ListingTitle> Accepted Listings </ListingTitle>
+        <ListingBox>
+          {acceptedListings.map((data, index) => (
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+          ))}
+        </ListingBox>
+        <ListingTitle> Pending Listings </ListingTitle>
+        <ListingBox>
+          {pendingListings.map((data, index) => (
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+          ))}
+        </ListingBox>
+        <ListingTitle> Available Listings </ListingTitle>
+        <ListingBox>
+          {remainingListings.map((data, index) => (
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+          ))}
+        </ListingBox>
       </div>)}
     </div>
   )
