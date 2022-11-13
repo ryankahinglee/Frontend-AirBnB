@@ -3,102 +3,121 @@ import { useNavigate } from 'react-router-dom';
 import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 // From material ui
-import Alert from '@mui/material/Alert';
+import { Box, TextField, Alert, Button } from '@mui/material';
 
 export default function Register () {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [confirm, setConfirm] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [samePassword, setSamePassword] = React.useState(true);
+  const [alert, setAlert] = React.useState(false);
   const { setters } = React.useContext(contextVariables);
   const navigate = useNavigate();
 
   return (
-    <div>
-      <form onSubmit={(e) => {
-        e.preventDefault();
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '94vh' }}>
+      <form
+        style= {{
+          border: 'solid',
+          borderColor: '#bfbfbf',
+          borderWidth: '0.1vh',
+          borderRadius: '5px',
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '250px'
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
 
-        if (password !== confirm) {
-          alert('Passwords are not the same');
-          return;
-        }
-
-        // Send fetch
-        const data = { name, email, password }
-        setters.setOwner(email)
-        makeRequest('/user/auth/register', 'post', data, '').then((res) => {
-          if (res !== undefined) {
-            setters.setToken(res.token);
-            navigate('/');
+          if (password !== confirmPassword) {
+            setSamePassword(false);
+            return;
           }
-        })
 
-        // Clear input fields
-        setName('');
-        setEmail('');
-        setPassword('');
-        setConfirm('');
-      }}>
-        <label>
-          Name
-          <input
-            type="text"
-            name="name"
-            onChange={event => setName(event.target.value)}
-            value={name}
-          />
-        </label>
+          // Send fetch
+          const data = { name, email, password }
+          setters.setOwner(email)
+          makeRequest('/user/auth/register', 'post', data, '').then((res) => {
+            console.log(res);
+            if (res.error === undefined) {
+              setters.setToken(res.token);
+              navigate('/');
+            } else {
+              setAlert(true);
+            }
+          })
+
+          // Clear input fields
+          setName('');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+        }}>
+        <h3 style={{ color: '#4377cf' }}>
+          Register an account
+        </h3>
+        <TextField
+          label="Name"
+          variant="outlined"
+          onChange={event => setName(event.target.value)}
+          value={name}
+          type="text"
+          name="name"
+        />
         <br />
-        <label>
-          Email
-          <input
-            type="text"
-            name="email"
-            onChange={event => setEmail(event.target.value)}
-            value={email}
-          />
-        </label>
+        <TextField
+          label="Email"
+          variant="outlined"
+          onChange={event => setEmail(event.target.value)}
+          value={email}
+          type="text"
+          name="email"
+        />
         <br />
-        <label>
-          Password
-          <input
-            type="text"
-            name="password"
-            onChange={event => {
-              if (event.target.value !== confirm) {
-                setSamePassword(false);
-              } else {
-                setSamePassword(true);
-              }
-              setPassword(event.target.value)
-            }}
-            value = {password}
-          />
-        </label>
+        <TextField
+          label="Password"
+          variant="outlined"
+          onChange={event => {
+            if (event.target.value !== confirm) {
+              setSamePassword(false);
+            } else {
+              setSamePassword(true);
+            }
+            setPassword(event.target.value)
+          }}
+          value = {password}
+          type="text"
+          name="password"
+        />
         <br />
-        <label>
-          Confirm Password
-          <input
-            type="text"
-            name="confirm-password"
-            onChange={event => {
-              if (event.target.value !== password) {
-                setSamePassword(false);
-              } else {
-                setSamePassword(true);
-              }
-              setConfirm(event.target.value)
-            }}
-            value = {confirm}
-          />
-        </label>
+        <TextField
+          label="Email"
+          variant="outlined"
+          onChange={event => {
+            if (event.target.value !== password) {
+              setSamePassword(false);
+            } else {
+              setSamePassword(true);
+            }
+            setConfirmPassword(event.target.value)
+          }}
+          value = {confirmPassword}
+          type="text"
+          name="confirmPassword"
+        />
         <br />
-        <input type="submit" value="Submit" />
+        <Button variant='contained' type='submit' value='Submit'>Submit</Button>
+        <br />
+        {!samePassword && (
+          <Alert severity="warning">Passwords are not the same!</Alert>
+        )}
+        {alert && (
+          <Alert severity="error">Invalid Input, Email has already been taken</Alert>
+        )}
       </form>
-      {!samePassword && (
-        <Alert severity="warning">Passwords are not the same!</Alert>
-      )}
-    </div>
+    </Box>
   )
 }

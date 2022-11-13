@@ -6,6 +6,8 @@ import {
 import { contextVariables } from '../contextVariables';
 import makeRequest from '../makeRequest';
 import ListingCard from '../components/ListingCard';
+import { Box } from '@mui/material';
+import { styled } from '@mui/system';
 
 export default function AdvancedSearch () {
   const { getters } = React.useContext(contextVariables);
@@ -119,12 +121,16 @@ export default function AdvancedSearch () {
         reviewsOne.forEach(review => {
           averageOne += parseInt(review.rating);
         })
-        averageOne = averageOne / reviewsOne.length;
+        if (reviewsOne.length !== 0) {
+          averageOne = averageOne / reviewsOne.length;
+        }
         let averageTwo = 0;
         reviewsTwo.forEach(review => {
           averageTwo += parseInt(review.rating);
         })
-        averageTwo = averageTwo / reviewsTwo.length;
+        if (reviewsTwo.length !== 0) {
+          averageTwo = averageTwo / reviewsTwo.length;
+        }
         if (conditions.sortByHighest === 'true') {
           return averageTwo - averageOne
         } else {
@@ -142,13 +148,23 @@ export default function AdvancedSearch () {
       }
     })
   }, [])
+
+  const ListingBox = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: '0px 20px',
+    justifyContent: 'space-between'
+  })
   return (
     <div>
       <h1> Available Listings from Advanced Search</h1>
       <hr></hr>
-      {listings.map((data, index) => (
-        <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
-      ))}
+      <ListingBox>
+        {listings.map((data, index) => (
+          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+        ))}
+      </ListingBox>
     </div>
   );
 }

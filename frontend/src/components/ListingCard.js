@@ -3,14 +3,7 @@ import PropTypes from 'prop-types'
 import { contextVariables } from '../contextVariables';
 
 // Components of material.mui from https://mui.com/material-ui/react-dialog/
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slider from '@mui/material/Slider';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slider, Box } from '@mui/material'
 import makeRequest from '../makeRequest';
 import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'
 
@@ -72,17 +65,41 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
     }
   }
   return (
-    <div>
-      <div>{title}</div>
+    <Box sx={{
+      display: 'flex',
+      width: '299.8px',
+      height: '400px',
+      margin: '10px 10px',
+      border: 'solid',
+      borderWidth: '0.1vh',
+      borderRadius: '5px',
+      borderColor: '#4175ce',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    }}>
       {!isVideo && (
-        <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+        <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       )}
       {isVideo && (
         <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
       )}
-      <div>Number of reviews: {currentReviews.length}</div>
-      {hasBooking && <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+      }}>
+        <h4 style={{ padding: '0px 10px' }}>{title}</h4>
+        <div style={{ padding: '20px 10px' }}>
+          {currentReviews.length} reviews
+        </div>
+      </Box>
+      {hasBooking && <Box>
+        <Button variant="outlined"
+          onClick={handleClickOpen}
+          style={{
+            width: '299.8px'
+          }}
+        >
           Leave a review
         </Button>
         <Dialog open={open} onClose={handleClose}>
@@ -124,8 +141,8 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
             </Button>
           </DialogActions>
         </Dialog>
-      </div>}
-      <button onClick={() => {
+      </Box>}
+      <Button variant='outlined' onClick={() => {
         let params = {}
         if (conditions.startDate !== undefined && conditions.endDate !== undefined) {
           const startDate = conditions.startDate;
@@ -138,8 +155,8 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
         });
       }}>
         View Details
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 }
 ListingCard.propTypes = {
