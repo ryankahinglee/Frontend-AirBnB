@@ -73,7 +73,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       border: 'solid',
       borderWidth: '0.1vh',
       borderRadius: '5px',
-      borderColor: '#4175ce',
+      borderColor: '##6392e3',
       flexDirection: 'column',
       justifyContent: 'space-between',
     }}>

@@ -48,13 +48,13 @@ export default function ProfitGraph ({ lId }) {
 
   return (<>
     <BarChart
-      width={500}
-      height={300}
+      width={370}
+      height={340}
       data={plotData}
       margin={{
         top: 5,
-        right: 30,
-        left: 50,
+        right: 10,
+        left: -5,
         bottom: 50,
       }}
     >
@@ -63,7 +63,7 @@ export default function ProfitGraph ({ lId }) {
         <Label value="Days ago" position="bottom" offset={30}></Label>
       </XAxis>
       <YAxis>
-        <Label value="Profit made" position="left" angle="-90"></Label>
+        <Label value="Profit made" position="left" angle="-90" offset={-20}></Label>
       </YAxis>
       <Tooltip />
       <Legend />

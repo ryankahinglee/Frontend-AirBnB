@@ -14,7 +14,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Box from '@mui/material/Box';
 // Components of mui x from https://mui.com/x/
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -52,7 +51,7 @@ export default function FormDialog () {
   const [sortByHighest, setSortRating] = React.useState(true)
 
   return (
-    <Box>
+    <div>
       <Button
         variant="contained"
         onClick={handleClickOpen}
@@ -66,7 +65,7 @@ export default function FormDialog () {
         <DialogTitle>Advanced Search Form</DialogTitle>
         <DialogContent>
             <DialogContentText>
-                Fill out the field details to have an advanced search on available listings
+                Fill out the field details to have an advanced search on all listings
             </DialogContentText>
             <TextField
               autoFocus
@@ -173,6 +172,6 @@ export default function FormDialog () {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </div>
   );
 }
