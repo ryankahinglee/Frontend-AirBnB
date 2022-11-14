@@ -153,11 +153,6 @@ export default function AdvancedSearch () {
     margin: '10px'
   });
 
-  const ListingTitle = styled('h1')({
-    color: '#286ee6',
-    margin: '10px'
-  })
-
   const ListingBox = styled(Box)({
     display: 'flex',
     flexDirection: 'row',

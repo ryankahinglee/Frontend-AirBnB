@@ -349,35 +349,13 @@ export default function CreateListing () {
           {bedNumAlert && (
             <Alert severity="error">Invalid Bed Number</Alert>
           )}
-        </div>
-        <br />
-        <TextField
-          label="Amenities"
-          variant="outlined"
-          name="amenities"
-          onChange={event => setAmenities(event.target.value)}
-          value={amenities}
-          type="text"
-        />
-        <br />
-        <Button style={{ margin: '10px' }} variant="contained" component="label">
-          Create Listing
-          <input
-            type="submit"
-            hidden
-          />
-        </Button>
-        {emptyFieldAlert && (
-          <Alert severity="error">One or more fields are empty. Please fill them. </Alert>
-        )}
-        {bedrooms.length > 0 && (
-          <h3 style={{ color: '#4377cf' }}>
-            Bedrooms Below
-          </h3>
-        )}
-        <div>
-          {
-            bedrooms.map((data, index) => (
+          {bedrooms.length > 0 && (
+            <h3 style={{ color: '#4377cf' }}>
+              Bedrooms Below
+            </h3>
+          )}
+          <div>
+            {bedrooms.map((data, index) => (
               <Bedroom
                 key={`bedroom-${index}`}
                 bedroomType={data.roomType}
@@ -399,8 +377,29 @@ export default function CreateListing () {
                 }}
               />
             ))
-          }
+            }
+          </div>
         </div>
+        <br />
+        <TextField
+          label="Amenities"
+          variant="outlined"
+          name="amenities"
+          onChange={event => setAmenities(event.target.value)}
+          value={amenities}
+          type="text"
+        />
+        <br />
+        <Button style={{ margin: '10px' }} variant="contained" component="label">
+          Create Listing
+          <input
+            type="submit"
+            hidden
+          />
+        </Button>
+        {emptyFieldAlert && (
+          <Alert severity="error">One or more fields are empty. Please fill them. </Alert>
+        )}
       </form>
     </Box>
   );
