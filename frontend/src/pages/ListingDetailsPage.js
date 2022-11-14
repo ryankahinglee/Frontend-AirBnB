@@ -186,9 +186,9 @@ export default function ListingDetails () {
       <div>{`Number of beds: ${numBeds}`}</div>
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <div> Property Images </div>
-      {images.length !== 0 && (
+      {
         <ImageDisplay images={images} thumbnail={thumbnail}/>
-      )}
+      }
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (
         <Review key={`review-${index}`} rating={rev.rating} comment={rev.comment}/>
@@ -227,6 +227,15 @@ export default function ListingDetails () {
               totalPrice: price
             }, getters.token).then((res) => {
               if (!('error' in res)) {
+                const newOwnedBookings = [...ownedBookings]
+                newOwnedBookings.push({
+                  dateRange: {
+                    start: bookingStart,
+                    end: bookingEnd
+                  },
+                  status: 'pending'
+                })
+                setOwnedBookings(newOwnedBookings)
                 alert('Booking made!')
               }
             })

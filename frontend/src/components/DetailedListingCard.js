@@ -14,7 +14,6 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
   const [starAmount, setStarAmount] = React.useState(0);
   const [publishStatus, setPublishStatus] = React.useState(published);
   const { getters } = React.useContext(contextVariables);
-  const [isVideo, setIsVideo] = React.useState(false);
   React.useEffect(() => {
     let bedNum = 0
     for (const bedroom of bedrooms) {
@@ -29,9 +28,6 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     if (reviews.length !== 0) {
       setStarAmount(Math.round(ratingSum / reviews.length))
     }
-    if (thumbnail.includes('www.youtube.com/embed/')) {
-      setIsVideo(true);
-    }
   }, [fullListings])
   return (
     <Box style={{
@@ -40,12 +36,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       borderColor: '#6392e3',
       padding: '5px',
     }}>
-      {!isVideo && (
-        <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
-      )}
-      {isVideo && (
-        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-      )}
+      <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <div>{`Title: ${title}`}</div>
       <div>{`Property Type: ${type}`}</div>
       <div>{`Number of beds: ${bedCounter}`}</div>
@@ -59,7 +50,6 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         )
         )
       }
-      {/* pass in ID, not route */}
       <Box style={{ display: 'flex', justifyContent: 'center', padding: '5px 0px 0px 0px' }}>
         <EditButton lId={lId} desc={'Edit'} />
         {!publishStatus && (

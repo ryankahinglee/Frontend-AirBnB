@@ -14,7 +14,6 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const [currentBooking, setBooking] = React.useState(undefined);
   const [hasBooking, setHasBooking] = React.useState(false);
   const [currentReviews, setCurrentReviews] = React.useState(reviews);
-  const [isVideo, setIsVideo] = React.useState(false);
   // Material ui variables
   const [open, setOpen] = React.useState(false);
 
@@ -25,22 +24,15 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const handleClose = () => {
     setOpen(false);
   };
-
   React.useEffect(() => {
-    let i = 0;
-    while (bookings[i.toString()] !== undefined) {
-      const booking = bookings[i.toString()];
+    for (const booking of bookings) {
       if (getters.owner === booking.owner && booking.status === 'accepted' && parseInt(booking.listingId) === id) {
         setBooking(booking)
         setHasBooking(true);
         break;
       }
-      i += 1;
     }
-    if (thumbnail.includes('https://www.youtube.com/embed/')) {
-      setIsVideo(true);
-    }
-  })
+  }, [])
 
   const submitComment = () => {
     const review = { rating, comment }
@@ -77,12 +69,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       flexDirection: 'column',
       justifyContent: 'space-between',
     }}>
-      {!isVideo && (
-        <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
-      )}
-      {isVideo && (
-        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-      )}
+      <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
