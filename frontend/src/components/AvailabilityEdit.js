@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material';
+
 export default function AvailabilityEdit ({ lId, desc }) {
   const navigate = useNavigate();
   return (
-    <div>
-      <button onClick={() => {
-        navigate(`/listingavailabilities/${lId}`);
-      }}>
-        {desc}
-      </button>
-    </div>
+    <Button variant='outlined' onClick={() => {
+      navigate(`/listingavailabilities/${lId}`);
+    }}>
+      {desc}
+    </Button>
   );
 }
 AvailabilityEdit.propTypes = {

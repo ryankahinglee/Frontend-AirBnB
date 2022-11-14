@@ -96,9 +96,10 @@ export default function Home () {
   })
 
   const ListingTitle = styled('h1')({
-    color: '#1976d2',
-    margin: '10px'
+    color: '#286ee6',
+    margin: '0px'
   })
+
   return (
     <div>
       <Box style={{ display: 'flex', justifyContent: 'center', margin: '10px', height: '56px' }}>
@@ -110,7 +111,6 @@ export default function Home () {
           }}
           onChange = {event => setTitle(event.target.value)}
           onKeyPress = {event => {
-            console.log(event.key);
             if (event.key === 'Enter') {
               event.preventDefault();
               const sortByHighest = true;
@@ -133,19 +133,25 @@ export default function Home () {
         </ListingBox>
       </div>)}
       {getters.token !== '' && (<div>
-        <ListingTitle> Accepted Listings </ListingTitle>
+        {acceptedListings.length !== 0 && (
+          <ListingTitle> Accepted Listings </ListingTitle>
+        )}
         <ListingBox>
           {acceptedListings.map((data, index) => (
             <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
           ))}
         </ListingBox>
-        <ListingTitle> Pending Listings </ListingTitle>
+        {pendingListings.length !== 0 && (
+          <ListingTitle> Pending Listings </ListingTitle>
+        )}
         <ListingBox>
           {pendingListings.map((data, index) => (
             <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
           ))}
         </ListingBox>
-        <ListingTitle> Available Listings </ListingTitle>
+        {remainingListings.length !== 0 && (
+          <ListingTitle> Available Listings </ListingTitle>
+        )}
         <ListingBox>
           {remainingListings.map((data, index) => (
             <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>

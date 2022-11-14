@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import makeRequest from '../makeRequest';
 import { contextVariables } from '../contextVariables';
+import { Button } from '@mui/material';
+
 export default function DeleteButton ({ lId, desc, listingSetter }) {
   const { getters } = React.useContext(contextVariables);
   return (
     <div>
-      <button onClick={() => {
+      <Button variant='outlined' onClick={() => {
         makeRequest(`/listings/${lId}`, 'delete', undefined, getters.token).then((res) => {
           if (!('error' in res)) {
             listingSetter(lId)
@@ -14,7 +16,7 @@ export default function DeleteButton ({ lId, desc, listingSetter }) {
         })
       }}>
         {desc}
-      </button>
+      </Button>
     </div>
   );
 }
