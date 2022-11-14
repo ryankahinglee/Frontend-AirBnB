@@ -17,12 +17,12 @@ export default function ProfitGraph ({ lId }) {
       listingBookings.forEach((booking) => {
         const range = booking.dateRange;
         let start = new Date().getTime() - new Date(range.start).getTime();
-        start = Math.ceil(start / (1000 * 3600 * 24))
+        start = Math.ceil(start / (1000 * 3600 * 24));
 
         if (start <= 30 && start >= 0) {
           let length = new Date(range.end).getTime() - new Date(range.start).getTime();
-          length = Math.ceil(length / (1000 * 3600 * 24))
-          const price = booking.totalPrice
+          length = Math.ceil(length / (1000 * 3600 * 24));
+          const price = booking.totalPrice;
           filteredData.push({ length, start, price });
         }
       })
@@ -31,7 +31,7 @@ export default function ProfitGraph ({ lId }) {
         data.push({
           daysAgo: i,
           profit: 0
-        })
+        });
       }
       filteredData.forEach((res) => {
         let index = res.start
@@ -41,10 +41,10 @@ export default function ProfitGraph ({ lId }) {
           index -= 1
           interval -= 1
         }
-      })
+      });
       setPlotData(data);
     })
-  }, [])
+  }, []);
 
   return (<>
     <BarChart

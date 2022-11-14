@@ -18,7 +18,7 @@ export default function Register () {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '94vh' }}>
       <form
-        style= {{
+        style={{
           border: 'solid',
           borderColor: '#bfbfbf',
           borderWidth: '0.1vh',
@@ -38,10 +38,9 @@ export default function Register () {
           }
 
           // Send fetch
-          const data = { name, email, password }
-          setters.setOwner(email)
+          const data = { name, email, password };
+          setters.setOwner(email);
           makeRequest('/user/auth/register', 'post', data, '').then((res) => {
-            console.log(res);
             if (res.error === undefined) {
               setters.setToken(res.token);
               navigate('/');
@@ -86,15 +85,15 @@ export default function Register () {
             } else {
               setSamePassword(true);
             }
-            setPassword(event.target.value)
+            setPassword(event.target.value);
           }}
-          value = {password}
+          value={password}
           type="text"
           name="password"
         />
         <br />
         <TextField
-          label="Email"
+          label="Confirm Password"
           variant="outlined"
           onChange={event => {
             if (event.target.value !== password) {
@@ -102,9 +101,9 @@ export default function Register () {
             } else {
               setSamePassword(true);
             }
-            setConfirmPassword(event.target.value)
+            setConfirmPassword(event.target.value);
           }}
-          value = {confirmPassword}
+          value={confirmPassword}
           type="text"
           name="confirmPassword"
         />

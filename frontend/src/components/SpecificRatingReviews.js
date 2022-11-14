@@ -19,7 +19,7 @@ export default function SpecificRatingReviews ({ state, stateSetter, reviews, ra
         <DialogContent>
           {reviews.filter(review => review.rating === rating).map((review, index) => (
             <div key={`review-${index}`}>
-              Rating: {review.rating} <br/>
+              Rating: {review.rating} <br />
               Comment: {review.comment}
             </div>
           ))}

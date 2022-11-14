@@ -30,9 +30,9 @@ export default function AdvancedSearch () {
             return {
               id: listing.id,
               ...res.listing
-            }
-          })
-        }))
+            };
+          });
+        }));
       }
     }).then((res) => {
       const newListings = [];
@@ -40,7 +40,7 @@ export default function AdvancedSearch () {
         if (listing.value.published === true) {
           newListings.push({ value: listing.value });
         }
-      })
+      });
       return newListings;
     }).then((res) => {
       for (let i = res.length - 1; i >= 0; i -= 1) {
@@ -69,7 +69,7 @@ export default function AdvancedSearch () {
             res.splice(i, 1);
             break;
           } else if (key === 'startDate') {
-            const availabilities = queryListing.availability
+            const availabilities = queryListing.availability;
             let startValid = false;
             for (let i = 0; i < availabilities.length; i += 1) {
               if (new Date(value) >= new Date(availabilities[i].start)) {
@@ -82,19 +82,19 @@ export default function AdvancedSearch () {
               break;
             }
           } else if (key === 'endDate') {
-            const availabilities = queryListing.availability
+            const availabilities = queryListing.availability;
             let endValid = false;
             if (validStarts.length === 0) {
               for (let i = 0; i < availabilities.length; i += 1) {
                 if (new Date(value) <= new Date(availabilities[i].end)) {
-                  endValid = true
+                  endValid = true;
                   break;
                 }
               }
             } else {
               for (let i = 0; i < validStarts.length; i += 1) {
                 if (new Date(value) <= new Date(availabilities[validStarts[i]].end)) {
-                  endValid = true
+                  endValid = true;
                   break;
                 }
               }
@@ -106,13 +106,12 @@ export default function AdvancedSearch () {
           }
         }
       }
-      return res
+      return res;
     }).then((res) => {
       const result = []
       res.forEach((temp) => {
         result.push(temp.value);
-      })
-      // Sort listings by rating
+      });
       result.sort(function (a, b) {
         const reviewsOne = a.reviews
         const reviewsTwo = b.reviews;
@@ -136,7 +135,7 @@ export default function AdvancedSearch () {
         } else {
           return averageOne - averageTwo
         }
-      })
+      });
       setListings(result);
     }).then(() => {
       if (getters.token !== '') {
@@ -144,10 +143,15 @@ export default function AdvancedSearch () {
           if (res !== undefined) {
             setBookings(res.bookings)
           }
-        })
+        });
       }
-    })
-  }, [])
+    });
+  }, []);
+
+  const ListingTitle = styled('h1')({
+    color: '#286ee6',
+    margin: '10px'
+  });
 
   const ListingTitle = styled('h1')({
     color: '#286ee6',
@@ -160,13 +164,13 @@ export default function AdvancedSearch () {
     flexWrap: 'wrap',
     padding: '0px 20px',
     justifyContent: 'space-between'
-  })
+  });
   return (
     <div>
       <ListingTitle> Available Listings from Advanced Search</ListingTitle>
       <ListingBox>
         {listings.map((data, index) => (
-          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+          <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings} />
         ))}
       </ListingBox>
     </div>

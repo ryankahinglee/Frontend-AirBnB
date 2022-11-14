@@ -14,7 +14,6 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const [currentBooking, setBooking] = React.useState(undefined);
   const [hasBooking, setHasBooking] = React.useState(false);
   const [currentReviews, setCurrentReviews] = React.useState(reviews);
-  const [isVideo, setIsVideo] = React.useState(false);
   // Material ui variables
   const [open, setOpen] = React.useState(false);
 
@@ -25,22 +24,15 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const handleClose = () => {
     setOpen(false);
   };
-
   React.useEffect(() => {
-    let i = 0;
-    while (bookings[i.toString()] !== undefined) {
-      const booking = bookings[i.toString()];
+    for (const booking of bookings) {
       if (getters.owner === booking.owner && booking.status === 'accepted' && parseInt(booking.listingId) === id) {
         setBooking(booking)
         setHasBooking(true);
         break;
       }
-      i += 1;
     }
-    if (thumbnail.includes('https://www.youtube.com/embed/')) {
-      setIsVideo(true);
-    }
-  })
+  }, [])
 
   const submitComment = () => {
     const review = { rating, comment }
@@ -51,11 +43,11 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       const cloneReviews = JSON.parse(JSON.stringify(updateReviews));
       setCurrentReviews(cloneReviews);
     })
-  }
+  };
 
   const valuetext = (value) => {
     return `${value} stars`;
-  }
+  };
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const conditions = [];
@@ -77,12 +69,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       flexDirection: 'column',
       justifyContent: 'space-between',
     }}>
-      {!isVideo && (
-        <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
-      )}
-      {isVideo && (
-        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-      )}
+      <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
@@ -110,26 +97,26 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
             </DialogContentText>
             <br></br><br></br><br></br>
             <Slider
-            aria-label="Rating"
-            defaultValue={3}
-            getAriaValueText={valuetext}
-            valueLabelDisplay="auto"
-            step={1}
-            marks
-            min={1}
-            max={5}
-            onChange={event => setRating(parseInt(event.target.value))}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="comment"
-            label="Comment"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={event => setComment(event.target.value)}
-          />
+              aria-label="Rating"
+              defaultValue={3}
+              getAriaValueText={valuetext}
+              valueLabelDisplay="auto"
+              step={1}
+              marks
+              min={1}
+              max={5}
+              onChange={event => setRating(parseInt(event.target.value))}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="comment"
+              label="Comment"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={event => setComment(event.target.value)}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

@@ -15,7 +15,7 @@ export default function Login () {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '94vh' }}>
       <form
-        style= {{
+        style={{
           border: 'solid',
           borderColor: '#bfbfbf',
           borderWidth: '0.1vh',
@@ -29,14 +29,13 @@ export default function Login () {
         onSubmit={(e) => {
           e.preventDefault();
           // Send fetch
-          const data = { email, password }
-          setters.setOwner(email)
+          const data = { email, password };
+          setters.setOwner(email);
           makeRequest('/user/auth/login', 'post', data, '').then((res) => {
             if (res.error === undefined) {
               setters.setToken(res.token);
               navigate('/');
             } else {
-              console.log(res.error);
               setAlert(true);
             }
           })

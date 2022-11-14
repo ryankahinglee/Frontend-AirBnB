@@ -16,11 +16,11 @@
     "bedrooms": [
       {
         "roomType": "master",
-        "numBeds": 2323
+        "numBeds": "2323"
       },
       {
         "roomType": "children",
-        "numBeds": 5
+        "numBeds": "5"
       }
     ]
   }

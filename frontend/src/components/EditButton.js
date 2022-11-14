@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 export default function EditButton ({ lId, desc }) {
   const navigate = useNavigate();
   return (
-    <Button variant='outlined' style={{ width: '100px' }}onClick={() => {
+    <Button variant='outlined' style={{ width: '100px' }} onClick={() => {
       navigate(`/editlisting/${lId}`);
     }}>
       {desc}

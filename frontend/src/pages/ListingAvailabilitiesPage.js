@@ -3,23 +3,24 @@ import { contextVariables } from '../contextVariables';
 import { useNavigate, useParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import Availability from '../components/Availability';
+import { Alert } from '@mui/material';
 export default function ListingAvailabilities () {
   const { getters } = React.useContext(contextVariables);
   const params = useParams();
   const navigate = useNavigate();
   const [availabilities, setAvailabilities] = React.useState([]);
   const date = new Date();
-  const dateString = date.toISOString().split('T')[0]
+  const dateString = date.toISOString().split('T')[0];
   const [createAvailStart, setCreateAvailStart] = React.useState(dateString);
   const [createAvailEnd, setCreateAvailEnd] = React.useState(dateString);
+  const [alert, setAlert] = React.useState(false);
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, getters.token).then((res) => {
-      const listing = res.listing
-      setAvailabilities(listing.availability)
+      const listing = res.listing;
+      setAvailabilities(listing.availability);
     })
   }, [])
   return (
-    // add availabilities button and their fields
     <div>
       <input
         type="date"
@@ -34,20 +35,24 @@ export default function ListingAvailabilities () {
         value={createAvailEnd}
       />
       <button onClick={() => {
-        const newAvailabilities = availabilities
+        const newAvailabilities = availabilities;
         // check for conflicts
         if (!dateConflict(createAvailStart, createAvailEnd, newAvailabilities)) {
           newAvailabilities.push({
             start: createAvailStart,
             end: createAvailEnd
-          })
-          setAvailabilities([...newAvailabilities])
+          });
+          setAvailabilities([...newAvailabilities]);
+          setAlert(false);
         } else {
-          alert('Conflict in dates. Please re-enter date range')
+          setAlert(true);
         }
       }}>
         {'Add Availability Range'}
       </button>
+      {alert && (
+          <Alert severity="error">Conflict in dates. Please re-enter date range</Alert>
+      )}
       {availabilities.length > 0 && (
         <div> Current Availabilities Below </div>
       )}
@@ -58,19 +63,19 @@ export default function ListingAvailabilities () {
             start={data.start}
             end={data.end}
             availStartSetter={(newStart) => {
-              const newAvailabilities = [...availabilities]
-              newAvailabilities[index].start = newStart
-              setAvailabilities(newAvailabilities)
+              const newAvailabilities = [...availabilities];
+              newAvailabilities[index].start = newStart;
+              setAvailabilities(newAvailabilities);
             }}
             availEndSetter={(newEnd) => {
-              const newAvailabilities = [...availabilities]
-              newAvailabilities[index].end = newEnd
-              setAvailabilities(newAvailabilities)
+              const newAvailabilities = [...availabilities];
+              newAvailabilities[index].end = newEnd;
+              setAvailabilities(newAvailabilities);
             }}
             availDelete={() => {
-              const newAvailabilities = [...availabilities]
-              newAvailabilities.splice(index, 1)
-              setAvailabilities([...newAvailabilities])
+              const newAvailabilities = [...availabilities];
+              newAvailabilities.splice(index, 1);
+              setAvailabilities([...newAvailabilities]);
             }}
           />
         ))
@@ -83,17 +88,17 @@ export default function ListingAvailabilities () {
           }
         })
       }}>
-        {'Publish Listing'}
+        {'Go Live!'}
       </button>
     </div>
-  )
+  );
 }
 
 function dateConflict (start, end, newAvailabilities) {
   for (const dateRange of newAvailabilities) {
     if ((new Date(start).getTime() <= new Date(dateRange.end).getTime()) && (new Date(end).getTime() >= new Date(dateRange.start).getTime())) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }

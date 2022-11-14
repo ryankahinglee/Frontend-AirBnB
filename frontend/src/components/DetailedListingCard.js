@@ -8,13 +8,12 @@ import { contextVariables } from '../contextVariables';
 import { Button, Box } from '@mui/material';
 import Star from './Star';
 
-export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
+export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published, fullListings }) {
   const [bedCounter, setBedCounter] = React.useState(0);
   const [reviewCounter, setReviewCounter] = React.useState(0);
   const [starAmount, setStarAmount] = React.useState(0);
   const [publishStatus, setPublishStatus] = React.useState(published);
   const { getters } = React.useContext(contextVariables);
-  const [isVideo, setIsVideo] = React.useState(false);
   React.useEffect(() => {
     let bedNum = 0
     for (const bedroom of bedrooms) {
@@ -29,12 +28,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     if (reviews.length !== 0) {
       setStarAmount(Math.round(ratingSum / reviews.length))
     }
-    if (thumbnail.includes('https://www.youtube.com/embed/')) {
-      setIsVideo(true);
-    }
-  }, [])
-  // calculate actual rating for SVG
-
+  }, [fullListings])
   return (
     <Box style={{
       border: 'solid',
@@ -42,12 +36,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       borderColor: '#6392e3',
       padding: '5px',
     }}>
-      {!isVideo && (
-        <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
-      )}
-      {isVideo && (
-        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-      )}
+      <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <div>{`Title: ${title}`}</div>
       <div>{`Property Type: ${type}`}</div>
       <div>{`Number of beds: ${bedCounter}`}</div>
@@ -57,15 +46,14 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <div>{`Price/night : ${price}`}</div>
       {
         (new Array(starAmount)).map((_, index) => (
-          <Star key={`star-${index}`}/>
+          <Star key={`star-${index}`} />
         )
         )
       }
-      {/* pass in ID, not route */}
       <Box style={{ display: 'flex', justifyContent: 'center', padding: '5px 0px 0px 0px' }}>
         <EditButton lId={lId} desc={'Edit'} />
         {!publishStatus && (
-          <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
+          <AvailabilityEdit lId={lId} desc={'Publish Listing'} />
         )}
         {publishStatus && (
           <Button variant='outlined' onClick={() => {
@@ -92,5 +80,6 @@ DetailedListingCard.propTypes = {
   price: PropTypes.number,
   lId: PropTypes.number,
   listingSetter: PropTypes.func,
-  published: PropTypes.bool
+  published: PropTypes.bool,
+  fullListings: PropTypes.array
 }
