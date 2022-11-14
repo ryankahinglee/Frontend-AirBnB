@@ -68,6 +68,7 @@ export default function HostedListing () {
                 setFullListings(fullListings.filter(listing => listing.id !== lId))
               }}
               published={listing.published}
+              fullListings={fullListings}
             />
             <Box style={{
               border: 'solid',

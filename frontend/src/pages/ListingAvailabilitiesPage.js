@@ -19,7 +19,6 @@ export default function ListingAvailabilities () {
     })
   }, [])
   return (
-    // add availabilities button and their fields
     <div>
       <input
         type="date"
@@ -83,7 +82,7 @@ export default function ListingAvailabilities () {
           }
         })
       }}>
-        {'Publish Listing'}
+        {'Go Live!'}
       </button>
     </div>
   )

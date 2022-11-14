@@ -41,7 +41,6 @@ export default function Register () {
           const data = { name, email, password }
           setters.setOwner(email)
           makeRequest('/user/auth/register', 'post', data, '').then((res) => {
-            console.log(res);
             if (res.error === undefined) {
               setters.setToken(res.token);
               navigate('/');
@@ -67,7 +66,7 @@ export default function Register () {
           type="text"
           name="name"
         />
-        <br />
+        <br/>
         <TextField
           label="Email"
           variant="outlined"
@@ -76,7 +75,7 @@ export default function Register () {
           type="text"
           name="email"
         />
-        <br />
+        <br/>
         <TextField
           label="Password"
           variant="outlined"
@@ -92,7 +91,7 @@ export default function Register () {
           type="text"
           name="password"
         />
-        <br />
+        <br/>
         <TextField
           label="Email"
           variant="outlined"
@@ -108,9 +107,9 @@ export default function Register () {
           type="text"
           name="confirmPassword"
         />
-        <br />
+        <br/>
         <Button variant='contained' type='submit' value='Submit'>Submit</Button>
-        <br />
+        <br/>
         {!samePassword && (
           <Alert severity="warning">Passwords are not the same!</Alert>
         )}

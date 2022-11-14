@@ -29,6 +29,7 @@ export default function ListingDetails () {
   const [numBeds, setNumBeds] = React.useState(0);
   const [numBathrooms, setNumBathrooms] = React.useState(0);
   const [ownedBookings, setOwnedBookings] = React.useState([]);
+  const [thumbnail, setThumbnail] = React.useState('');
   const date = new Date();
   const dateString = date.toISOString().split('T')[0]
   const [bookingStart, setBookingStart] = React.useState(dateString);
@@ -59,6 +60,7 @@ export default function ListingDetails () {
         setPrice(listing.price)
       }
       setImages(listing.metadata.images)
+      setThumbnail(listing.thumbnail)
       setType(listing.metadata.type)
       setReviews(listing.reviews)
       let ratingSum = 0
@@ -184,11 +186,8 @@ export default function ListingDetails () {
       <div>{`Number of beds: ${numBeds}`}</div>
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <div> Property Images </div>
-      {/* {images.map((img, index) => (
-        <img style={{ height: '50px', width: '50px' }} key={`image-${index}`} src={img}/>
-      ))} */}
       {images.length !== 0 && (
-        <ImageDisplay images={images}/>
+        <ImageDisplay images={images} thumbnail={thumbnail}/>
       )}
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (

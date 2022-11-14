@@ -33,7 +33,7 @@ export default function Bedroom ({ bedroomType, bedCount, options, onBedroomType
 
 Bedroom.propTypes = {
   bedroomType: PropTypes.string,
-  bedCount: PropTypes.number,
+  bedCount: PropTypes.string,
   options: PropTypes.array,
   onBedCountChange: PropTypes.func,
   onBedroomTypeChange: PropTypes.func,

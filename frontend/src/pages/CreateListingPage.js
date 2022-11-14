@@ -72,7 +72,14 @@ export default function CreateListing () {
     </label>
     <form onSubmit={(e) => {
       e.preventDefault();
-      // Send fetch
+      // form checking here that price, bathrooms, postcode, all bedroom counts are not empty
+      let numBedFieldEmpty = false;
+      for (const bedroom of bedrooms) {
+        if (bedroom.numBeds === '') {
+          numBedFieldEmpty = true;
+          break;
+        }
+      }
       const body = {
         title,
         address: {
@@ -88,24 +95,38 @@ export default function CreateListing () {
           images: []
         }
       };
-      makeRequest('/listings/new', 'post', body, getters.token).then((res) => {
-        if (!('error' in res)) {
-          navigate('/mylistings');
-        }
-      })
-      // Clear input fields
-      setTitle('');
-      setStreetDetails('');
-      setCity('');
-      setState('');
-      setPostcode(0);
-      setCountry('');
-      setPrice(0);
-      setThumbnail('');
-      setType('');
-      setBathrooms(0);
-      setBedrooms([]);
-      setAmenities('');
+      if (
+        title !== '' &&
+        streetDetails !== '' &&
+        city !== '' && state !== '' &&
+        postcode !== '' &&
+        country !== '' &&
+        price !== '' &&
+        thumbnail !== '' &&
+        type !== '' &&
+        bathrooms !== '' &&
+        amenities !== '' && !numBedFieldEmpty
+      ) {
+        makeRequest('/listings/new', 'post', body, getters.token).then((res) => {
+          if (!('error' in res)) {
+            navigate('/mylistings');
+          }
+        });
+        setTitle('');
+        setStreetDetails('');
+        setCity('');
+        setState('');
+        setPostcode(0);
+        setCountry('');
+        setPrice(0);
+        setThumbnail('');
+        setType('');
+        setBathrooms(0);
+        setBedrooms([]);
+        setAmenities('');
+      } else {
+        alert('Please ensure all fields are non-empty')
+      }
     }}>
       <label>
         Title:&nbsp;
@@ -116,7 +137,7 @@ export default function CreateListing () {
           value={title}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Street No. and Name:&nbsp;
         <input
@@ -126,7 +147,7 @@ export default function CreateListing () {
           value={streetDetails}
         />
       </label>
-      <br />
+      <br/>
       <label>
         City:&nbsp;
         <input
@@ -136,7 +157,7 @@ export default function CreateListing () {
           value={city}
         />
       </label>
-      <br />
+      <br/>
       <label>
         State:&nbsp;
         <input
@@ -146,7 +167,7 @@ export default function CreateListing () {
           value={state}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Postcode:&nbsp;
         <input
@@ -156,7 +177,7 @@ export default function CreateListing () {
           value={postcode}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Country:&nbsp;
         <input
@@ -166,7 +187,7 @@ export default function CreateListing () {
           value={country}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Price (per night):&nbsp;
         <input
@@ -176,8 +197,8 @@ export default function CreateListing () {
           value={price}
         />
       </label>
-      <br />
-      {!useVideo && (<>
+      <br/>
+      {!useVideo && (<div>
         <label>
           Image Thumbnail of Airbnb:&nbsp;
           <input
@@ -191,25 +212,21 @@ export default function CreateListing () {
             }}
           />
         </label>
-        {thumbnail !== '' && (
-          <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
-        )}
         <button onClick = {(event) => {
           event.preventDefault();
           setUseVideo(true);
         }}>
-          Video Thumbnail
+          Use Video Thumbnail
         </button>
-      </>)}
-      <br />
-      {useVideo && (<>
+      </div>)}
+      {useVideo && (<div>
         <label>
-        Video Thumbnail of Airbnb
+        Video Thumbnail of Airbnb (Please Input Youtube URL Link):
         <input
           type="text"
           name="thumbnail"
           onChange={(event) => {
-            setThumbnail(event.target.value)
+            setThumbnail(`http://img.youtube.com/vi/${event.target.value.split('=')[1]}/0.jpg`)
           }}
         />
         </label>
@@ -217,13 +234,13 @@ export default function CreateListing () {
           event.preventDefault();
           setUseVideo(false);
         }}>
-          Image Thumbnail
+          Use Image Thumbnail
         </button>
-        {thumbnail !== '' && useVideo && (
-          <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-        )}
-      </>)}
-      <br />
+      </div>)}
+      {thumbnail !== '' && (
+          <img style={{ height: '300px', width: '300px' }} src={thumbnail}/>
+      )}
+      <br/>
       <label>
         Type of property:&nbsp;
         <input
@@ -233,7 +250,7 @@ export default function CreateListing () {
           value={type}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Number of bathrooms:&nbsp;
         <input
@@ -243,11 +260,11 @@ export default function CreateListing () {
           value={bathrooms}
         />
       </label>
-      <br />
+      <br/>
       <div>
         <label>
           Available bedrooms:&nbsp;
-          <br />
+          <br/>
           Type: &nbsp;
           <select onChange={event => setBedroomType(event.target.value)}>
             {options.map((option, index) => (
@@ -261,7 +278,7 @@ export default function CreateListing () {
             onChange={event => setBedCount(event.target.value)}
             value={bedCount}
           />
-          <br />
+          <br/>
           <button onClick={(event) => {
             event.preventDefault();
             const newBedrooms = bedrooms
@@ -288,7 +305,7 @@ export default function CreateListing () {
           value={amenities}
         />
       </label>
-      <br />
+      <br/>
       <input type="submit" value="Submit" />
     </form>
     <div>
@@ -297,7 +314,7 @@ export default function CreateListing () {
           <Bedroom
             key={`bedroom-${index}`}
             bedroomType={data.roomType}
-            bedCount={parseInt(data.numBeds)}
+            bedCount={data.numBeds}
             options={options}
             onBedroomTypeChange={(newType) => {
               const newBedrooms = [...bedrooms]

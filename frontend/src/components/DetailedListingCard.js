@@ -8,7 +8,7 @@ import { contextVariables } from '../contextVariables';
 import { Button, Box } from '@mui/material';
 import Star from './Star';
 
-export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
+export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published, fullListings }) {
   const [bedCounter, setBedCounter] = React.useState(0);
   const [reviewCounter, setReviewCounter] = React.useState(0);
   const [starAmount, setStarAmount] = React.useState(0);
@@ -29,12 +29,10 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     if (reviews.length !== 0) {
       setStarAmount(Math.round(ratingSum / reviews.length))
     }
-    if (thumbnail.includes('https://www.youtube.com/embed/')) {
+    if (thumbnail.includes('www.youtube.com/embed/')) {
       setIsVideo(true);
     }
-  }, [])
-  // calculate actual rating for SVG
-
+  }, [fullListings])
   return (
     <Box style={{
       border: 'solid',
@@ -65,7 +63,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <Box style={{ display: 'flex', justifyContent: 'center', padding: '5px 0px 0px 0px' }}>
         <EditButton lId={lId} desc={'Edit'} />
         {!publishStatus && (
-          <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
+          <AvailabilityEdit lId={lId} desc={'Publish Listing'} />
         )}
         {publishStatus && (
           <Button variant='outlined' onClick={() => {
@@ -92,5 +90,6 @@ DetailedListingCard.propTypes = {
   price: PropTypes.number,
   lId: PropTypes.number,
   listingSetter: PropTypes.func,
-  published: PropTypes.bool
+  published: PropTypes.bool,
+  fullListings: PropTypes.array
 }

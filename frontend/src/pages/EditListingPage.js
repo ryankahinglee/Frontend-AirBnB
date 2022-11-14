@@ -64,7 +64,14 @@ export default function EditListing () {
   return (<div>
     <form onSubmit={(e) => {
       e.preventDefault();
-      // Send fetch
+      // form checking here that price, bathrooms, postcode, all bedroom counts are not empty
+      let numBedFieldEmpty = false;
+      for (const bedroom of bedrooms) {
+        if (bedroom.numBeds === '') {
+          numBedFieldEmpty = true;
+          break;
+        }
+      }
       const body = {
         title,
         address: {
@@ -84,12 +91,26 @@ export default function EditListing () {
           images
         }
       };
-      // very unsure about this...
-      makeRequest(`/listings/${params.lId}`, 'put', body, getters.token).then((res) => {
-        if (!('error' in res)) {
-          navigate('/mylistings');
-        }
-      })
+      if (
+        title !== '' &&
+        streetDetails !== '' &&
+        city !== '' && state !== '' &&
+        postcode !== '' &&
+        country !== '' &&
+        price !== '' &&
+        thumbnail !== '' &&
+        type !== '' &&
+        bathrooms !== '' &&
+        amenities !== '' && !numBedFieldEmpty
+      ) {
+        makeRequest(`/listings/${params.lId}`, 'put', body, getters.token).then((res) => {
+          if (!('error' in res)) {
+            navigate('/mylistings');
+          }
+        })
+      } else {
+        alert('Please ensure all fields are non-empty')
+      }
     }}>
       <label>
         Title:&nbsp;
@@ -100,7 +121,7 @@ export default function EditListing () {
           value={title}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Street No. and Name:&nbsp;
         <input
@@ -110,7 +131,7 @@ export default function EditListing () {
           value={streetDetails}
         />
       </label>
-      <br />
+      <br/>
       <label>
         City:&nbsp;
         <input
@@ -120,7 +141,7 @@ export default function EditListing () {
           value={city}
         />
       </label>
-      <br />
+      <br/>
       <label>
         State:&nbsp;
         <input
@@ -130,17 +151,17 @@ export default function EditListing () {
           value={state}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Postcode:&nbsp;
         <input
           type="number"
           name="postcode"
-          onChange={event => setPostcode(parseInt(event.target.value))}
+          onChange={event => setPostcode(event.target.value)}
           value={postcode}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Country:&nbsp;
         <input
@@ -150,20 +171,20 @@ export default function EditListing () {
           value={country}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Price (per night):&nbsp;
         <input
           type="number"
           name="price"
-          onChange={event => setPrice(parseInt(event.target.value))}
+          onChange={event => setPrice(event.target.value)}
           value={price}
         />
       </label>
-      <br />
-      {!useVideo && (<>
+      <br/>
+      {!useVideo && (<div>
         <label>
-          Thumbnail of Airbnb:&nbsp;
+          Image Thumbnail of Airbnb:&nbsp;
           <input
             type="file"
             name="thumbnail"
@@ -175,40 +196,35 @@ export default function EditListing () {
             }}
           />
         </label>
-        {thumbnail !== '' && (
-          <img style={{ height: '50px', width: '50px' }} src={thumbnail}/>
-        )}
         <button onClick = {(event) => {
           event.preventDefault();
           setUseVideo(true);
         }}>
-          Video Thumbnail
+          Use Video Thumbnail
         </button>
-      </>)}
-      <br />
-      {useVideo && (<>
+      </div>)}
+      {useVideo && (<div>
         <label>
-        Video Thumbnail of Airbnb
+        Video Thumbnail of Airbnb (Please Input Youtube URL Link):
         <input
           type="text"
           name="thumbnail"
           onChange={(event) => {
-            setThumbnail(event.target.value)
+            setThumbnail(`http://img.youtube.com/vi/${event.target.value.split('=')[1]}/0.jpg`)
           }}
         />
         </label>
         <button onClick = {(event) => {
           event.preventDefault();
-          setThumbnail('');
           setUseVideo(false);
         }}>
-          Image Thumbnail
+          Use Image Thumbnail
         </button>
-        {thumbnail !== '' && useVideo && (
-          <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-        )}
-      </>)}
-      <br />
+      </div>)}
+      {thumbnail !== '' && (
+          <img style={{ height: '300px', width: '300px' }} src={thumbnail}/>
+      )}
+      <br/>
       <label>
         Type of property:&nbsp;
         <input
@@ -218,7 +234,7 @@ export default function EditListing () {
           value={type}
         />
       </label>
-      <br />
+      <br/>
       <label>
         Number of bathrooms:&nbsp;
         <input
@@ -228,11 +244,11 @@ export default function EditListing () {
           value={bathrooms}
         />
       </label>
-      <br />
+      <br/>
       <div>
         <label>
           Available bedrooms:&nbsp;
-          <br />
+          <br/>
           Type: &nbsp;
           <select onChange={event => setBedroomType(event.target.value)}>
             {options.map((option, index) => (
@@ -243,10 +259,10 @@ export default function EditListing () {
           <input
             type="number"
             name="bedCount"
-            onChange={event => setBedCount(parseInt(event.target.value))}
+            onChange={event => setBedCount(event.target.value)}
             value={bedCount}
           />
-          <br />
+          <br/>
           <button onClick={(event) => {
             event.preventDefault();
             const newBedrooms = bedrooms
@@ -264,7 +280,7 @@ export default function EditListing () {
           </button>
         </label>
       </div>
-      <br />
+      <br/>
       <label>
         Add Property Images:&nbsp;
         <input
@@ -289,7 +305,7 @@ export default function EditListing () {
           </div>
         ))
       }
-      <br />
+      <br/>
       <label>
         Amenities:&nbsp;
         <input
@@ -299,7 +315,7 @@ export default function EditListing () {
           value={amenities}
         />
       </label>
-      <br />
+      <br/>
       <input type="submit" value="Submit" />
     </form>
     <div>
@@ -308,7 +324,7 @@ export default function EditListing () {
           <Bedroom
             key={`bedroom-${index}`}
             bedroomType={data.roomType}
-            bedCount={parseInt(data.numBeds)}
+            bedCount={data.numBeds}
             options={options}
             onBedroomTypeChange={(newType) => {
               const newBedrooms = [...bedrooms]
