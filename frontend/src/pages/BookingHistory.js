@@ -51,7 +51,7 @@ export default function Login () {
       <div>This listing has been published for {daysOnline} days and {hoursOnline} hours</div>
       <div>This listing has been booked for {daysBooked} days for this year</div>
       <div>The current profit made is {profit} dollars</div>
-      <br /> <br />
+      <br/> <br/>
       {bookings.map((booking, index) => (
         <div key={`booking-${index}`}>
         Booking is {booking.id} for {booking.dateRange.start} to {booking.dateRange.end}

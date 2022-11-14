@@ -110,7 +110,6 @@ export default function Home () {
           }}
           onChange = {event => setTitle(event.target.value)}
           onKeyPress = {event => {
-            console.log(event.key);
             if (event.key === 'Enter') {
               event.preventDefault();
               const sortByHighest = true;

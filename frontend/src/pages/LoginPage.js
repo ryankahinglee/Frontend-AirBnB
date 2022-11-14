@@ -36,7 +36,6 @@ export default function Login () {
               setters.setToken(res.token);
               navigate('/');
             } else {
-              console.log(res.error);
               setAlert(true);
             }
           })
@@ -57,7 +56,7 @@ export default function Login () {
           type="text"
           name="email"
         />
-        <br />
+        <br/>
         <TextField
           label="Password"
           variant="outlined"
@@ -66,9 +65,9 @@ export default function Login () {
           type="text"
           name="password"
         />
-        <br />
+        <br/>
         <Button variant='contained' type='submit' value='Submit'>Submit</Button>
-        <br />
+        <br/>
         {alert && (
           <Alert severity="error">Invalid Email or Password</Alert>
         )}

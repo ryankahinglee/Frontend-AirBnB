@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { ImageList, ImageListItem } from '@mui/material';
 
-export default function ImageDisplay ({ images }) {
+export default function ImageDisplay ({ images, thumbnail }) {
   // https://mui.com/material-ui/react-image-list/
   return (
     <div style={{ width: '500px', height: '300px', overflowY: 'scroll', borderStyle: 'solid' }}>
@@ -16,11 +16,19 @@ export default function ImageDisplay ({ images }) {
             />
           </ImageListItem>
         ))}
+        <ImageListItem>
+            <img
+              src={`${thumbnail}`}
+              alt={thumbnail}
+              loading="lazy"
+            />
+          </ImageListItem>
       </ImageList>
     </div>
   )
 }
 
 ImageDisplay.propTypes = {
-  images: PropTypes.array
+  images: PropTypes.array,
+  thumbnail: PropTypes.string
 }

@@ -7,7 +7,7 @@ import makeRequest from '../makeRequest';
 import { contextVariables } from '../contextVariables';
 import Star from './Star';
 
-export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
+export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published, fullListings }) {
   const [bedCounter, setBedCounter] = React.useState(0);
   const [reviewCounter, setReviewCounter] = React.useState(0);
   const [starAmount, setStarAmount] = React.useState(0);
@@ -28,11 +28,10 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     if (reviews.length !== 0) {
       setStarAmount(Math.round(ratingSum / reviews.length))
     }
-    if (thumbnail.includes('https://www.youtube.com/embed/')) {
+    if (thumbnail.includes('www.youtube.com/embed/')) {
       setIsVideo(true);
     }
-  }, [])
-  // calculate actual rating for SVG
+  }, [fullListings])
   return (
     <div>
       <div>{`Title: ${title}`}</div>
@@ -58,7 +57,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <EditButton lId={lId} desc={'Edit Listing'} />
       <DeleteButton lId={lId} desc={'Delete Listing'} listingSetter={listingSetter} />
       {!publishStatus && (
-        <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
+        <AvailabilityEdit lId={lId} desc={'Publish Listing'} />
       )}
       {publishStatus && (
         <button onClick={() => {
@@ -82,5 +81,6 @@ DetailedListingCard.propTypes = {
   price: PropTypes.number,
   lId: PropTypes.number,
   listingSetter: PropTypes.func,
-  published: PropTypes.bool
+  published: PropTypes.bool,
+  fullListings: PropTypes.array
 }

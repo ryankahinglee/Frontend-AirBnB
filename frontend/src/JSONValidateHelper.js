@@ -40,7 +40,7 @@ export function validateJSON (result) {
       if (!('roomType' in bedroom) ||
       !('numBeds' in bedroom) ||
       typeof bedroom.roomType !== 'string' ||
-      typeof bedroom.numBeds !== 'number') {
+      typeof bedroom.numBeds !== 'string') {
         return false;
       }
     }
