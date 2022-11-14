@@ -149,6 +149,11 @@ export default function AdvancedSearch () {
     })
   }, [])
 
+  const ListingTitle = styled('h1')({
+    color: '#286ee6',
+    margin: '10px'
+  })
+
   const ListingBox = styled(Box)({
     display: 'flex',
     flexDirection: 'row',
@@ -158,8 +163,7 @@ export default function AdvancedSearch () {
   })
   return (
     <div>
-      <h1> Available Listings from Advanced Search</h1>
-      <hr></hr>
+      <ListingTitle> Available Listings from Advanced Search</ListingTitle>
       <ListingBox>
         {listings.map((data, index) => (
           <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>

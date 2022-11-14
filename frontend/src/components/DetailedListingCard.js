@@ -5,6 +5,7 @@ import DeleteButton from './DeleteButton';
 import AvailabilityEdit from './AvailabilityEdit';
 import makeRequest from '../makeRequest';
 import { contextVariables } from '../contextVariables';
+import { Button, Box } from '@mui/material';
 import Star from './Star';
 
 export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
@@ -33,20 +34,26 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     }
   }, [])
   // calculate actual rating for SVG
+
   return (
-    <div>
+    <Box style={{
+      border: 'solid',
+      borderWidth: '0.1px',
+      borderColor: '#6392e3',
+      padding: '5px',
+    }}>
+      {!isVideo && (
+        <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
+      )}
+      {isVideo && (
+        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
+      )}
       <div>{`Title: ${title}`}</div>
       <div>{`Property Type: ${type}`}</div>
       <div>{`Number of beds: ${bedCounter}`}</div>
       <div>{`Number of Reviews: ${reviewCounter}`}</div>
       <div>{`Rating: ${starAmount}`}</div>
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
-      {!isVideo && (
-        <img style={{ height: '50px', width: '50px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
-      )}
-      {isVideo && (
-        <iframe style={{ height: '200px', width: '400px' }} src={thumbnail}/>
-      )}
       <div>{`Price/night : ${price}`}</div>
       {
         (new Array(starAmount)).map((_, index) => (
@@ -55,21 +62,24 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         )
       }
       {/* pass in ID, not route */}
-      <EditButton lId={lId} desc={'Edit Listing'} />
-      <DeleteButton lId={lId} desc={'Delete Listing'} listingSetter={listingSetter} />
-      {!publishStatus && (
-        <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
-      )}
-      {publishStatus && (
-        <button onClick={() => {
-          makeRequest(`/listings/unpublish/${lId}`, 'put', undefined, getters.token).then((res) => {
-            setPublishStatus(false)
-          })
-        }}>
-          Unpublish Listing
-        </button>
-      )}
-    </div>
+      <Box style={{ display: 'flex', justifyContent: 'center', padding: '5px 0px 0px 0px' }}>
+        <EditButton lId={lId} desc={'Edit'} />
+        {!publishStatus && (
+          <AvailabilityEdit lId={lId} desc={'Set Availabilities'} />
+        )}
+        {publishStatus && (
+          <Button variant='outlined' onClick={() => {
+            makeRequest(`/listings/unpublish/${lId}`, 'put', undefined, getters.token).then((res) => {
+              setPublishStatus(false)
+            })
+          }}>
+            Unpublish
+          </Button>
+        )}
+        <DeleteButton lId={lId} desc={'Delete'} listingSetter={listingSetter} />
+      </Box>
+
+    </Box>
   );
 }
 DetailedListingCard.propTypes = {
