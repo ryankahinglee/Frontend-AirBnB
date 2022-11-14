@@ -16,7 +16,7 @@ export default function Nav () {
     width: 'auto',
     padding: '5px 10px',
     margin: '0px 0.2vw'
-  })
+  });
   const NavigationBar = styled('div')({
     height: '6vh',
     padding: '0.1vh 2vw',
@@ -29,19 +29,19 @@ export default function Nav () {
     justifyContent: 'space-between',
   });
 
-  let navButtons = <div></div>
+  let navButtons = <div></div>;
   if (getters.token === '') {
     navButtons = (
       <div>
-        <NavButton variant='contained' onClick = {() => { navigate('/login') }}>Login</NavButton>
-        <NavButton variant='contained' onClick = {() => { navigate('/register') }}>Register</NavButton>
+        <NavButton variant='contained' onClick={() => { navigate('/login') }}>Login</NavButton>
+        <NavButton variant='contained' onClick={() => { navigate('/register') }}>Register</NavButton>
       </div>
-    )
+    );
   } else {
     navButtons = (<div>
-      <NavButton variant='contained' onClick = {() => { navigate('/createlisting') }}>New Listing</NavButton>
-      <NavButton variant='contained' onClick = {() => { navigate('/mylistings') }}>My Listings</NavButton>
-      <NavButton variant='contained' onClick = {() => {
+      <NavButton variant='contained' onClick={() => { navigate('/createlisting') }}>New Listing</NavButton>
+      <NavButton variant='contained' onClick={() => { navigate('/mylistings') }}>My Listings</NavButton>
+      <NavButton variant='contained' onClick={() => {
         makeRequest('/user/auth/logout', 'post', undefined, getters.token).then(() => {
           setters.setToken('');
           navigate('/');
@@ -49,12 +49,12 @@ export default function Nav () {
       }}>
         Logout
       </NavButton>
-    </div>)
+    </div>);
   }
   return (
     <NavigationBar>
       <div>
-        <NavButton variant='contained' onClick = {() => { navigate('/') }}>
+        <NavButton variant='contained' onClick={() => { navigate('/') }}>
           Home
         </NavButton>
       </div>
@@ -62,5 +62,5 @@ export default function Nav () {
         {navButtons}
       </div>
     </NavigationBar>
-  )
+  );
 }

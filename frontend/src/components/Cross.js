@@ -16,8 +16,8 @@ export default function Cross ({ images, imagesSetter, img }) {
         imagesSetter(newImages)
       }}
     >
-        <line x1="10" y1="10" x2="100" y2="100" stroke="black" strokeWidth="10" />
-        <line x1="100" y1="10" x2="10" y2="100" stroke="black" strokeWidth="10" />
+      <line x1="10" y1="10" x2="100" y2="100" stroke="black" strokeWidth="10" />
+      <line x1="100" y1="10" x2="10" y2="100" stroke="black" strokeWidth="10" />
     </svg>
   );
 }

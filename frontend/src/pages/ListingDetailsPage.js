@@ -38,11 +38,11 @@ export default function ListingDetails () {
   const [searchParams] = useSearchParams();
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, '').then((res) => {
-      const listing = res.listing
-      setTitle(listing.title)
+      const listing = res.listing;
+      setTitle(listing.title);
       // have to dynamically add address depending on what was entered
-      setAddress(`${listing.address.streetDetails}, ${listing.address.city}, ${listing.address.state}, ${listing.address.postcode}, ${listing.address.country}`)
-      setAmenities(listing.metadata.amenities)
+      setAddress(`${listing.address.streetDetails}, ${listing.address.city}, ${listing.address.state}, ${listing.address.postcode}, ${listing.address.country}`);
+      setAmenities(listing.metadata.amenities);
       // setPrice(listing.price)
       const conditions = [];
       for (const [key, value] of searchParams.entries()) {
@@ -52,20 +52,20 @@ export default function ListingDetails () {
       }
       // Using general code of finding difference between two date objects in days
       let difference = new Date(conditions.endDate).getTime() - new Date(conditions.startDate).getTime();
-      difference = Math.ceil(difference / (1000 * 3600 * 24))
+      difference = Math.ceil(difference / (1000 * 3600 * 24));
       if (difference > 0) {
-        setPrice(difference * listing.price)
+        setPrice(difference * listing.price);
         setPerStay(true);
       } else {
-        setPrice(listing.price)
+        setPrice(listing.price);
       }
-      setImages(listing.metadata.images)
-      setThumbnail(listing.thumbnail)
-      setType(listing.metadata.type)
-      setReviews(listing.reviews)
+      setImages(listing.metadata.images);
+      setThumbnail(listing.thumbnail);
+      setType(listing.metadata.type);
+      setReviews(listing.reviews);
       let ratingSum = 0
       for (const review of listing.reviews) {
-        ratingSum += parseInt(review.rating)
+        ratingSum += parseInt(review.rating);
       }
       let oneStars = 0;
       let twoStars = 0;
@@ -120,35 +120,35 @@ export default function ListingDetails () {
         }
       ])
       if (listing.reviews.length !== 0) {
-        setRating(Math.round(ratingSum / listing.reviews.length))
+        setRating(Math.round(ratingSum / listing.reviews.length));
       }
-      setNumBedrooms(listing.metadata.bedrooms.length)
-      let bedNum = 0
+      setNumBedrooms(listing.metadata.bedrooms.length);
+      let bedNum = 0;
       for (const bedroom of listing.metadata.bedrooms) {
-        bedNum += parseInt(bedroom.numBeds)
+        bedNum += parseInt(bedroom.numBeds);
       }
-      setNumBeds(bedNum)
-      setNumBathrooms(listing.metadata.bathrooms)
+      setNumBeds(bedNum);
+      setNumBathrooms(listing.metadata.bathrooms);
     })
     if (getters.token !== '') {
       makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
-        const bookings = res.bookings
+        const bookings = res.bookings;
         if (bookings.length !== 0) {
-          setOwnedBookings(bookings.filter(booking => booking.owner === getters.owner && params.lId === booking.listingId))
+          setOwnedBookings(bookings.filter(booking => booking.owner === getters.owner && params.lId === booking.listingId));
         }
-      })
+      });
     }
-  }, [])
+  }, []);
   return (
     <div>
-      <SpecificRatingReviews state={openReview} stateSetter={setOpenReview} reviews={reviews} rating={reviewRatingFilter}/>
+      <SpecificRatingReviews state={openReview} stateSetter={setOpenReview} reviews={reviews} rating={reviewRatingFilter} />
       <div>{`Title: ${title}`}</div>
       <div>{`Address: ${address}`}</div>
       <div>{`Amenities: ${amenities}`}</div>
-      { perStay && (
+      {perStay && (
         <div>{`Price per Stay: ${price}`}</div>
       )}
-      { perStay === false && (
+      {perStay === false && (
         <div>{`Price per Night: ${price}`}</div>
       )}
       <Tooltip
@@ -158,9 +158,9 @@ export default function ListingDetails () {
               reviewsBreakdown.map((review, index) => (
                 <div
                   key={`review-${index}`}
-                  onClick = {() => {
-                    setOpenReview(!openReview)
-                    setReviewRatingFilter(review.rating)
+                  onClick={() => {
+                    setOpenReview(!openReview);
+                    setReviewRatingFilter(review.rating);
                   }}
                 >
                   {`${review.rating} stars: ${review.count} ratings, ${review.percentage}% of ratings `}
@@ -175,7 +175,7 @@ export default function ListingDetails () {
           <div>{`Rating: ${rating}`}</div>
           {
             (new Array(rating).fill(0)).map((_, index) => (
-              <Star key={`star-${index}`}/>
+              <Star key={`star-${index}`} />
             )
             )
           }
@@ -187,30 +187,30 @@ export default function ListingDetails () {
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <div> Property Images </div>
       {
-        <ImageDisplay images={images} thumbnail={thumbnail}/>
+        <ImageDisplay images={images} thumbnail={thumbnail} />
       }
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (
-        <Review key={`review-${index}`} rating={rev.rating} comment={rev.comment}/>
+        <Review key={`review-${index}`} rating={rev.rating} comment={rev.comment} />
       ))}
       {getters.token !== '' && (
         <div> My bookings </div>
       )}
       {getters.token !== '' && (
         ownedBookings.map((booking, index) => (
-        <Booking
-          key={`booking-${index}`}
-          dateRange={booking.dateRange}
-          status={booking.status}/>
+          <Booking
+            key={`booking-${index}`}
+            dateRange={booking.dateRange}
+            status={booking.status} />
         ))
       )}
       {getters.token !== '' && (
         <div>
           <input
-          type="date"
-          name="startDate"
-          onChange={event => setBookingStart(event.target.value)}
-          value={bookingStart}
+            type="date"
+            name="startDate"
+            onChange={event => setBookingStart(event.target.value)}
+            value={bookingStart}
           />
           <input
             type="date"
@@ -227,16 +227,16 @@ export default function ListingDetails () {
               totalPrice: price
             }, getters.token).then((res) => {
               if (!('error' in res)) {
-                const newOwnedBookings = [...ownedBookings]
+                const newOwnedBookings = [...ownedBookings];
                 newOwnedBookings.push({
                   dateRange: {
                     start: bookingStart,
                     end: bookingEnd
                   },
                   status: 'pending'
-                })
-                setOwnedBookings(newOwnedBookings)
-                alert('Booking made!')
+                });
+                setOwnedBookings(newOwnedBookings);
+                alert('Booking made!');
               }
             })
           }}>
@@ -244,7 +244,7 @@ export default function ListingDetails () {
           </button>
         </div>
       )}
-      <button onClick={() => { navigate('/') }}>
+      <button onClick={() => { navigate('/'); }}>
         Back to Listings
       </button>
     </div>

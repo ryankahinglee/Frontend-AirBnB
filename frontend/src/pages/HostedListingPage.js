@@ -24,14 +24,14 @@ export default function HostedListing () {
         }))
       }
     }).then((res) => {
-      setFullListings(res.map(listingPromise => listingPromise.value))
+      setFullListings(res.map(listingPromise => listingPromise.value));
     })
   }, [])
 
   const ListingTitle = styled('h1')({
     color: '#286ee6',
     margin: '10px'
-  })
+  });
 
   const HostedBox = styled(Box)({
     display: 'flex',
@@ -39,7 +39,7 @@ export default function HostedListing () {
     flexWrap: 'wrap',
     margin: '10px',
     justifyContent: 'center'
-  })
+  });
   return (
     <div>
       <ListingTitle>My Listings</ListingTitle>
@@ -65,7 +65,7 @@ export default function HostedListing () {
               thumbnail={listing.thumbnail}
               lId={listing.id}
               listingSetter={(lId) => {
-                setFullListings(fullListings.filter(listing => listing.id !== lId))
+                setFullListings(fullListings.filter(listing => listing.id !== lId));
               }}
               published={listing.published}
               fullListings={fullListings}
@@ -82,8 +82,8 @@ export default function HostedListing () {
               textAlign: 'center'
             }}>
               <h2 style={{ color: '#286ee6' }}>Profit margins</h2>
-              <ProfitGraph lId={listing.id}/>
-              <Button variant='outlined' onClick={ () => {
+              <ProfitGraph lId={listing.id} />
+              <Button variant='outlined' onClick={() => {
                 const params = listing.postedOn
                 navigate({
                   pathname: `/bookingHistory/${listing.id}`,

@@ -15,7 +15,7 @@ export default function Login () {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '94vh' }}>
       <form
-        style= {{
+        style={{
           border: 'solid',
           borderColor: '#bfbfbf',
           borderWidth: '0.1vh',
@@ -29,8 +29,8 @@ export default function Login () {
         onSubmit={(e) => {
           e.preventDefault();
           // Send fetch
-          const data = { email, password }
-          setters.setOwner(email)
+          const data = { email, password };
+          setters.setOwner(email);
           makeRequest('/user/auth/login', 'post', data, '').then((res) => {
             if (res.error === undefined) {
               setters.setToken(res.token);
@@ -56,7 +56,7 @@ export default function Login () {
           type="text"
           name="email"
         />
-        <br/>
+        <br />
         <TextField
           label="Password"
           variant="outlined"
@@ -65,9 +65,9 @@ export default function Login () {
           type="text"
           name="password"
         />
-        <br/>
+        <br />
         <Button variant='contained' type='submit' value='Submit'>Submit</Button>
-        <br/>
+        <br />
         {alert && (
           <Alert severity="error">Invalid Email or Password</Alert>
         )}

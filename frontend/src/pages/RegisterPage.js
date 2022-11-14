@@ -18,7 +18,7 @@ export default function Register () {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '94vh' }}>
       <form
-        style= {{
+        style={{
           border: 'solid',
           borderColor: '#bfbfbf',
           borderWidth: '0.1vh',
@@ -38,8 +38,8 @@ export default function Register () {
           }
 
           // Send fetch
-          const data = { name, email, password }
-          setters.setOwner(email)
+          const data = { name, email, password };
+          setters.setOwner(email);
           makeRequest('/user/auth/register', 'post', data, '').then((res) => {
             if (res.error === undefined) {
               setters.setToken(res.token);
@@ -66,7 +66,7 @@ export default function Register () {
           type="text"
           name="name"
         />
-        <br/>
+        <br />
         <TextField
           label="Email"
           variant="outlined"
@@ -75,7 +75,7 @@ export default function Register () {
           type="text"
           name="email"
         />
-        <br/>
+        <br />
         <TextField
           label="Password"
           variant="outlined"
@@ -85,13 +85,13 @@ export default function Register () {
             } else {
               setSamePassword(true);
             }
-            setPassword(event.target.value)
+            setPassword(event.target.value);
           }}
-          value = {password}
+          value={password}
           type="text"
           name="password"
         />
-        <br/>
+        <br />
         <TextField
           label="Email"
           variant="outlined"
@@ -101,15 +101,15 @@ export default function Register () {
             } else {
               setSamePassword(true);
             }
-            setConfirmPassword(event.target.value)
+            setConfirmPassword(event.target.value);
           }}
-          value = {confirmPassword}
+          value={confirmPassword}
           type="text"
           name="confirmPassword"
         />
-        <br/>
+        <br />
         <Button variant='contained' type='submit' value='Submit'>Submit</Button>
-        <br/>
+        <br />
         {!samePassword && (
           <Alert severity="warning">Passwords are not the same!</Alert>
         )}

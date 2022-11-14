@@ -41,12 +41,12 @@ export default function Home () {
           newListings.push(listing.value);
         }
       })
-      setListings(newListings)
+      setListings(newListings);
     }).then(() => {
       if (getters.token !== '') {
         makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
           if (res !== undefined) {
-            setBookings(res.bookings)
+            setBookings(res.bookings);
           }
         })
       }
@@ -84,7 +84,7 @@ export default function Home () {
       if (hasStatus === false) {
         remainingListings.push(listing);
       }
-    })
+    });
   }
 
   const ListingBox = styled(Box)({
@@ -93,12 +93,12 @@ export default function Home () {
     flexWrap: 'wrap',
     padding: '0px 20px',
     justifyContent: 'flex-start'
-  })
+  });
 
   const ListingTitle = styled('h1')({
     color: '#286ee6',
     margin: '0px'
-  })
+  });
 
   return (
     <div>
@@ -106,15 +106,15 @@ export default function Home () {
         <TextField
           label="Search by Title"
           type="search"
-          style = {{
+          style={{
             height: '56px'
           }}
-          onChange = {event => setTitle(event.target.value)}
-          onKeyPress = {event => {
+          onChange={event => setTitle(event.target.value)}
+          onKeyPress={event => {
             if (event.key === 'Enter') {
               event.preventDefault();
               const sortByHighest = true;
-              const params = { title, sortByHighest }
+              const params = { title, sortByHighest };
               navigate({
                 pathname: '/advancedSearch',
                 search: `?${createSearchParams(params)}`,
@@ -128,7 +128,7 @@ export default function Home () {
         <ListingTitle> Available Listings </ListingTitle>
         <ListingBox>
           {currentListings.map((data, index) => (
-            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings} />
           ))}
         </ListingBox>
       </div>)}
@@ -138,7 +138,7 @@ export default function Home () {
         )}
         <ListingBox>
           {acceptedListings.map((data, index) => (
-            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings} />
           ))}
         </ListingBox>
         {pendingListings.length !== 0 && (
@@ -146,7 +146,7 @@ export default function Home () {
         )}
         <ListingBox>
           {pendingListings.map((data, index) => (
-            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings} />
           ))}
         </ListingBox>
         {remainingListings.length !== 0 && (
@@ -154,7 +154,7 @@ export default function Home () {
         )}
         <ListingBox>
           {remainingListings.map((data, index) => (
-            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings}/>
+            <ListingCard key={`listing-${index}`} id={data.id} title={data.title} thumbnail={data.thumbnail} reviews={data.reviews} bookings={bookings} />
           ))}
         </ListingBox>
       </div>)}

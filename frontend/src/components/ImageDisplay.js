@@ -17,15 +17,15 @@ export default function ImageDisplay ({ images, thumbnail }) {
           </ImageListItem>
         ))}
         <ImageListItem>
-            <img
-              src={`${thumbnail}`}
-              alt={thumbnail}
-              loading="lazy"
-            />
-          </ImageListItem>
+          <img
+            src={`${thumbnail}`}
+            alt={thumbnail}
+            loading="lazy"
+          />
+        </ImageListItem>
       </ImageList>
     </div>
-  )
+  );
 }
 
 ImageDisplay.propTypes = {

@@ -6,6 +6,7 @@ import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../imageToURLHelper';
 import { jsonReader } from '../listingUploadHelper';
 import { validateJSON } from '../JSONValidateHelper';
+import { Box, Button, TextField, MenuItem, Select } from '@mui/material';
 
 export default function CreateListing () {
   const navigate = useNavigate();
@@ -25,316 +26,369 @@ export default function CreateListing () {
   const [bedroomType, setBedroomType] = React.useState('master');
   const [amenities, setAmenities] = React.useState('');
   const [useVideo, setUseVideo] = React.useState(false);
-  const options = [
-    {
-      label: 'Master',
-      value: 'master'
-    },
-    {
-      label: 'Children',
-      value: 'children'
-    },
-    {
-      label: 'Guest',
-      value: 'guest'
-    }
-  ];
   React.useEffect(() => {
   }, [bedrooms])
-  return (<div>
-    <label>
-      Upload JSON File:&nbsp;
-      <input
-        type="file"
-        name="JSONupload"
-        onChange={event => {
-          const file = event.target.files[0]
-          jsonReader(file).then(result => {
-            if (result !== null && validateJSON(result)) {
-              setTitle(result.title)
-              setStreetDetails(result.address.streetDetails)
-              setCity(result.address.city)
-              setState(result.address.state)
-              setPostcode(result.address.postcode)
-              setCountry(result.address.country)
-              setPrice(result.price)
-              setThumbnail(result.thumbnail)
-              setType(result.metadata.type)
-              setBathrooms(result.metadata.bathrooms)
-              setAmenities(result.metadata.amenities)
-              setBedrooms(result.metadata.bedrooms)
-            } else {
-              alert('Please upload a valid JSON File')
-            }
-          })
+  return (
+    <Box sx={
+      {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '40%'
+      }
+    }>
+      <form
+        style={{
+          border: 'solid',
+          borderColor: '#bfbfbf',
+          borderWidth: '0.1vh',
+          borderRadius: '5px',
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '80%',
+          margin: '20px'
         }}
-      />
-    </label>
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      // form checking here that price, bathrooms, postcode, all bedroom counts are not empty
-      let numBedFieldEmpty = false;
-      for (const bedroom of bedrooms) {
-        if (bedroom.numBeds === '') {
-          numBedFieldEmpty = true;
-          break;
-        }
-      }
-      const body = {
-        title,
-        address: {
-          streetDetails, city, state, postcode: parseInt(postcode), country
-        },
-        price: parseInt(price),
-        thumbnail,
-        metadata: {
-          type,
-          bathrooms: parseInt(bathrooms),
-          amenities,
-          bedrooms,
-          images: []
-        }
-      };
-      if (
-        title !== '' &&
-        streetDetails !== '' &&
-        city !== '' && state !== '' &&
-        postcode !== '' &&
-        country !== '' &&
-        price !== '' &&
-        thumbnail !== '' &&
-        type !== '' &&
-        bathrooms !== '' &&
-        amenities !== '' && !numBedFieldEmpty
-      ) {
-        makeRequest('/listings/new', 'post', body, getters.token).then((res) => {
-          if (!('error' in res)) {
-            navigate('/mylistings');
+        onSubmit={(e) => {
+          e.preventDefault();
+          let numBedFieldEmpty = false;
+          for (const bedroom of bedrooms) {
+            if (bedroom.numBeds === '') {
+              numBedFieldEmpty = true;
+              break;
+            }
           }
-        });
-        setTitle('');
-        setStreetDetails('');
-        setCity('');
-        setState('');
-        setPostcode(0);
-        setCountry('');
-        setPrice(0);
-        setThumbnail('');
-        setType('');
-        setBathrooms(0);
-        setBedrooms([]);
-        setAmenities('');
-      } else {
-        alert('Please ensure all fields are non-empty')
-      }
-    }}>
-      <label>
-        Title:&nbsp;
-        <input
-          type="text"
+          const body = {
+            title,
+            address: {
+              streetDetails, city, state, postcode: parseInt(postcode), country
+            },
+            price: parseInt(price),
+            thumbnail,
+            metadata: {
+              type,
+              bathrooms: parseInt(bathrooms),
+              amenities,
+              bedrooms,
+              images: []
+            }
+          };
+          if (
+            title !== '' &&
+            streetDetails !== '' &&
+            city !== '' && state !== '' &&
+            postcode !== '' &&
+            country !== '' &&
+            price !== '' &&
+            thumbnail !== '' &&
+            type !== '' &&
+            bathrooms !== '' &&
+            amenities !== '' && !numBedFieldEmpty
+          ) {
+            makeRequest('/listings/new', 'post', body, getters.token).then((res) => {
+              if (!('error' in res)) {
+                navigate('/mylistings');
+              }
+            });
+            setTitle('');
+            setStreetDetails('');
+            setCity('');
+            setState('');
+            setPostcode(0);
+            setCountry('');
+            setPrice(0);
+            setThumbnail('');
+            setType('');
+            setBathrooms(0);
+            setBedrooms([]);
+            setAmenities('');
+          } else {
+            alert('Please ensure all fields are non-empty');
+          }
+        }}>
+        <h3 style={{ color: '#4377cf' }}>
+          Create a Listing
+        </h3>
+        <Button variant="contained" component="label">
+          Upload JSON
+          <input
+            type="file"
+            hidden
+            onChange={event => {
+              const file = event.target.files[0]
+              jsonReader(file).then(result => {
+                if (result !== null && validateJSON(result)) {
+                  setTitle(result.title);
+                  setStreetDetails(result.address.streetDetails);
+                  setCity(result.address.city);
+                  setState(result.address.state);
+                  setPostcode(result.address.postcode);
+                  setCountry(result.address.country);
+                  setPrice(result.price);
+                  setThumbnail(result.thumbnail);
+                  setType(result.metadata.type);
+                  setBathrooms(result.metadata.bathrooms);
+                  setAmenities(result.metadata.amenities);
+                  setBedrooms(result.metadata.bedrooms);
+                } else {
+                  alert('Please upload a valid JSON File');
+                }
+              });
+            }}
+          />
+        </Button>
+        <br />
+        <TextField
+          label="Title"
+          variant="outlined"
           name="title"
           onChange={event => setTitle(event.target.value)}
           value={title}
-        />
-      </label>
-      <br/>
-      <label>
-        Street No. and Name:&nbsp;
-        <input
           type="text"
+        />
+        <br />
+        <TextField
+          label="Street No. and Name"
+          variant="outlined"
           name="streetNumName"
           onChange={event => setStreetDetails(event.target.value)}
           value={streetDetails}
-        />
-      </label>
-      <br/>
-      <label>
-        City:&nbsp;
-        <input
           type="text"
+        />
+        <br />
+        <TextField
+          label="City"
+          variant="outlined"
           name="city"
           onChange={event => setCity(event.target.value)}
           value={city}
-        />
-      </label>
-      <br/>
-      <label>
-        State:&nbsp;
-        <input
           type="text"
+        />
+        <br />
+        <TextField
+          label="State"
+          variant="outlined"
           name="state"
           onChange={event => setState(event.target.value)}
           value={state}
+          type="text"
         />
-      </label>
-      <br/>
-      <label>
-        Postcode:&nbsp;
-        <input
-          type="number"
+        <br />
+        <TextField
+          label="Postcode"
+          variant="outlined"
           name="postcode"
           onChange={event => setPostcode(event.target.value)}
           value={postcode}
-        />
-      </label>
-      <br/>
-      <label>
-        Country:&nbsp;
-        <input
           type="text"
+        />
+        <br />
+        <TextField
+          label="Country"
+          variant="outlined"
           name="country"
           onChange={event => setCountry(event.target.value)}
           value={country}
+          type="text"
         />
-      </label>
-      <br/>
-      <label>
-        Price (per night):&nbsp;
-        <input
-          type="number"
+        <br />
+        <TextField
+          label="Price"
+          variant="outlined"
           name="price"
           onChange={event => setPrice(event.target.value)}
           value={price}
-        />
-      </label>
-      <br/>
-      {!useVideo && (<div>
-        <label>
-          Image Thumbnail of Airbnb:&nbsp;
-          <input
-            type="file"
-            name="thumbnail"
-            onChange={event => {
-              const file = event.target.files[0]
-              fileToDataUrl(file).then(result => {
-                setThumbnail(result)
-              })
-            }}
-          />
-        </label>
-        <button onClick = {(event) => {
-          event.preventDefault();
-          setUseVideo(true);
-        }}>
-          Use Video Thumbnail
-        </button>
-      </div>)}
-      {useVideo && (<div>
-        <label>
-        Video Thumbnail of Airbnb (Please Input Youtube URL Link):
-        <input
           type="text"
-          name="thumbnail"
-          onChange={(event) => {
-            setThumbnail(`http://img.youtube.com/vi/${event.target.value.split('=')[1]}/0.jpg`)
+        />
+        <br />
+        {!useVideo && (<div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
           }}
-        />
-        </label>
-        <button onClick = {(event) => {
-          event.preventDefault();
-          setUseVideo(false);
-        }}>
-          Use Image Thumbnail
-        </button>
-      </div>)}
-      {thumbnail !== '' && (
-          <img style={{ height: '300px', width: '300px' }} src={thumbnail}/>
-      )}
-      <br/>
-      <label>
-        Type of property:&nbsp;
-        <input
-          type="text"
+        >
+          <div>
+            <Button style={{ borderWidth: '0.3vh', fontWeight: 'bold', margin: '10px' }}
+              onClick={(event) => {
+                event.preventDefault();
+                setUseVideo(true);
+              }}
+              variant="outlined">
+              Use Video Thumbnail
+            </Button>
+          </div>
+          <Button style={{ margin: '10px' }} variant="contained" component="label">
+            Upload Image
+            <input
+              type="file"
+              name="thumbnail"
+              hidden
+              onChange={event => {
+                const file = event.target.files[0]
+                fileToDataUrl(file).then(result => {
+                  setThumbnail(result)
+                })
+              }}
+            />
+          </Button>
+        </div>)}
+        {useVideo && (<div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <div>
+            <Button style={{ borderWidth: '0.3vh', fontWeight: 'bold', margin: '10px' }}
+              onClick={(event) => {
+                event.preventDefault();
+                setUseVideo(false);
+              }}
+              variant="outlined">
+              Use Image Thumbnail
+            </Button>
+          </div>
+          <TextField
+            label="Youtube Video URL"
+            variant="outlined"
+            name="Vthumbnail"
+            onChange={event => setThumbnail(`http://img.youtube.com/vi/${event.target.value.split('=')[1]}/0.jpg`)}
+            type="text"
+          />
+        </div>)}
+        {thumbnail !== '' && (
+          <img style={{ height: '300px', width: '300px' }} src={thumbnail} />
+        )}
+        <br />
+        <TextField
+          label="Type of property"
+          variant="outlined"
           name="type"
           onChange={event => setType(event.target.value)}
           value={type}
+          type="text"
         />
-      </label>
-      <br/>
-      <label>
-        Number of bathrooms:&nbsp;
-        <input
-          type="number"
+        <br />
+        <TextField
+          label="Number of bathrooms"
+          variant="outlined"
           name="bathrooms"
           onChange={event => setBathrooms(event.target.value)}
           value={bathrooms}
-        />
-      </label>
-      <br/>
-      <div>
-        <label>
-          Available bedrooms:&nbsp;
-          <br/>
-          Type: &nbsp;
-          <select onChange={event => setBedroomType(event.target.value)}>
-            {options.map((option, index) => (
-              <option key={`bedroom-${index}`} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-          &nbsp;Number of beds:&nbsp;
-          <input
-            type="number"
-            name="bedCount"
-            onChange={event => setBedCount(event.target.value)}
-            value={bedCount}
-          />
-          <br/>
-          <button onClick={(event) => {
-            event.preventDefault();
-            const newBedrooms = bedrooms
-            // if bedcount is nothing or 0, dont allow pushing on. get an error up or alert
-            if (bedCount !== '' && bedCount > 0) {
-              newBedrooms.push({ roomType: bedroomType, numBeds: bedCount })
-              setBedrooms(newBedrooms)
-              setBedCount(0)
-              setBedroomType(bedroomType)
-            } else {
-              alert('Invalid bed number')
-            }
-          }}>
-            Add Bedroom
-          </button>
-        </label>
-      </div>
-      <label>
-        Amenities:&nbsp;
-        <input
           type="text"
+        />
+        <br />
+        <div
+          style={{
+            border: 'solid',
+            borderColor: '#bfbfbf',
+            borderWidth: '0.1vh',
+            borderRadius: '5px',
+            padding: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '300px'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '300px'
+            }}
+          >
+            <Select
+              value={bedroomType}
+              onChange={event => setBedroomType(event.target.value)}
+            >
+              <MenuItem value={'master'}>Master</MenuItem>
+              <MenuItem value={'children'}>Children</MenuItem>
+              <MenuItem value={'guest'}>Guest</MenuItem>
+            </Select>
+            <br />
+            <TextField
+              label="Number of beds"
+              variant="outlined"
+              name="bedCount"
+              onChange={event => setBedCount(event.target.value)}
+              value={bedCount}
+              type="number"
+            />
+          </div>
+          <Button
+            style={{ margin: '10px' }}
+            variant="contained"
+            onClick={(event) => {
+              event.preventDefault();
+              const newBedrooms = bedrooms;
+              // if bedcount is nothing or 0, dont allow pushing on. get an error up or alert
+              if (bedCount !== '' && bedCount > 0) {
+                newBedrooms.push({ roomType: bedroomType, numBeds: bedCount })
+                setBedrooms(newBedrooms);
+                setBedCount(0);
+                setBedroomType(bedroomType);
+              } else {
+                alert('Invalid bed number');
+              }
+            }}
+          >
+            Add Bedroom
+          </Button>
+        </div>
+        <br />
+        <TextField
+          label="Amenities"
+          variant="outlined"
           name="amenities"
           onChange={event => setAmenities(event.target.value)}
           value={amenities}
+          type="text"
         />
-      </label>
-      <br/>
-      <input type="submit" value="Submit" />
-    </form>
-    <div>
-      {bedrooms.length > 0 && (
-        bedrooms.map((data, index) => (
-          <Bedroom
-            key={`bedroom-${index}`}
-            bedroomType={data.roomType}
-            bedCount={data.numBeds}
-            options={options}
-            onBedroomTypeChange={(newType) => {
-              const newBedrooms = [...bedrooms]
-              newBedrooms[index].roomType = newType
-              setBedrooms(newBedrooms)
-            }}
-            onBedCountChange={(newCount) => {
-              const newBedrooms = [...bedrooms]
-              newBedrooms[index].numBeds = newCount
-              setBedrooms(newBedrooms)
-            }}
-            bedroomDelete={() => {
-              const newBedrooms = [...bedrooms]
-              newBedrooms.splice(index, 1)
-              setBedrooms(newBedrooms)
-            }}
+        <br />
+        <Button style={{ margin: '10px' }} variant="contained" component="label">
+          Create Listing
+          <input
+            type="submit"
+            hidden
           />
-        ))
-      )}
-    </div>
-  </div>
-  )
+        </Button>
+        {bedrooms.length > 0 && (
+          <h3 style={{ color: '#4377cf' }}>
+            Bedrooms Below
+          </h3>
+        )}
+        <div>
+          {
+            bedrooms.map((data, index) => (
+              <Bedroom
+                key={`bedroom-${index}`}
+                bedroomType={data.roomType}
+                bedCount={data.numBeds}
+                onBedroomTypeChange={(newType) => {
+                  const newBedrooms = [...bedrooms];
+                  newBedrooms[index].roomType = newType;
+                  setBedrooms(newBedrooms);
+                }}
+                onBedCountChange={(newCount) => {
+                  const newBedrooms = [...bedrooms];
+                  newBedrooms[index].numBeds = newCount;
+                  setBedrooms(newBedrooms);
+                }}
+                bedroomDelete={() => {
+                  const newBedrooms = [...bedrooms];
+                  newBedrooms.splice(index, 1);
+                  setBedrooms(newBedrooms);
+                }}
+              />
+            ))
+          }
+        </div>
+      </form>
+    </Box>
+  );
 }

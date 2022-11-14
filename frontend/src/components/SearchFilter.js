@@ -32,7 +32,7 @@ export default function FormDialog () {
 
   const navigate = useNavigate();
   const submitSearch = () => {
-    const params = { title, city, minBedrooms, maxBedrooms, minPrice, maxPrice, startDate, endDate, sortByHighest }
+    const params = { title, city, minBedrooms, maxBedrooms, minPrice, maxPrice, startDate, endDate, sortByHighest };
 
     navigate({
       pathname: '/advancedSearch',
@@ -48,14 +48,14 @@ export default function FormDialog () {
   const [maxBedrooms, setMaximumBeds] = React.useState();
   const [minPrice, setMinimumPrice] = React.useState();
   const [maxPrice, setMaximumPrice] = React.useState();
-  const [sortByHighest, setSortRating] = React.useState(true)
+  const [sortByHighest, setSortRating] = React.useState(true);
 
   return (
     <div>
       <Button
         variant="contained"
         onClick={handleClickOpen}
-        style = {{
+        style={{
           height: '56px'
         }}
       >
@@ -64,79 +64,79 @@ export default function FormDialog () {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Advanced Search Form</DialogTitle>
         <DialogContent>
-            <DialogContentText>
-                Fill out the field details to have an advanced search on all listings
-            </DialogContentText>
+          <DialogContentText>
+            Fill out the field details to have an advanced search on all listings
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Title"
+            type="string"
+            fullWidth
+            variant="standard"
+            onChange={event => setTitle(event.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            label="City"
+            type="string"
+            fullWidth
+            variant="standard"
+            onChange={event => setCity(event.target.value)}
+          />
+          <div>
             <TextField
               autoFocus
               margin="dense"
-              label="Title"
-              type="string"
-              fullWidth
+              label="Minimum Bedrooms"
+              type="number"
               variant="standard"
-              onChange={event => setTitle(event.target.value)}
+              onChange={event => setMinimumBeds(event.target.value)}
             />
+            &nbsp;&nbsp;&nbsp;
             <TextField
               autoFocus
               margin="dense"
-              label="City"
-              type="string"
-              fullWidth
+              label="Maximum Bedrooms"
+              type="number"
               variant="standard"
-              onChange={event => setCity(event.target.value)}
+              onChange={event => setMaximumBeds(event.target.value)}
             />
-            <div>
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Minimum Bedrooms"
-                type="number"
-                variant="standard"
-                onChange={event => setMinimumBeds(event.target.value)}
+          </div>
+          <div>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Minimum Price (per night)"
+              type="number"
+              variant="standard"
+              onChange={event => setMinimumPrice(event.target.value)}
+            />
+            &nbsp;&nbsp;&nbsp;
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Maximum Price (per night)"
+              type="number"
+              variant="standard"
+              onChange={event => setMaximumPrice(event.target.value)}
+            />
+          </div>
+          <p>Date Range</p>
+          <div>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Start date"
+                value={startDate}
+                onChange={(newDate) => {
+                  newDate.$d.setHours(11, 0, 0);
+                  setStartDate(newDate.$d);
+                }}
+                renderInput={(params) => <TextField {...params} />}
               />
-              &nbsp;&nbsp;&nbsp;
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Maximum Bedrooms"
-                type="number"
-                variant="standard"
-                onChange={event => setMaximumBeds(event.target.value)}
-              />
-            </div>
-            <div>
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Minimum Price (per night)"
-                type="number"
-                variant="standard"
-                onChange={event => setMinimumPrice(event.target.value)}
-              />
-              &nbsp;&nbsp;&nbsp;
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Maximum Price (per night)"
-                type="number"
-                variant="standard"
-                onChange={event => setMaximumPrice(event.target.value)}
-              />
-            </div>
-            <p>Date Range</p>
-            <div>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Start date"
-                  value={startDate}
-                  onChange={(newDate) => {
-                    newDate.$d.setHours(11, 0, 0);
-                    setStartDate(newDate.$d);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="End date"
                 value={endDate}
@@ -147,20 +147,20 @@ export default function FormDialog () {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-            </div>
-            <p>Rating</p>
-            <FormGroup>
-              <span>
+          </div>
+          <p>Rating</p>
+          <FormGroup>
+            <span>
               Lowest to Highest&nbsp;&nbsp;&nbsp;
               <FormControlLabel
-                onChange = {event => {
+                onChange={event => {
                   setSortRating(event.target.checked)
                 }}
                 control={<Switch defaultChecked />}
               />
               Highest to Lowest
-              </span>
-            </FormGroup>
+            </span>
+          </FormGroup>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

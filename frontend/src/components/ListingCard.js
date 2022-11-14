@@ -43,11 +43,11 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       const cloneReviews = JSON.parse(JSON.stringify(updateReviews));
       setCurrentReviews(cloneReviews);
     })
-  }
+  };
 
   const valuetext = (value) => {
     return `${value} stars`;
-  }
+  };
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const conditions = [];
@@ -97,26 +97,26 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
             </DialogContentText>
             <br></br><br></br><br></br>
             <Slider
-            aria-label="Rating"
-            defaultValue={3}
-            getAriaValueText={valuetext}
-            valueLabelDisplay="auto"
-            step={1}
-            marks
-            min={1}
-            max={5}
-            onChange={event => setRating(parseInt(event.target.value))}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="comment"
-            label="Comment"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={event => setComment(event.target.value)}
-          />
+              aria-label="Rating"
+              defaultValue={3}
+              getAriaValueText={valuetext}
+              valueLabelDisplay="auto"
+              step={1}
+              marks
+              min={1}
+              max={5}
+              onChange={event => setRating(parseInt(event.target.value))}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="comment"
+              label="Comment"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={event => setComment(event.target.value)}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

@@ -46,7 +46,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       <div>{`Price/night : ${price}`}</div>
       {
         (new Array(starAmount)).map((_, index) => (
-          <Star key={`star-${index}`}/>
+          <Star key={`star-${index}`} />
         )
         )
       }
