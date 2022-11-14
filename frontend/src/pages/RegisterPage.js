@@ -11,7 +11,8 @@ export default function Register () {
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [samePassword, setSamePassword] = React.useState(true);
-  const [alert, setAlert] = React.useState(false);
+  const [alertEmail, setAlertEmail] = React.useState(false);
+  const [alertPassword, setAlertPassword] = React.useState(false);
   const { setters } = React.useContext(contextVariables);
   const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ export default function Register () {
       <form
         style={{
           border: 'solid',
-          borderColor: '#bfbfbf',
+          borderColor: '#6392e3',
           borderWidth: '0.1vh',
           borderRadius: '5px',
           padding: '10px',
@@ -32,7 +33,11 @@ export default function Register () {
         onSubmit={(e) => {
           e.preventDefault();
 
-          if (password !== confirmPassword) {
+          if (password === '') {
+            setAlertPassword(true);
+            setAlertEmail(false);
+            return;
+          } else if (password !== confirmPassword) {
             setSamePassword(false);
             return;
           }
@@ -45,7 +50,8 @@ export default function Register () {
               setters.setToken(res.token);
               navigate('/');
             } else {
-              setAlert(true);
+              setAlertEmail(true);
+              setAlertPassword(false);
             }
           })
 
@@ -113,8 +119,11 @@ export default function Register () {
         {!samePassword && (
           <Alert severity="warning">Passwords are not the same!</Alert>
         )}
-        {alert && (
+        {alertEmail && (
           <Alert severity="error">Invalid Input, Email has already been taken</Alert>
+        )}
+        {alertPassword && (
+          <Alert severity="error">Invalid Input, Password cannot be an empty string</Alert>
         )}
       </form>
     </Box>

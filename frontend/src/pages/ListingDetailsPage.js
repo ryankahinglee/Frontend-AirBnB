@@ -6,14 +6,20 @@ import Review from '../components/Review';
 import Booking from '../components/Booking';
 import Star from '../components/Star';
 import ImageDisplay from '../components/ImageDisplay';
-// https://v4.mui.com/components/tooltips/#simple-tooltips
-import { Tooltip, Alert } from '@mui/material';
+
+// Material ui components
+import { Tooltip, Alert, Box, Button, TextField } from '@mui/material';
+import { styled } from '@mui/system';
 import SpecificRatingReviews from '../components/SpecificRatingReviews';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function ListingDetails () {
   const { getters } = React.useContext(contextVariables);
   const params = useParams();
   const navigate = useNavigate();
+  const [owner, setOwner] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [amenities, setAmenities] = React.useState('');
@@ -40,6 +46,7 @@ export default function ListingDetails () {
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, '').then((res) => {
       const listing = res.listing;
+      setOwner(listing.owner);
       setTitle(listing.title);
       // have to dynamically add address depending on what was entered
       setAddress(`${listing.address.streetDetails}, ${listing.address.city}, ${listing.address.state}, ${listing.address.postcode}, ${listing.address.country}`);
@@ -140,117 +147,169 @@ export default function ListingDetails () {
       });
     }
   }, []);
+
+  const Header = styled('h2')({
+    color: '#286ee6'
+  })
   return (
-    <div>
-      <SpecificRatingReviews state={openReview} stateSetter={setOpenReview} reviews={reviews} rating={reviewRatingFilter} />
-      <div>{`Title: ${title}`}</div>
-      <div>{`Address: ${address}`}</div>
-      <div>{`Amenities: ${amenities}`}</div>
-      {perStay && (
-        <div>{`Price per Stay: ${price}`}</div>
-      )}
-      {perStay === false && (
-        <div>{`Price per Night: ${price}`}</div>
-      )}
-      <Tooltip
-        title={
-          <React.Fragment>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      height: '92vh',
+      flexDirection: 'column  ',
+      margin: '5px'
+    }}>
+      <Box>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          border: 'solid',
+          borderColor: '#6392e3',
+          borderWidth: '0.1px',
+          flexWrap: 'wrap'
+        }}>
+          <Box sx={{ width: '300px' }}>
+            <Header style={{ textAlign: 'center' }}>Details</Header>
+            <div>{`Title: ${title}`}</div>
+            <div>{`Address: ${address}`}</div>
+            <div>{`Amenities: ${amenities}`}</div>
+            {perStay && (
+              <div>{`Price per Stay: ${price}`}</div>
+            )}
+            {perStay === false && (
+              <div>{`Price per Night: ${price}`}</div>
+            )}
+            <div>{`Property Type: ${type}`}</div>
+            <div>{`Number of bedrooms: ${numBedrooms}`}</div>
+            <div>{`Number of beds: ${numBeds}`}</div>
+            <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
+          </Box>
+          <Box>
+          <Header style={{ textAlign: 'center' }}>Property Images</Header>
             {
-              reviewsBreakdown.map((review, index) => (
-                <div
-                  key={`review-${index}`}
-                  onClick={() => {
-                    setOpenReview(!openReview);
-                    setReviewRatingFilter(review.rating);
-                  }}
-                >
-                  {`${review.rating} stars: ${review.count} ratings, ${review.percentage}% of ratings `}
-                </div>
-              ))
+              <ImageDisplay images={images} thumbnail={thumbnail} title={title} />
             }
-          </React.Fragment>
-        }
-        placement="bottom"
-      >
-        <div>
-          <div>{`Rating: ${rating}`}</div>
-          {
-            (new Array(rating).fill(0)).map((_, index) => (
-              <Star key={`star-${index}`} />
-            )
-            )
+          </Box>
+        </Box>
+      </Box>
+      <br />
+      <Header>Reviews</Header>
+      <Box>
+        <SpecificRatingReviews state={openReview} stateSetter={setOpenReview} reviews={reviews} rating={reviewRatingFilter} />
+        <Tooltip
+          title={
+            <React.Fragment>
+              {
+                reviewsBreakdown.map((review, index) => (
+                  <div
+                    key={`review-${index}`}
+                    onClick={() => {
+                      setOpenReview(!openReview);
+                      setReviewRatingFilter(review.rating);
+                    }}
+                  >
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        backgroundColor: 'white',
+                        '&:hover': {
+                          backgroundColor: '#cbddfb'
+                        }
+                      }}
+                    >
+                      {review.rating} stars</Button>
+                    {` ${review.count} ratings, ${review.percentage}% of ratings `}
+                  </div>
+                ))
+              }
+            </React.Fragment>
           }
-        </div>
-      </Tooltip>
-      <div>{`Property Type: ${type}`}</div>
-      <div>{`Number of bedrooms: ${numBedrooms}`}</div>
-      <div>{`Number of beds: ${numBeds}`}</div>
-      <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
-      <div> Property Images </div>
-      {
-        <ImageDisplay images={images} thumbnail={thumbnail} title={title} />
-      }
-      <div> Listing Reviews </div>
+          placement="bottom"
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: '0px 0px 5px 0px' }}>
+            <Button variant='outlined' color='secondary' style= {{ width: '150px', height: '80px', fontSize: '22px' }}>{`Rating: ${rating}`}</Button>
+            <div>
+              {
+                (new Array(rating).fill(0)).map((_, index) => (
+                  <Star key={`star-${index}`} />
+                )
+                )
+              }
+            </div>
+          </Box>
+        </Tooltip>
+      </Box>
       {reviews.map((rev, index) => (
         <Review key={`review-${index}`} rating={rev.rating} comment={rev.comment} />
       ))}
-      {getters.token !== '' && (
-        <div> My bookings </div>
-      )}
-      {getters.token !== '' && (
-        ownedBookings.map((booking, index) => (
+      {getters.token !== '' && owner !== getters.owner && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Header>My bookings</Header>
+          {ownedBookings.map((booking, index) => (
           <Booking
             key={`booking-${index}`}
             dateRange={booking.dateRange}
             status={booking.status} />
-        ))
+          ))}
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: '15px' }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Start date"
+                value={bookingStart}
+                onChange={(newDate) => {
+                  const stringDate = `${newDate.$y}-${newDate.$M}-${newDate.$D}`
+                  setBookingStart(stringDate);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Start date"
+                value={bookingEnd}
+                onChange={(newDate) => {
+                  const stringDate = `${newDate.$y}-${newDate.$M}-${newDate.$D}`
+                  setBookingEnd(stringDate);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <Button sx={{ height: '56px' }} variant='contained' onClick={() => {
+              makeRequest(`/bookings/new/${params.lId}`, 'POST', {
+                dateRange: {
+                  start: bookingStart,
+                  end: bookingEnd
+                },
+                totalPrice: price
+              }, getters.token).then((res) => {
+                if (!('error' in res)) {
+                  const newOwnedBookings = [...ownedBookings];
+                  newOwnedBookings.push({
+                    dateRange: {
+                      start: bookingStart,
+                      end: bookingEnd
+                    },
+                    status: 'pending'
+                  });
+                  setOwnedBookings(newOwnedBookings);
+                  setAlert(true);
+                }
+              })
+            }}>
+              Make Booking
+            </Button>
+            {alert && (
+            <Alert severity="success">Booking Made!</Alert>
+            )}
+          </Box>
+        </Box>
       )}
-      {getters.token !== '' && (
-        <div>
-          <input
-            type="date"
-            name="startDate"
-            onChange={event => setBookingStart(event.target.value)}
-            value={bookingStart}
-          />
-          <input
-            type="date"
-            name="endDate"
-            onChange={event => setBookingEnd(event.target.value)}
-            value={bookingEnd}
-          />
-          <button onClick={() => {
-            makeRequest(`/bookings/new/${params.lId}`, 'POST', {
-              dateRange: {
-                start: bookingStart,
-                end: bookingEnd
-              },
-              totalPrice: price
-            }, getters.token).then((res) => {
-              if (!('error' in res)) {
-                const newOwnedBookings = [...ownedBookings];
-                newOwnedBookings.push({
-                  dateRange: {
-                    start: bookingStart,
-                    end: bookingEnd
-                  },
-                  status: 'pending'
-                });
-                setOwnedBookings(newOwnedBookings);
-                setAlert(true);
-              }
-            })
-          }}>
-            Make Booking
-          </button>
-          {alert && (
-          <Alert severity="success">Booking Made!</Alert>
-          )}
-        </div>
-      )}
-      <button onClick={() => { navigate('/'); }}>
+      <br />
+      <Button variant='contained' onClick={() => { navigate('/'); }}>
         Back to Listings
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 }

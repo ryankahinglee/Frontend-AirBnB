@@ -16,7 +16,7 @@ import AdvancedSearch from './pages/AdvancedSearchPage';
 import ListingAvailabilities from './pages/ListingAvailabilitiesPage';
 import ListingDetails from './pages/ListingDetailsPage';
 import Home from './pages/HomePage';
-import BookingHistory from './pages/BookingHistory';
+import BookingHistory from './pages/BookingHistoryPage';
 // useContext for light/dark themes, accessibility
 // Global variables
 import { contextVariables } from './contextVariables';
