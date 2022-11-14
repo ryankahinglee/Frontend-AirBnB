@@ -17,7 +17,7 @@ export default function Login () {
       <form
         style={{
           border: 'solid',
-          borderColor: '#bfbfbf',
+          borderColor: '#6392e3',
           borderWidth: '0.1vh',
           borderRadius: '5px',
           padding: '10px',

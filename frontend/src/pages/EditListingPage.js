@@ -328,6 +328,37 @@ export default function EditListing () {
           {bedNumAlert && (
             <Alert severity="error">Invalid Bed Number</Alert>
           )}
+          {bedrooms.length > 0 && (
+            <h3 style={{ color: '#4377cf' }}>
+              Bedrooms Below
+            </h3>
+          )}
+          <div>
+          {
+            bedrooms.map((data, index) => (
+              <Bedroom
+                key={`bedroom-${index}`}
+                bedroomType={data.roomType}
+                bedCount={data.numBeds}
+                onBedroomTypeChange={(newType) => {
+                  const newBedrooms = [...bedrooms];
+                  newBedrooms[index].roomType = newType;
+                  setBedrooms(newBedrooms);
+                }}
+                onBedCountChange={(newCount) => {
+                  const newBedrooms = [...bedrooms];
+                  newBedrooms[index].numBeds = newCount;
+                  setBedrooms(newBedrooms);
+                }}
+                bedroomDelete={() => {
+                  const newBedrooms = [...bedrooms];
+                  newBedrooms.splice(index, 1);
+                  setBedrooms(newBedrooms);
+                }}
+              />
+            ))
+          }
+        </div>
         </div>
         <br />
         <Button style={{ margin: '10px' }} variant="contained" component="label">
@@ -375,37 +406,6 @@ export default function EditListing () {
         {emptyFieldAlert && (
           <Alert severity="error">One or more fields are empty. Please fill them. </Alert>
         )}
-        {bedrooms.length > 0 && (
-          <h3 style={{ color: '#4377cf' }}>
-            Bedrooms Below
-          </h3>
-        )}
-        <div>
-          {
-            bedrooms.map((data, index) => (
-              <Bedroom
-                key={`bedroom-${index}`}
-                bedroomType={data.roomType}
-                bedCount={data.numBeds}
-                onBedroomTypeChange={(newType) => {
-                  const newBedrooms = [...bedrooms];
-                  newBedrooms[index].roomType = newType;
-                  setBedrooms(newBedrooms);
-                }}
-                onBedCountChange={(newCount) => {
-                  const newBedrooms = [...bedrooms];
-                  newBedrooms[index].numBeds = newCount;
-                  setBedrooms(newBedrooms);
-                }}
-                bedroomDelete={() => {
-                  const newBedrooms = [...bedrooms];
-                  newBedrooms.splice(index, 1);
-                  setBedrooms(newBedrooms);
-                }}
-              />
-            ))
-          }
-        </div>
       </form>
     </Box>
   )
