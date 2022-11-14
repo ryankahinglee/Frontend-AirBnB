@@ -7,7 +7,7 @@ import Booking from '../components/Booking';
 import Star from '../components/Star';
 import ImageDisplay from '../components/ImageDisplay';
 // https://v4.mui.com/components/tooltips/#simple-tooltips
-import { Tooltip } from '@mui/material';
+import { Tooltip, Alert } from '@mui/material';
 import SpecificRatingReviews from '../components/SpecificRatingReviews';
 
 export default function ListingDetails () {
@@ -35,6 +35,7 @@ export default function ListingDetails () {
   const [bookingStart, setBookingStart] = React.useState(dateString);
   const [bookingEnd, setBookingEnd] = React.useState(dateString);
   const [openReview, setOpenReview] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
   const [searchParams] = useSearchParams();
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, '').then((res) => {
@@ -187,7 +188,7 @@ export default function ListingDetails () {
       <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
       <div> Property Images </div>
       {
-        <ImageDisplay images={images} thumbnail={thumbnail} />
+        <ImageDisplay images={images} thumbnail={thumbnail} title={title} />
       }
       <div> Listing Reviews </div>
       {reviews.map((rev, index) => (
@@ -236,12 +237,15 @@ export default function ListingDetails () {
                   status: 'pending'
                 });
                 setOwnedBookings(newOwnedBookings);
-                alert('Booking made!');
+                setAlert(true);
               }
             })
           }}>
             Make Booking
           </button>
+          {alert && (
+          <Alert severity="success">Booking Made!</Alert>
+          )}
         </div>
       )}
       <button onClick={() => { navigate('/'); }}>

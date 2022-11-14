@@ -5,7 +5,7 @@ import makeRequest from '../makeRequest';
 import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../imageToURLHelper';
 import Cross from '../components/Cross';
-import { Box, Button, TextField, MenuItem, Select } from '@mui/material';
+import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
 export default function EditListing () {
   const navigate = useNavigate();
@@ -26,6 +26,8 @@ export default function EditListing () {
   const [bedCount, setBedCount] = React.useState(0);
   const [bedroomType, setBedroomType] = React.useState('master');
   const [useVideo, setUseVideo] = React.useState(false);
+  const [emptyFieldAlert, setEmptyFieldAlert] = React.useState(false);
+  const [bedNumAlert, setBedNumAlert] = React.useState(false);
   const params = useParams();
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, getters.token).then((res) => {
@@ -116,7 +118,7 @@ export default function EditListing () {
               }
             })
           } else {
-            alert('Please ensure all fields are non-empty');
+            setEmptyFieldAlert(true);
           }
         }}>
         <h3 style={{ color: '#4377cf' }}>
@@ -243,7 +245,7 @@ export default function EditListing () {
           />
         </div>)}
         {thumbnail !== '' && (
-          <img style={{ height: '300px', width: '300px' }} src={thumbnail} />
+          <img style={{ height: '300px', width: '300px' }} src={thumbnail} alt={'Thumbnail Image'} />
         )}
         <br />
         <TextField
@@ -315,13 +317,17 @@ export default function EditListing () {
                 setBedrooms(newBedrooms);
                 setBedCount(0);
                 setBedroomType(bedroomType);
+                setBedNumAlert(false);
               } else {
-                alert('Invalid bed number');
+                setBedNumAlert(true);
               }
             }}
           >
             Add Bedroom
           </Button>
+          {bedNumAlert && (
+            <Alert severity="error">Invalid Bed Number</Alert>
+          )}
         </div>
         <br />
         <Button style={{ margin: '10px' }} variant="contained" component="label">
@@ -343,7 +349,7 @@ export default function EditListing () {
         {
           images.map((img, index) => (
             <div key={`image-${index}`}>
-              <img style={{ height: '50px', width: '50px' }} src={img} />
+              <img style={{ height: '50px', width: '50px' }} src={img} alt={'Thumbnail Image'} />
               <Cross images={images} imagesSetter={setImages} img={img}
               />
             </div>
@@ -366,6 +372,9 @@ export default function EditListing () {
             hidden
           />
         </Button>
+        {emptyFieldAlert && (
+          <Alert severity="error">One or more fields are empty. Please fill them. </Alert>
+        )}
         {bedrooms.length > 0 && (
           <h3 style={{ color: '#4377cf' }}>
             Bedrooms Below

@@ -93,7 +93,7 @@ export default function Register () {
         />
         <br />
         <TextField
-          label="Email"
+          label="Confirm Password"
           variant="outlined"
           onChange={event => {
             if (event.target.value !== password) {

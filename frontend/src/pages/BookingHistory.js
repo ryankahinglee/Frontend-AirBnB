@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import { contextVariables } from '../contextVariables';
+import { Alert } from '@mui/material';
 
 export default function Login () {
   const params = useParams();
@@ -9,6 +10,8 @@ export default function Login () {
   const [bookings, setBookings] = React.useState([]);
   const [daysBooked, setDaysBooked] = React.useState(0);
   const [profit, setProfit] = React.useState(0);
+  const [alert, setAlert] = React.useState(false);
+  const [alertText, setAlertText] = React.useState(false);
   const { getters } = React.useContext(contextVariables);
   const posted = {};
   for (const [key, value] of searchParams.entries()) {
@@ -52,6 +55,9 @@ export default function Login () {
       <div>This listing has been booked for {daysBooked} days for this year</div>
       <div>The current profit made is {profit} dollars</div>
       <br /> <br />
+      {alert && (
+          <Alert severity="info">{alertText}</Alert>
+      )}
       {bookings.map((booking, index) => (
         <div key={`booking-${index}`}>
           Booking is {booking.id} for {booking.dateRange.start} to {booking.dateRange.end}
@@ -63,7 +69,8 @@ export default function Login () {
                 makeRequest(`/bookings/accept/${booking.id}`, 'put', undefined, getters.token).then((res) => {
                   // Success comment here
                   if (!('error' in res)) {
-                    alert('Accepted booking');
+                    setAlert(true);
+                    setAlertText('Booking Accepted');
                     const currentBookings = bookings;
                     currentBookings.forEach((query) => {
                       if (query.id === booking.id) {
@@ -86,7 +93,8 @@ export default function Login () {
                 makeRequest(`/bookings/decline/${booking.id}`, 'put', undefined, getters.token).then((res) => {
                   // Success comment here
                   if (!('error' in res)) {
-                    alert('Decline booking');
+                    setAlert(true);
+                    setAlertText('Booking Declined');
                     const currentBookings = bookings;
                     currentBookings.forEach((query) => {
                       if (query.id === booking.id) {

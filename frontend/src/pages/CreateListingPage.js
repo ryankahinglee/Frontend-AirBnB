@@ -6,7 +6,7 @@ import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../imageToURLHelper';
 import { jsonReader } from '../listingUploadHelper';
 import { validateJSON } from '../JSONValidateHelper';
-import { Box, Button, TextField, MenuItem, Select } from '@mui/material';
+import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
 export default function CreateListing () {
   const navigate = useNavigate();
@@ -26,6 +26,9 @@ export default function CreateListing () {
   const [bedroomType, setBedroomType] = React.useState('master');
   const [amenities, setAmenities] = React.useState('');
   const [useVideo, setUseVideo] = React.useState(false);
+  const [emptyFieldAlert, setEmptyFieldAlert] = React.useState(false);
+  const [bedNumAlert, setBedNumAlert] = React.useState(false);
+  const [JSONAlert, setJSONAlert] = React.useState(false);
   React.useEffect(() => {
   }, [bedrooms])
   return (
@@ -104,7 +107,7 @@ export default function CreateListing () {
             setBedrooms([]);
             setAmenities('');
           } else {
-            alert('Please ensure all fields are non-empty');
+            setEmptyFieldAlert(true);
           }
         }}>
         <h3 style={{ color: '#4377cf' }}>
@@ -131,13 +134,17 @@ export default function CreateListing () {
                   setBathrooms(result.metadata.bathrooms);
                   setAmenities(result.metadata.amenities);
                   setBedrooms(result.metadata.bedrooms);
+                  setJSONAlert(false);
                 } else {
-                  alert('Please upload a valid JSON File');
+                  setJSONAlert(true);
                 }
               });
             }}
           />
         </Button>
+        {JSONAlert && (
+          <Alert severity="error">Please upload a valid JSON file</Alert>
+        )}
         <br />
         <TextField
           label="Title"
@@ -260,7 +267,7 @@ export default function CreateListing () {
           />
         </div>)}
         {thumbnail !== '' && (
-          <img style={{ height: '300px', width: '300px' }} src={thumbnail} />
+          <img style={{ height: '300px', width: '300px' }} src={thumbnail} alt={'Thumbnail Image'} />
         )}
         <br />
         <TextField
@@ -326,19 +333,22 @@ export default function CreateListing () {
             onClick={(event) => {
               event.preventDefault();
               const newBedrooms = bedrooms;
-              // if bedcount is nothing or 0, dont allow pushing on. get an error up or alert
               if (bedCount !== '' && bedCount > 0) {
                 newBedrooms.push({ roomType: bedroomType, numBeds: bedCount })
                 setBedrooms(newBedrooms);
                 setBedCount(0);
                 setBedroomType(bedroomType);
+                setBedNumAlert(false);
               } else {
-                alert('Invalid bed number');
+                setBedNumAlert(true);
               }
             }}
           >
             Add Bedroom
           </Button>
+          {bedNumAlert && (
+            <Alert severity="error">Invalid Bed Number</Alert>
+          )}
         </div>
         <br />
         <TextField
@@ -357,6 +367,9 @@ export default function CreateListing () {
             hidden
           />
         </Button>
+        {emptyFieldAlert && (
+          <Alert severity="error">One or more fields are empty. Please fill them. </Alert>
+        )}
         {bedrooms.length > 0 && (
           <h3 style={{ color: '#4377cf' }}>
             Bedrooms Below

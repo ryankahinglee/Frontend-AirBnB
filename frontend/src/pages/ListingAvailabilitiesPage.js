@@ -3,6 +3,7 @@ import { contextVariables } from '../contextVariables';
 import { useNavigate, useParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import Availability from '../components/Availability';
+import { Alert } from '@mui/material';
 export default function ListingAvailabilities () {
   const { getters } = React.useContext(contextVariables);
   const params = useParams();
@@ -12,6 +13,7 @@ export default function ListingAvailabilities () {
   const dateString = date.toISOString().split('T')[0];
   const [createAvailStart, setCreateAvailStart] = React.useState(dateString);
   const [createAvailEnd, setCreateAvailEnd] = React.useState(dateString);
+  const [alert, setAlert] = React.useState(false);
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, getters.token).then((res) => {
       const listing = res.listing;
@@ -41,12 +43,16 @@ export default function ListingAvailabilities () {
             end: createAvailEnd
           });
           setAvailabilities([...newAvailabilities]);
+          setAlert(false);
         } else {
-          alert('Conflict in dates. Please re-enter date range');
+          setAlert(true);
         }
       }}>
         {'Add Availability Range'}
       </button>
+      {alert && (
+          <Alert severity="error">Conflict in dates. Please re-enter date range</Alert>
+      )}
       {availabilities.length > 0 && (
         <div> Current Availabilities Below </div>
       )}
