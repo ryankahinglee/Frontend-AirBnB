@@ -6,6 +6,7 @@ import AvailabilityEdit from './AvailabilityEdit';
 import makeRequest from '../makeRequest';
 import { contextVariables } from '../contextVariables';
 import { Button, Box } from '@mui/material';
+import { styled } from '@mui/system';
 import Star from './Star';
 
 export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published, fullListings }) {
@@ -29,6 +30,9 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       setStarAmount(Math.round(ratingSum / reviews.length))
     }
   }, [fullListings])
+  const DetailLabel = styled('span')({
+    color: '#286ee6'
+  })
   return (
     <Box style={{
       border: 'solid',
@@ -37,19 +41,31 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
       padding: '5px',
     }}>
       <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
-      <div>{`Title: ${title}`}</div>
-      <div>{`Property Type: ${type}`}</div>
-      <div>{`Number of beds: ${bedCounter}`}</div>
-      <div>{`Number of Reviews: ${reviewCounter}`}</div>
-      <div>{`Rating: ${starAmount}`}</div>
-      <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
-      <div>{`Price/night : ${price}`}</div>
-      {
-        (new Array(starAmount)).map((_, index) => (
-          <Star key={`star-${index}`} />
-        )
-        )
-      }
+      <p>
+        <DetailLabel>Title:</DetailLabel>{` ${title}`}
+      </p>
+      <p>
+        <DetailLabel>Property Type:</DetailLabel>{` ${type}`}
+      </p>
+      <p>
+        <DetailLabel>Number of beds:</DetailLabel>{` ${bedCounter}`}
+      </p>
+      <p>
+        <DetailLabel>Number of Bathrooms:</DetailLabel>{` ${numBathrooms}`}
+      </p>
+      <p>
+        <DetailLabel>Price per Night:</DetailLabel>{` ${price}`}
+      </p>
+      <p>
+        <DetailLabel>Number of Reviews:</DetailLabel>{` ${reviewCounter}`}
+      </p>
+      <p>
+        <DetailLabel>Rating:</DetailLabel>{` ${starAmount}`}
+      </p>
+      {(new Array(starAmount).fill(0)).map((_, index) =>
+        (<Star key={`star-${index}`}
+        />)
+      )}
       <Box style={{ display: 'flex', justifyContent: 'center', padding: '5px 0px 0px 0px' }}>
         <EditButton lId={lId} desc={'Edit'} />
         {!publishStatus && (

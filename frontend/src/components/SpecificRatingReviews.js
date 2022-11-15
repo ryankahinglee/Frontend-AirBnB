@@ -6,22 +6,27 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import { styled } from '@mui/system';
 
 export default function SpecificRatingReviews ({ state, stateSetter, reviews, rating }) {
   const handleClose = () => {
     stateSetter(!state);
   };
 
+  const Label = styled('span')({
+    color: '#286ee6'
+  })
+
   return (
     <div>
       <Dialog open={state} onClose={handleClose}>
-        <DialogTitle>{`${rating} Star Reviews`}</DialogTitle>
+        <DialogTitle style={{ color: '#286ee6' }}>{`${rating} Star Reviews`}</DialogTitle>
         <DialogContent>
           {reviews.filter(review => review.rating === rating).map((review, index) => (
-            <div key={`review-${index}`}>
-              Rating: {review.rating} <br />
-              Comment: {review.comment}
-            </div>
+            <p key={`review-${index}`}>
+              <Label>Rating: {review.rating} </Label>
+              <p style={{ width: '400px', overflowWrap: 'break-word' }}>{review.comment}</p>
+            </p>
           ))}
         </DialogContent>
         <DialogActions>

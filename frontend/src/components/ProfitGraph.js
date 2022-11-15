@@ -11,38 +11,43 @@ export default function ProfitGraph ({ lId }) {
   const [plotData, setPlotData] = React.useState();
 
   React.useEffect(() => {
+    if (getters.token === '') {
+      return;
+    }
     makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {
-      const listingBookings = res.bookings.filter(booking => booking.listingId === lId.toString() && booking.status === 'accepted');
-      const filteredData = [];
-      listingBookings.forEach((booking) => {
-        const range = booking.dateRange;
-        let start = new Date().getTime() - new Date(range.start).getTime();
-        start = Math.ceil(start / (1000 * 3600 * 24));
+      if (!('error' in res)) {
+        const listingBookings = res.bookings.filter(booking => booking.listingId === lId.toString() && booking.status === 'accepted');
+        const filteredData = [];
+        listingBookings.forEach((booking) => {
+          const range = booking.dateRange;
+          let start = new Date().getTime() - new Date(range.start).getTime();
+          start = Math.floor(start / (1000 * 3600 * 24));
 
-        if (start <= 30 && start >= 0) {
-          let length = new Date(range.end).getTime() - new Date(range.start).getTime();
-          length = Math.ceil(length / (1000 * 3600 * 24));
-          const price = booking.totalPrice;
-          filteredData.push({ length, start, price });
+          if (start <= 30 && start >= 0) {
+            let length = new Date(range.end).getTime() - new Date(range.start).getTime();
+            length = Math.ceil(length / (1000 * 3600 * 24));
+            const price = booking.totalPrice;
+            filteredData.push({ length, start, price });
+          }
+        })
+        const data = [];
+        for (let i = 0; i <= 30; i += 1) {
+          data.push({
+            daysAgo: i,
+            profit: 0
+          });
         }
-      })
-      const data = [];
-      for (let i = 0; i <= 30; i += 1) {
-        data.push({
-          daysAgo: i,
-          profit: 0
+        filteredData.forEach((res) => {
+          let index = res.start
+          let interval = res.length
+          while (index >= 0 && index <= 30 && interval > 0) {
+            data[index].profit += res.price
+            index -= 1
+            interval -= 1
+          }
         });
+        setPlotData(data);
       }
-      filteredData.forEach((res) => {
-        let index = res.start
-        let interval = res.length
-        while (index >= 0 && index <= 30 && interval > 0) {
-          data[index].profit += res.price
-          index -= 1
-          interval -= 1
-        }
-      });
-      setPlotData(data);
     })
   }, []);
 
