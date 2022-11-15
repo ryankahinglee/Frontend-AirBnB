@@ -10,10 +10,10 @@ export default function Cross ({ images, imagesSetter, img }) {
       height="30px"
       width="30px"
       onClick={() => {
-        const indexDelete = images.indexOf(img)
-        const newImages = [...images]
-        newImages.splice(indexDelete, 1)
-        imagesSetter(newImages)
+        const indexDelete = images.indexOf(img);
+        const newImages = [...images];
+        newImages.splice(indexDelete, 1);
+        imagesSetter(newImages);
       }}
     >
       <line x1="10" y1="10" x2="100" y2="100" stroke="black" strokeWidth="10" />
