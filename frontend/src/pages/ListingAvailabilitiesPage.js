@@ -3,6 +3,7 @@ import { contextVariables } from '../contextVariables';
 import { useNavigate, useParams } from 'react-router-dom';
 import makeRequest from '../makeRequest';
 import Availability from '../components/Availability';
+import AvailabilityAdder from '../components/AvailabilityAdder';
 import { Alert } from '@mui/material';
 export default function ListingAvailabilities () {
   const { getters } = React.useContext(contextVariables);
@@ -22,34 +23,15 @@ export default function ListingAvailabilities () {
   }, [])
   return (
     <div>
-      <input
-        type="date"
-        name="startDate"
-        onChange={event => setCreateAvailStart(event.target.value)}
-        value={createAvailStart}
+      <AvailabilityAdder
+        setCreateAvailStart={setCreateAvailStart}
+        createAvailStart={createAvailStart}
+        setCreateAvailEnd={setCreateAvailEnd}
+        createAvailEnd={createAvailEnd}
+        availabilities={availabilities}
+        setAvailabilities={setAvailabilities}
+        setAlert={setAlert}
       />
-      <input
-        type="date"
-        name="endDate"
-        onChange={event => setCreateAvailEnd(event.target.value)}
-        value={createAvailEnd}
-      />
-      <button onClick={() => {
-        const newAvailabilities = availabilities;
-        // check for conflicts
-        if (!dateConflict(createAvailStart, createAvailEnd, newAvailabilities)) {
-          newAvailabilities.push({
-            start: createAvailStart,
-            end: createAvailEnd
-          });
-          setAvailabilities([...newAvailabilities]);
-          setAlert(false);
-        } else {
-          setAlert(true);
-        }
-      }}>
-        {'Add Availability Range'}
-      </button>
       {alert && (
           <Alert severity="error">Conflict in dates. Please re-enter date range</Alert>
       )}
@@ -81,7 +63,6 @@ export default function ListingAvailabilities () {
         ))
       )}
       <button onClick={() => {
-        // merging of availabilitis then make request
         makeRequest(`/listings/publish/${params.lId}`, 'put', { availability: availabilities }, getters.token).then((res) => {
           if (!('error' in res)) {
             navigate('/mylistings');
@@ -92,13 +73,4 @@ export default function ListingAvailabilities () {
       </button>
     </div>
   );
-}
-
-function dateConflict (start, end, newAvailabilities) {
-  for (const dateRange of newAvailabilities) {
-    if ((new Date(start).getTime() <= new Date(dateRange.end).getTime()) && (new Date(end).getTime() >= new Date(dateRange.start).getTime())) {
-      return true;
-    }
-  }
-  return false;
 }
