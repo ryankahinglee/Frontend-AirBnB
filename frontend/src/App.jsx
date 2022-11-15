@@ -19,7 +19,7 @@ import Home from './pages/HomePage';
 import BookingHistory from './pages/BookingHistoryPage';
 // useContext for light/dark themes, accessibility
 // Global variables
-import { contextVariables } from './contextVariables';
+import { contextVariables } from './helpers/contextVariables';
 // useContext for light/dark themes, accessibility
 
 // Component imports

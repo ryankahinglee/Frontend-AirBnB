@@ -1,12 +1,12 @@
 import React from 'react';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
-import makeRequest from '../makeRequest';
+import makeRequest from '../helpers/makeRequest';
 // https://mui.com/material-ui/react-button/ using Material Ui
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 
-import { contextVariables } from '../contextVariables';
+import { contextVariables } from '../helpers/contextVariables';
 
 export default function Nav () {
   const { getters, setters } = React.useContext(contextVariables);

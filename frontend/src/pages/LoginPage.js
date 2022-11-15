@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { contextVariables } from '../contextVariables';
-import makeRequest from '../makeRequest';
+import { contextVariables } from '../helpers/contextVariables';
+import makeRequest from '../helpers/makeRequest';
 // Importing material ui components
 import { Box, Button, TextField, Alert } from '@mui/material';
 

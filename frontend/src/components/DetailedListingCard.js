@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import EditButton from './EditButton';
-import DeleteButton from './DeleteButton';
+import EditListingButton from './EditListingButton';
+import DeleteListingButton from './DeleteListingButton';
 import AvailabilityEdit from './AvailabilityEdit';
-import makeRequest from '../makeRequest';
-import { contextVariables } from '../contextVariables';
+import makeRequest from '../helpers/makeRequest';
+import { contextVariables } from '../helpers/contextVariables';
 import { Button, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import Star from './Star';
@@ -67,7 +67,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         />)
       )}
       <Box style={{ display: 'flex', justifyContent: 'center', padding: '5px 0px 0px 0px' }}>
-        <EditButton lId={lId} desc={'Edit'} />
+        <EditListingButton lId={lId} desc={'Edit'} />
         {!publishStatus && (
           <AvailabilityEdit lId={lId} desc={'Publish Listing'} />
         )}
@@ -80,7 +80,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
             Unpublish
           </Button>
         )}
-        <DeleteButton lId={lId} desc={'Delete'} listingSetter={listingSetter} />
+        <DeleteListingButton lId={lId} desc={'Delete'} listingSetter={listingSetter} />
       </Box>
 
     </Box>

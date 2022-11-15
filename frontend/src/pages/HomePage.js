@@ -4,13 +4,13 @@ import {
   useNavigate,
   createSearchParams
 } from 'react-router-dom';
-import makeRequest from '../makeRequest';
+import makeRequest from '../helpers/makeRequest';
 
 import ListingCard from '../components/ListingCard';
 import SearchFilter from '../components/SearchFilter';
 import { Box, TextField } from '@mui/material'
 
-import { contextVariables } from '../contextVariables';
+import { contextVariables } from '../helpers/contextVariables';
 import { styled } from '@mui/system';
 
 export default function Home () {

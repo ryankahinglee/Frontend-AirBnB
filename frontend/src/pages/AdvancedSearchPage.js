@@ -3,8 +3,8 @@ import {
   useSearchParams
 } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
-import { contextVariables } from '../contextVariables';
-import makeRequest from '../makeRequest';
+import { contextVariables } from '../helpers/contextVariables';
+import makeRequest from '../helpers/makeRequest';
 import ListingCard from '../components/ListingCard';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';

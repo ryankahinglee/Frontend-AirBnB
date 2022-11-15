@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { contextVariables } from '../contextVariables';
-import makeRequest from '../makeRequest';
+import { contextVariables } from '../helpers/contextVariables';
+import makeRequest from '../helpers/makeRequest';
 import PropTypes from 'prop-types'
 // Components from https://recharts.org/en-US/examples/SimpleBarChart from recharts library
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from 'recharts';

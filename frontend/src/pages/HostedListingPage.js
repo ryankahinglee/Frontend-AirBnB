@@ -1,6 +1,6 @@
 import React from 'react';
-import { contextVariables } from '../contextVariables';
-import makeRequest from '../makeRequest';
+import { contextVariables } from '../helpers/contextVariables';
+import makeRequest from '../helpers/makeRequest';
 import DetailedListingCard from '../components/DetailedListingCard';
 import ProfitGraph from '../components/ProfitGraph';
 import { useNavigate, createSearchParams } from 'react-router-dom';

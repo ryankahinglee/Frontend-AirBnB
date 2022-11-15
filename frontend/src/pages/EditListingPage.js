@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { contextVariables } from '../contextVariables';
-import makeRequest from '../makeRequest';
+import { contextVariables } from '../helpers/contextVariables';
+import makeRequest from '../helpers/makeRequest';
 import Bedroom from '../components/Bedroom';
-import { fileToDataUrl } from '../imageToURLHelper';
-import Cross from '../components/Cross';
+import { fileToDataUrl } from '../helpers/imageToURLHelper';
+import ImageDeleteButton from '../components/ImageDeleteButton';
 import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
 export default function EditListing () {
@@ -381,7 +381,7 @@ export default function EditListing () {
           images.map((img, index) => (
             <div key={`image-${index}`}>
               <img style={{ height: '50px', width: '50px' }} src={img} alt={'Thumbnail Image'} />
-              <Cross images={images} imagesSetter={setImages} img={img}
+              <ImageDeleteButton images={images} imagesSetter={setImages} img={img}
               />
             </div>
           ))

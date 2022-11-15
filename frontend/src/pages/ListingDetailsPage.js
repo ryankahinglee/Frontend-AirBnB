@@ -1,7 +1,7 @@
 import React from 'react';
-import { contextVariables } from '../contextVariables';
+import { contextVariables } from '../helpers/contextVariables';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import makeRequest from '../makeRequest';
+import makeRequest from '../helpers/makeRequest';
 import Review from '../components/Review';
 import Booking from '../components/Booking';
 import Star from '../components/Star';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { contextVariables } from '../contextVariables';
+import { contextVariables } from '../helpers/contextVariables';
 import { useNavigate, useParams } from 'react-router-dom';
-import makeRequest from '../makeRequest';
+import makeRequest from '../helpers/makeRequest';
 import Availability from '../components/Availability';
 import AvailabilityAdder from '../components/AvailabilityAdder';
 import { Alert } from '@mui/material';
