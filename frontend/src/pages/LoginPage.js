@@ -28,7 +28,6 @@ export default function Login () {
         }}
         onSubmit={(e) => {
           e.preventDefault();
-          // Send fetch
           const data = { email, password };
           setters.setOwner(email);
           makeRequest('/user/auth/login', 'post', data, '').then((res) => {
@@ -38,9 +37,7 @@ export default function Login () {
             } else {
               setAlert(true);
             }
-          })
-          // Change/show popup of successful login
-          // Clear input fields
+          });
           setEmail('');
           setPassword('');
         }}

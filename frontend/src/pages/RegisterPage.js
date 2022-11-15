@@ -32,7 +32,6 @@ export default function Register () {
         }}
         onSubmit={(e) => {
           e.preventDefault();
-
           if (password === '') {
             setAlertPassword(true);
             setAlertEmail(false);
@@ -41,8 +40,6 @@ export default function Register () {
             setSamePassword(false);
             return;
           }
-
-          // Send fetch
           const data = { name, email, password };
           setters.setOwner(email);
           makeRequest('/user/auth/register', 'post', data, '').then((res) => {
@@ -54,8 +51,6 @@ export default function Register () {
               setAlertPassword(false);
             }
           })
-
-          // Clear input fields
           setName('');
           setEmail('');
           setPassword('');
