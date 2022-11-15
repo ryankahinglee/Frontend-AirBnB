@@ -1,0 +1,27 @@
+{
+  "title": "Ocean Villa",
+  "address": {
+    "streetDetails": "159 Awesome St",
+    "city": "Sydney",
+    "state": "NSW",
+    "postcode": 2141,
+    "country": "Australia"
+  },
+  "price": 350,
+  "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",
+  "metadata": {
+    "type": "Villa",
+    "bathrooms": 5,
+    "amenities": "Toilet, Garage",
+    "bedrooms": [
+      {
+        "roomType": "master",
+        "numBeds": "2323"
+      },
+      {
+        "roomType": "children",
+        "numBeds": "5"
+      }
+    ]
+  }
+}
