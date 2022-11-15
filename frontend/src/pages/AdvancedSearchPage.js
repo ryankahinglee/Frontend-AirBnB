@@ -51,8 +51,18 @@ export default function AdvancedSearch () {
         }
         for (const [key, value] of Object.entries(conditions)) {
           if (key === 'title' && queryListing.title.toLowerCase() !== value.toLowerCase()) {
-            res.splice(i, 1);
-            break;
+            const lowerCaseTitle = queryListing.title.toLowerCase();
+            const subStrings = (value.toLowerCase()).split(/\s+/);
+            let containsString = false;
+            subStrings.forEach((string) => {
+              if (lowerCaseTitle.includes(string)) {
+                containsString = true;
+              }
+            })
+            if (containsString === false) {
+              res.splice(i, 1);
+              break;
+            }
           } else if (key === 'city' && queryListing.address.city !== value) {
             res.splice(i, 1);
             break;

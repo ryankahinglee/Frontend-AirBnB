@@ -63,6 +63,10 @@ export default function BookingHistory () {
   const Header = styled('h2')({
     color: '#286ee6'
   })
+
+  const DetailLabel = styled('span')({
+    color: '#286ee6'
+  })
   return (
     <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '94vh', flexDirection: 'column', margin: '5px' }}>
       <Box sx={{
@@ -103,11 +107,17 @@ export default function BookingHistory () {
               justifyContent: 'center'
             }}
           >
-            <h3 style={{ color: '#286ee6' }}>Booking</h3>
-            <p>Booking id is {booking.id}</p>
-            <p>Booking owner is {booking.owner}</p>
-            <p>Length of booking is from <br />{booking.dateRange.start} to {booking.dateRange.end}</p>
-            <p>Current status is {booking.status}</p>
+            <h3 style={{ color: '#286ee6', width: '240px' }}>Booking</h3>
+            <p>
+              <DetailLabel>Booking Owner: </DetailLabel>{booking.owner}
+            </p>
+            <p>
+              <DetailLabel>Length of booking</DetailLabel>
+              <p>{booking.dateRange.start} to {booking.dateRange.end}</p>
+            </p>
+            <p>
+              <DetailLabel>Current Status: </DetailLabel>{booking.status}
+            </p>
             {booking.status === 'pending' && (<div>
               <Button
                 variant='contained'

@@ -95,7 +95,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
             <DialogContentText>
               Tell others the details of your stay!
             </DialogContentText>
-            <br></br><br></br><br></br>
+            <br /><br /><br />
             <Slider
               aria-label="Rating"
               defaultValue={3}

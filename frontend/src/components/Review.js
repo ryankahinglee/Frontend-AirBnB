@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { Box } from '@mui/material'
+import { styled } from '@mui/system';
 
 export default function Review ({ rating, comment }) {
+  const Label = styled('span')({
+    color: '#286ee6'
+  })
+
   return (
     <Box
       sx={{
@@ -18,8 +23,10 @@ export default function Review ({ rating, comment }) {
       name='box'
     >
       <h3 style={{ color: '#286ee6' }}>Review</h3>
-      <p>Rating: {rating}</p>
-      <p>{comment}</p>
+      <p>
+        <Label>Rating:</Label> {rating}
+      </p>
+      <p style={{ overflowWrap: 'break-word' }}>{comment}</p>
     </Box>
   );
 }

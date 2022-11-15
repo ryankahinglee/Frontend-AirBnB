@@ -42,6 +42,7 @@ export default function ListingDetails () {
   const [bookingEnd, setBookingEnd] = React.useState(dateString);
   const [openReview, setOpenReview] = React.useState(false);
   const [alert, setAlert] = React.useState(false);
+  const [invalidAlert, setInvalidAlert] = React.useState(false);
   const [searchParams] = useSearchParams();
   React.useEffect(() => {
     makeRequest(`/listings/${params.lId}`, 'get', undefined, '').then((res) => {
@@ -151,6 +152,9 @@ export default function ListingDetails () {
   const Header = styled('h2')({
     color: '#286ee6'
   })
+  const DetailLabel = styled('span')({
+    color: '#286ee6'
+  })
   return (
     <Box sx={{
       display: 'flex',
@@ -172,19 +176,36 @@ export default function ListingDetails () {
         }}>
           <Box sx={{ width: '300px' }}>
             <Header style={{ textAlign: 'center' }}>Details</Header>
-            <div>{`Title: ${title}`}</div>
-            <div>{`Address: ${address}`}</div>
-            <div>{`Amenities: ${amenities}`}</div>
-            {perStay && (
-              <div>{`Price per Stay: ${price}`}</div>
-            )}
-            {perStay === false && (
-              <div>{`Price per Night: ${price}`}</div>
-            )}
-            <div>{`Property Type: ${type}`}</div>
-            <div>{`Number of bedrooms: ${numBedrooms}`}</div>
-            <div>{`Number of beds: ${numBeds}`}</div>
-            <div>{`Number of Bathrooms: ${numBathrooms}`}</div>
+            <p>
+              <DetailLabel>Title:</DetailLabel>{` ${title}`}
+            </p>
+            <p>
+              <DetailLabel>Address:</DetailLabel>{` ${address}`}
+            </p>
+            <p>
+              <DetailLabel>Amenities:</DetailLabel>{` ${amenities}`}
+            </p>
+            <p>
+              {perStay && (
+                <DetailLabel>Price per Stay:</DetailLabel>
+              )}
+              {!perStay && (
+                <DetailLabel>Price per Night:</DetailLabel>
+              )}
+              {` ${price}`}
+            </p>
+            <p>
+              <DetailLabel>Property Type:</DetailLabel>{` ${type}`}
+            </p>
+            <p>
+              <DetailLabel>Number of bedrooms:</DetailLabel>{` ${numBedrooms}`}
+            </p>
+            <p>
+              <DetailLabel>Number of beds:</DetailLabel>{` ${numBeds}`}
+            </p>
+            <p>
+              <DetailLabel>Number of Bathrooms:</DetailLabel>{` ${numBathrooms}`}
+            </p>
           </Box>
           <Box>
           <Header style={{ textAlign: 'center' }}>Property Images</Header>
@@ -259,7 +280,8 @@ export default function ListingDetails () {
                 label="Start date"
                 value={bookingStart}
                 onChange={(newDate) => {
-                  const stringDate = `${newDate.$y}-${newDate.$M}-${newDate.$D}`
+                  const month = (parseInt(newDate.$M) + 1).toString()
+                  const stringDate = `${newDate.$y}-${month}-${newDate.$D}`
                   setBookingStart(stringDate);
                 }}
                 renderInput={(params) => <TextField {...params} />}
@@ -267,16 +289,21 @@ export default function ListingDetails () {
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                label="Start date"
+                label="End date"
                 value={bookingEnd}
                 onChange={(newDate) => {
-                  const stringDate = `${newDate.$y}-${newDate.$M}-${newDate.$D}`
+                  const month = (parseInt(newDate.$M) + 1).toString()
+                  const stringDate = `${newDate.$y}-${month}-${newDate.$D}`
                   setBookingEnd(stringDate);
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
             <Button sx={{ height: '56px' }} variant='contained' onClick={() => {
+              if (new Date(bookingEnd) - new Date(bookingStart) <= 0) {
+                setInvalidAlert(true);
+                return;
+              }
               makeRequest(`/bookings/new/${params.lId}`, 'POST', {
                 dateRange: {
                   start: bookingStart,
@@ -295,11 +322,15 @@ export default function ListingDetails () {
                   });
                   setOwnedBookings(newOwnedBookings);
                   setAlert(true);
+                  setInvalidAlert(false);
                 }
               })
             }}>
               Make Booking
             </Button>
+            {invalidAlert && (
+              <Alert severity="error">End date must be after start date!</Alert>
+            )}
             {alert && (
             <Alert severity="success">Booking Made!</Alert>
             )}

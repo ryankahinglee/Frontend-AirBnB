@@ -17,7 +17,7 @@ export default function Register () {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '94vh' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '92vh' }}>
       <form
         style={{
           border: 'solid',
