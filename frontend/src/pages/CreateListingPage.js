@@ -29,8 +29,6 @@ export default function CreateListing () {
   const [emptyFieldAlert, setEmptyFieldAlert] = React.useState(false);
   const [bedNumAlert, setBedNumAlert] = React.useState(false);
   const [JSONAlert, setJSONAlert] = React.useState(false);
-  React.useEffect(() => {
-  }, [bedrooms])
   return (
     <Box sx={
       {
