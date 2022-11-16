@@ -9,9 +9,9 @@ describe('ImageDeleteButton', () => {
     const wrapper = shallow(<ImageDeleteButton images={['nice', 'five', 'big']} imagesSetter={noop} img={'nice'}/>);
     const svg = wrapper.find('svg');
     expect(svg).toHaveLength(1);
-    expect(svg.prop('viewBox')).toBe('0 0 200 200');
-    expect(svg.prop('height')).toBe('30px');
-    expect(svg.prop('width')).toBe('30px');
+    expect(svg.prop('viewBox')).toBe('0 0 100 100');
+    expect(svg.prop('height')).toBe('20px');
+    expect(svg.prop('width')).toBe('20px');
     const lines = wrapper.find('line');
     expect(lines).toHaveLength(2);
   });
