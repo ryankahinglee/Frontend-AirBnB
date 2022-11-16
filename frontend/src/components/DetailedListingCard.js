@@ -9,27 +9,21 @@ import { Button, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import Star from './Star';
 
-export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published, fullListings }) {
-  const [bedCounter, setBedCounter] = React.useState(0);
-  const [reviewCounter, setReviewCounter] = React.useState(0);
-  const [starAmount, setStarAmount] = React.useState(0);
+export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
   const [publishStatus, setPublishStatus] = React.useState(published);
   const { getters } = React.useContext(contextVariables);
-  React.useEffect(() => {
-    let bedNum = 0
-    for (const bedroom of bedrooms) {
-      bedNum += parseInt(bedroom.numBeds)
-    }
-    setBedCounter(bedNum)
-    setReviewCounter(reviews.length)
-    let ratingSum = 0
-    for (const review of reviews) {
-      ratingSum += parseInt(review.rating)
-    }
-    if (reviews.length !== 0) {
-      setStarAmount(Math.round(ratingSum / reviews.length))
-    }
-  }, [fullListings])
+  let bedNum = 0;
+  for (const bedroom of bedrooms) {
+    bedNum += parseInt(bedroom.numBeds)
+  }
+  let ratingSum = 0;
+  for (const review of reviews) {
+    ratingSum += parseInt(review.rating)
+  }
+  let starAmount = 0;
+  if (reviews.length !== 0) {
+    starAmount = Math.round(ratingSum / reviews.length);
+  }
   const DetailLabel = styled('span')({
     color: '#286ee6'
   })
@@ -48,7 +42,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         <DetailLabel>Property Type:</DetailLabel>{` ${type}`}
       </p>
       <p>
-        <DetailLabel>Number of beds:</DetailLabel>{` ${bedCounter}`}
+        <DetailLabel>Number of beds:</DetailLabel>{` ${bedNum}`}
       </p>
       <p>
         <DetailLabel>Number of Bathrooms:</DetailLabel>{` ${numBathrooms}`}
@@ -57,12 +51,19 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
         <DetailLabel>Price per Night:</DetailLabel>{` ${price}`}
       </p>
       <p>
-        <DetailLabel>Number of Reviews:</DetailLabel>{` ${reviewCounter}`}
+        <DetailLabel>Number of Reviews:</DetailLabel>{` ${reviews.length}`}
       </p>
-      <p>
-        <DetailLabel>Rating:</DetailLabel>{` ${starAmount}`}
-      </p>
-      {(new Array(starAmount).fill(0)).map((_, index) =>
+      {starAmount > 0 && (
+        <p>
+          <DetailLabel>Rating:</DetailLabel>{` ${starAmount}`}
+        </p>
+      )}
+      {starAmount === 0 && (
+        <p>
+          <DetailLabel>Not Rated</DetailLabel>
+        </p>
+      )}
+      {starAmount > 0 && (new Array(starAmount).fill(0)).map((_, index) =>
         (<Star key={`star-${index}`}
         />)
       )}
@@ -96,6 +97,5 @@ DetailedListingCard.propTypes = {
   price: PropTypes.number,
   lId: PropTypes.number,
   listingSetter: PropTypes.func,
-  published: PropTypes.bool,
-  fullListings: PropTypes.array
+  published: PropTypes.bool
 }

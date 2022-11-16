@@ -79,7 +79,6 @@ export default function HostedListing () {
                 setFullListings(fullListings.filter(listing => listing.id !== lId));
               }}
               published={listing.published}
-              fullListings={fullListings}
             />
             <ProfitBox>
               <h2 style={{ color: '#286ee6' }}>Profit margins</h2>
