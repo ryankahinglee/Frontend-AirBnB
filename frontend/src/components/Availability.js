@@ -4,14 +4,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField, Button, Box } from '@mui/material';
-import { styled } from '@mui/system';
 
 export default function Availability ({ start, end, availStartSetter, availEndSetter, availDelete }) {
-  const AvailabilityBox = styled(Box)({
-    margin: '10px'
-  })
   return (
-    <AvailabilityBox>
+    <Box sx={{ margin: '10px' }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Start date"
@@ -26,7 +22,7 @@ export default function Availability ({ start, end, availStartSetter, availEndSe
       </LocalizationProvider>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          label="Start date"
+          label="End date"
           value={end}
           onChange={(newDate) => {
             const month = (parseInt(newDate.$M) + 1).toString()
@@ -39,7 +35,7 @@ export default function Availability ({ start, end, availStartSetter, availEndSe
       <Button variant='outlined' onClick={availDelete}>
         Remove Date Range
       </Button>
-    </AvailabilityBox>
+    </Box>
   );
 }
 Availability.propTypes = {
