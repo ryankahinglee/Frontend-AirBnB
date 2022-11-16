@@ -1,7 +1,6 @@
 import { shallow } from 'enzyme';
 import Review from '../components/Review';
 import * as React from 'react';
-import { Box } from '@mui/material';
 
 describe('Review', () => {
   it('renders Review component', () => {
@@ -10,14 +9,10 @@ describe('Review', () => {
     expect(h3).toHaveLength(1);
     const ps = wrapper.find('p');
     expect(ps).toHaveLength(2);
-    const box = wrapper.find(Box);
-    expect(box).toHaveLength(1);
   });
   it('renders Review component with props', () => {
     const wrapper = shallow(<Review rating={5} comment={'Awesome'}/>);
     const h3 = wrapper.find('h3');
-    const box = wrapper.find(Box);
-    expect(box).toHaveLength(1);
     expect(h3).toHaveLength(1);
     expect(h3.text()).toStrictEqual('Review');
     const ps = wrapper.find('p');
@@ -30,8 +25,6 @@ describe('Review', () => {
   it('renders Review component with empty comment', () => {
     const wrapper = shallow(<Review rating={5} comment={''}/>);
     const h3 = wrapper.find('h3');
-    const box = wrapper.find(Box);
-    expect(box).toHaveLength(1);
     expect(h3).toHaveLength(1);
     expect(h3.text()).toStrictEqual('Review');
     const ps = wrapper.find('p');

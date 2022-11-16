@@ -32,15 +32,15 @@ describe('Availability', () => {
     const wrapper = shallow(<Availability start={'dummyDate'} end={'dummyDate2'} availStartSetter={mockFn} availEndSetter={noop} availDelete={noop} />);
     const inputs = wrapper.find(DatePicker)
     expect(inputs).toHaveLength(2);
-    const startInput = inputs.get(0);
-    expect(shallow(startInput).prop('value')).toBe('dummyDate');
+    const startInput = shallow(inputs.get(0));
+    expect(startInput.prop('value')).toBe('dummyDate');
     const event = {
-      target: {
-        value: 'value'
-      }
+      $M: 1,
+      $Y: 1,
+      $D: 1
     }
     startInput.simulate('change', event);
-    expect(mockFn).toHaveBeenCalledWith('value');
+    expect(mockFn).toHaveBeenCalledWith('1-2-1');
     expect(mockFn).toHaveBeenCalledTimes(1);
   });
   it('should trigger the end date on change function on change', () => {
@@ -48,15 +48,15 @@ describe('Availability', () => {
     const wrapper = shallow(<Availability start={'dummyDate'} end={'dummyDate2'} availStartSetter={mockFn} availEndSetter={mockFn} availDelete={noop} />);
     const inputs = wrapper.find(DatePicker)
     expect(inputs).toHaveLength(2);
-    const endInput = inputs.get(1);
-    expect(shallow(endInput).prop('value')).toBe('dummyDate2');
+    const endInput = shallow(inputs.get(1));
+    expect(endInput.prop('value')).toBe('dummyDate2');
     const event = {
-      target: {
-        value: 'value'
-      }
+      $M: 1,
+      $Y: 1,
+      $D: 1
     }
     endInput.simulate('change', event);
-    expect(mockFn).toHaveBeenCalledWith('value');
+    expect(mockFn).toHaveBeenCalledWith('1-2-1');
     expect(mockFn).toHaveBeenCalledTimes(1);
   });
   it('should change the availabilty start input value on change', () => {
@@ -67,15 +67,15 @@ describe('Availability', () => {
     const wrapper = shallow(<Availability start={startDate} end={'dummyDate2'} availStartSetter={mockFn} availEndSetter={noop} availDelete={noop} />);
     const inputs = wrapper.find(DatePicker)
     expect(inputs).toHaveLength(2);
-    const startInput = inputs.get(0);
-    expect(shallow(startInput).prop('value')).toBe('dummyDate');
+    const startInput = shallow(inputs.get(0));
+    expect(startInput.prop('value')).toBe('dummyDate');
     const event = {
-      target: {
-        value: 'value'
-      }
+      $M: 1,
+      $Y: 1,
+      $D: 1
     }
     startInput.simulate('change', event);
-    expect(startDate).toStrictEqual('value');
+    expect(startDate).toStrictEqual('1-2-1');
   });
   it('should change the availabilty end input value on change', () => {
     const mockFn = (value) => {
@@ -85,14 +85,14 @@ describe('Availability', () => {
     const wrapper = shallow(<Availability start={'dummyDate'} end={endDate} availStartSetter={mockFn} availEndSetter={mockFn} availDelete={noop} />);
     const inputs = wrapper.find(DatePicker)
     expect(inputs).toHaveLength(2);
-    const endInput = inputs.get(1)
-    expect(shallow(endInput).prop('value')).toBe('dummyDate2');
+    const endInput = shallow(inputs.get(1));
+    expect(endInput.prop('value')).toBe('dummyDate2');
     const event = {
-      target: {
-        value: 'value'
-      }
+      $M: 1,
+      $Y: 1,
+      $D: 1
     }
     endInput.simulate('change', event);
-    expect(endDate).toStrictEqual('value');
+    expect(endDate).toStrictEqual('1-2-1');
   });
 });

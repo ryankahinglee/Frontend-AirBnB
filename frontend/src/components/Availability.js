@@ -14,7 +14,7 @@ export default function Availability ({ start, end, availStartSetter, availEndSe
           value={start}
           onChange={(newDate) => {
             const month = (parseInt(newDate.$M) + 1).toString()
-            const stringDate = `${newDate.$y}-${month}-${newDate.$D}`
+            const stringDate = `${newDate.$Y}-${month}-${newDate.$D}`
             availStartSetter(stringDate);
           }}
           renderInput={(params) => <TextField {...params} />}
@@ -26,7 +26,7 @@ export default function Availability ({ start, end, availStartSetter, availEndSe
           value={end}
           onChange={(newDate) => {
             const month = (parseInt(newDate.$M) + 1).toString()
-            const stringDate = `${newDate.$y}-${month}-${newDate.$D}`
+            const stringDate = `${newDate.$Y}-${month}-${newDate.$D}`
             availEndSetter(stringDate);
           }}
           renderInput={(params) => <TextField {...params} />}
