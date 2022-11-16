@@ -8,26 +8,24 @@ export default function Review ({ rating, comment }) {
     color: '#286ee6'
   })
 
+  const ReviewBox = styled(Box)({
+    border: 'solid',
+    borderRadius: '10px',
+    borderColor: '#6392e3 ',
+    borderWidth: '0.1px',
+    padding: '5px',
+    margin: '5px',
+    textAlign: 'center',
+    width: '200px'
+  })
   return (
-    <Box
-      sx={{
-        border: 'solid',
-        borderRadius: '10px',
-        borderColor: '#6392e3 ',
-        borderWidth: '0.1px',
-        padding: '5px',
-        margin: '5px',
-        textAlign: 'center',
-        width: '200px'
-      }}
-      name='box'
-    >
+    <ReviewBox name='box'>
       <h3 style={{ color: '#286ee6' }}>Review</h3>
       <p>
         <Label>Rating:</Label> {rating}
       </p>
       <p style={{ overflowWrap: 'break-word' }}>{comment}</p>
-    </Box>
+    </ReviewBox>
   );
 }
 

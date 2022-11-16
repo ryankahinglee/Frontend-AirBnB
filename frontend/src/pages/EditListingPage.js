@@ -51,14 +51,7 @@ export default function EditListing () {
     })
   }, [])
   return (
-    <Box sx={
-      {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '40%'
-      }
-    }>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <form
         style={{
           border: 'solid',

@@ -5,10 +5,10 @@ export default function ImageDeleteButton ({ images, imagesSetter, img }) {
   // https://riptutorial.com/svg/example/10317/draw-a-cross-using-diagonal-red-lines
   return (
     <svg
-      style={{ paddingLeft: '10px', paddingBottom: '0px' }}
-      viewBox="0 0 200 200"
-      height="30px"
-      width="30px"
+      style={{ padding: '10px' }}
+      viewBox="0 0 100 100"
+      height="20px"
+      width="20px"
       onClick={() => {
         const indexDelete = images.indexOf(img);
         const newImages = [...images];

@@ -6,6 +6,7 @@ import { contextVariables } from '../helpers/contextVariables';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slider, Box } from '@mui/material'
 import makeRequest from '../helpers/makeRequest';
 import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'
+import { styled } from '@mui/system';
 
 export default function ListingCard ({ id, title, thumbnail, reviews, bookings }) {
   const [rating, setRating] = React.useState(3);
@@ -54,19 +55,21 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       conditions[key] = value;
     }
   }
+
+  const ListingBox = styled(Box)({
+    display: 'flex',
+    width: '299.8px',
+    height: '400px',
+    margin: '10px 10px',
+    border: 'solid',
+    borderWidth: '0.1vh',
+    borderRadius: '5px',
+    borderColor: '##6392e3',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  })
   return (
-    <Box sx={{
-      display: 'flex',
-      width: '299.8px',
-      height: '400px',
-      margin: '10px 10px',
-      border: 'solid',
-      borderWidth: '0.1vh',
-      borderRadius: '5px',
-      borderColor: '##6392e3',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-    }}>
+    <ListingBox>
       <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <Box sx={{
         display: 'flex',
@@ -141,7 +144,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
       }}>
         View Details
       </Button>
-    </Box>
+    </ListingBox>
   );
 }
 ListingCard.propTypes = {

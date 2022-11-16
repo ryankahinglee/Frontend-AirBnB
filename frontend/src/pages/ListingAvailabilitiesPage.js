@@ -4,7 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import makeRequest from '../helpers/makeRequest';
 import Availability from '../components/Availability';
 import AvailabilityAdder from '../components/AvailabilityAdder';
-import { Alert } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
+import { styled } from '@mui/system';
+
 export default function ListingAvailabilities () {
   const { getters } = React.useContext(contextVariables);
   const params = useParams();
@@ -21,8 +23,26 @@ export default function ListingAvailabilities () {
       setAvailabilities(listing.availability);
     })
   }, [])
+
+  const Page = styled(Box)({
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '92vh',
+    flexDirection: 'column'
+  })
+
+  const HeaderTwo = styled('h2')({
+    color: '#286ee6'
+  })
+
+  const HeaderThree = styled('h3')({
+    color: '#286ee6'
+  })
+
   return (
-    <div>
+    <Page>
+      <HeaderTwo>Create Avaliabilities</HeaderTwo>
       <AvailabilityAdder
         setCreateAvailStart={setCreateAvailStart}
         createAvailStart={createAvailStart}
@@ -36,7 +56,7 @@ export default function ListingAvailabilities () {
           <Alert severity="error">Conflict in dates. Please re-enter date range</Alert>
       )}
       {availabilities.length > 0 && (
-        <div> Current Availabilities Below </div>
+        <HeaderThree> Current Availabilities Below </HeaderThree>
       )}
       {availabilities.length > 0 && (
         availabilities.map((data, index) => (
@@ -62,7 +82,7 @@ export default function ListingAvailabilities () {
           />
         ))
       )}
-      <button onClick={() => {
+      <Button variant='contained' sx = {{ margin: '10px' }} onClick={() => {
         makeRequest(`/listings/publish/${params.lId}`, 'put', { availability: availabilities }, getters.token).then((res) => {
           if (!('error' in res)) {
             navigate('/mylistings');
@@ -70,7 +90,7 @@ export default function ListingAvailabilities () {
         })
       }}>
         {'Go Live!'}
-      </button>
-    </div>
+      </Button>
+    </Page>
   );
 }

@@ -155,25 +155,29 @@ export default function ListingDetails () {
   const DetailLabel = styled('span')({
     color: '#286ee6'
   })
+
+  const PageBox = styled(Box)({
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '92vh',
+    flexDirection: 'column',
+    margin: '5px'
+  })
+
+  const UpperBox = styled(Box)({
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    border: 'solid',
+    borderColor: '#6392e3',
+    borderWidth: '0.1px',
+    flexWrap: 'wrap'
+  })
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      height: '92vh',
-      flexDirection: 'column  ',
-      margin: '5px'
-    }}>
+    <PageBox>
       <Box>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          border: 'solid',
-          borderColor: '#6392e3',
-          borderWidth: '0.1px',
-          flexWrap: 'wrap'
-        }}>
+        <UpperBox>
           <Box sx={{ width: '300px' }}>
             <Header style={{ textAlign: 'center' }}>Details</Header>
             <p>
@@ -213,7 +217,7 @@ export default function ListingDetails () {
               <ImageDisplay images={images} thumbnail={thumbnail} title={title} />
             }
           </Box>
-        </Box>
+        </UpperBox>
       </Box>
       <br />
       <Header>Reviews</Header>
@@ -341,6 +345,6 @@ export default function ListingDetails () {
       <Button variant='contained' onClick={() => { navigate('/'); }}>
         Back to Listings
       </Button>
-    </Box>
+    </PageBox>
   );
 }

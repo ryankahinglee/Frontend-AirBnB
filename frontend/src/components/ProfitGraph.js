@@ -64,7 +64,7 @@ export default function ProfitGraph ({ lId }) {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="daysAgo">
+      <XAxis dataKey="daysAgo" reversed>
         <Label value="Days ago" position="bottom" offset={30}></Label>
       </XAxis>
       <YAxis>
