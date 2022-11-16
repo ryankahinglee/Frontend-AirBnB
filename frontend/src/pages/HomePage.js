@@ -106,9 +106,7 @@ export default function Home () {
         <TextField
           label="Search by Title"
           type="search"
-          style={{
-            height: '56px'
-          }}
+          style={{ height: '56px', margin: '0px 10px' }}
           onChange={event => setTitle(event.target.value)}
           onKeyPress={event => {
             if (event.key === 'Enter') {

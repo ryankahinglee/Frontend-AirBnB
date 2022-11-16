@@ -1,31 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { MenuItem, Select, TextField, Button } from '@mui/material';
+import { MenuItem, Select, TextField, Button, Box } from '@mui/material';
+import { BedroomBox } from '../components/BedroomBox'
 
 export default function Bedroom ({ bedroomType, bedCount, onBedroomTypeChange, onBedCountChange, bedroomDelete }) {
   return (
-    <div
-      style={{
-        border: 'solid',
-        borderColor: '#bfbfbf',
-        borderWidth: '0.1vh',
-        borderRadius: '5px',
-        padding: '10px',
-        margin: '10px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '300px'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          width: '300px'
-        }}
-      >
+    <BedroomBox>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '300px' }}>
         <Select
           value={bedroomType}
           onChange={event => onBedroomTypeChange(event.target.value)}
@@ -43,7 +24,7 @@ export default function Bedroom ({ bedroomType, bedCount, onBedroomTypeChange, o
           value={bedCount}
           type="number"
         />
-      </div>
+      </Box>
       <Button
         style={{ margin: '10px' }}
         variant="contained"
@@ -51,7 +32,7 @@ export default function Bedroom ({ bedroomType, bedCount, onBedroomTypeChange, o
       >
         Delete Bedroom
       </Button>
-    </div>
+    </BedroomBox>
   );
 }
 

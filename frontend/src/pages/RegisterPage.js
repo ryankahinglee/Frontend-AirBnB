@@ -4,6 +4,7 @@ import { contextVariables } from '../helpers/contextVariables';
 import makeRequest from '../helpers/makeRequest';
 // From material ui
 import { Box, TextField, Alert, Button } from '@mui/material';
+import { FormBox } from '../components/FormBox';
 
 export default function Register () {
   const [name, setName] = React.useState('');
@@ -18,44 +19,7 @@ export default function Register () {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '92vh' }}>
-      <form
-        style={{
-          border: 'solid',
-          borderColor: '#6392e3',
-          borderWidth: '0.1vh',
-          borderRadius: '5px',
-          padding: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '250px'
-        }}
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (password === '') {
-            setAlertPassword(true);
-            setAlertEmail(false);
-            return;
-          } else if (password !== confirmPassword) {
-            setSamePassword(false);
-            return;
-          }
-          const data = { name, email, password };
-          setters.setOwner(email);
-          makeRequest('/user/auth/register', 'post', data, '').then((res) => {
-            if (res.error === undefined) {
-              setters.setToken(res.token);
-              navigate('/');
-            } else {
-              setAlertEmail(true);
-              setAlertPassword(false);
-            }
-          })
-          setName('');
-          setEmail('');
-          setPassword('');
-          setConfirmPassword('');
-        }}>
+      <FormBox>
         <h3 style={{ color: '#4377cf' }}>
           Register an account
         </h3>
@@ -109,7 +73,35 @@ export default function Register () {
           name="confirmPassword"
         />
         <br />
-        <Button variant='contained' type='submit' value='Submit'>Submit</Button>
+        <Button variant='contained' type='submit' value='Submit'
+          onClick={(e) => {
+            e.preventDefault();
+            if (password === '') {
+              setAlertPassword(true);
+              setAlertEmail(false);
+              return;
+            } else if (password !== confirmPassword) {
+              setSamePassword(false);
+              return;
+            }
+            const data = { name, email, password };
+            setters.setOwner(email);
+            makeRequest('/user/auth/register', 'post', data, '').then((res) => {
+              if (res.error === undefined) {
+                setters.setToken(res.token);
+                navigate('/');
+              } else {
+                setAlertEmail(true);
+                setAlertPassword(false);
+              }
+            })
+            setName('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+          }}>
+            Submit
+          </Button>
         <br />
         {!samePassword && (
           <Alert severity="warning">Passwords are not the same!</Alert>
@@ -120,7 +112,7 @@ export default function Register () {
         {alertPassword && (
           <Alert severity="error">Invalid Input, Password cannot be an empty string</Alert>
         )}
-      </form>
+      </FormBox>
     </Box>
   )
 }

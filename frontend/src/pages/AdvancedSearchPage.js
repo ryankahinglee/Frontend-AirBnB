@@ -63,9 +63,19 @@ export default function AdvancedSearch () {
               res.splice(i, 1);
               break;
             }
-          } else if (key === 'city' && queryListing.address.city !== value) {
-            res.splice(i, 1);
-            break;
+          } else if (key === 'city' && queryListing.address.city !== value.toLowerCase()) {
+            const lowerCaseCity = queryListing.address.city.toLowerCase();
+            const subStrings = (value.toLowerCase()).split(/\s+/);
+            let containsString = false;
+            subStrings.forEach((string) => {
+              if (lowerCaseCity.includes(string)) {
+                containsString = true;
+              }
+            })
+            if (containsString === false) {
+              res.splice(i, 1);
+              break;
+            }
           } else if (key === 'minBedrooms' && queryListing.metadata.bedrooms.length < value) {
             res.splice(i, 1);
             break;

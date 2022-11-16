@@ -40,21 +40,32 @@ export default function HostedListing () {
     margin: '10px',
     justifyContent: 'center'
   });
+
+  const ProfitBox = styled(Box)({
+    border: 'solid',
+    borderColor: '#6392e3',
+    width: '370px',
+    borderWidth: '0.1px',
+    padding: '5px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    textAlign: 'center'
+  })
+
+  const ListingBox = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    margin: '10px 10px'
+  })
   return (
     <div>
       <ListingTitle>My Listings</ListingTitle>
       <HostedBox>
         {fullListings.map((listing, index) => (
-          <Box
-            key={`fullListing-${index}`}
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              margin: '10px 10px'
-            }}
-          >
+          <ListingBox key={`fullListing-${index}`}>
             <DetailedListingCard
               title={listing.title}
               type={listing.metadata.type}
@@ -70,17 +81,7 @@ export default function HostedListing () {
               published={listing.published}
               fullListings={fullListings}
             />
-            <Box style={{
-              border: 'solid',
-              borderColor: '#6392e3',
-              width: '370px',
-              borderWidth: '0.1px',
-              padding: '5px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              textAlign: 'center'
-            }}>
+            <ProfitBox>
               <h2 style={{ color: '#286ee6' }}>Profit margins</h2>
               <ProfitGraph lId={listing.id} />
               <Button variant='outlined' onClick={() => {
@@ -92,8 +93,8 @@ export default function HostedListing () {
               }}>
                 View Requests
               </Button>
-            </Box>
-          </Box>
+            </ProfitBox>
+          </ListingBox>
         ))}
       </HostedBox>
     </div>

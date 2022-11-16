@@ -67,18 +67,30 @@ export default function BookingHistory () {
   const DetailLabel = styled('span')({
     color: '#286ee6'
   })
+
+  const BookingBox = styled(Box)({
+    borderTop: 'solid',
+    borderWidth: '0.1px',
+    borderColor: '#6392e3',
+    padding: '5px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  })
+
+  const SummaryBox = styled(Box)({
+    border: 'solid',
+    borderWidth: '0.1vh',
+    borderColor: '#6392e3',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '250px',
+    padding: '5px 0px'
+  })
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', height: '94vh', flexDirection: 'column', margin: '5px' }}>
-      <Box sx={{
-        border: 'solid',
-        borderWidth: '0.1vh',
-        borderColor: '#6392e3',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '250px',
-        padding: '5px 0px'
-      }}>
+    <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column', margin: '5px' }}>
+      <SummaryBox>
         <DescriptionBox>
           <Header>Time spent Online</Header>
           <p>{daysOnline} days , {hoursOnline} hours and {minutesOnline} minutes</p>
@@ -95,17 +107,8 @@ export default function BookingHistory () {
             <Alert severity="info">{alertText}</Alert>
         )}
         {bookings.map((booking, index) => (
-          <Box
+          <BookingBox
             key={`booking-${index}`}
-            sx={{
-              borderTop: 'solid',
-              borderWidth: '0.1px',
-              borderColor: '#6392e3',
-              padding: '5px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center'
-            }}
           >
             <h3 style={{ color: '#286ee6', width: '240px' }}>Booking</h3>
             <p>
@@ -122,6 +125,7 @@ export default function BookingHistory () {
               <Button
                 variant='contained'
                 fullWidth
+                sx = {{ margin: '5px 0px' }}
                 onClick={() => {
                   makeRequest(`/bookings/accept/${booking.id}`, 'put', undefined, getters.token).then((res) => {
                     // Success comment here
@@ -171,9 +175,9 @@ export default function BookingHistory () {
               </Button>
             </div>)}
             <br></br>
-          </Box>
+          </BookingBox>
         ))}
-      </Box>
+      </SummaryBox>
     </Box>
   );
 }

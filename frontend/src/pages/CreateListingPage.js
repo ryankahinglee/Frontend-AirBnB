@@ -31,15 +31,9 @@ export default function CreateListing () {
   const [JSONAlert, setJSONAlert] = React.useState(false);
   React.useEffect(() => {
   }, [bedrooms])
+
   return (
-    <Box sx={
-      {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '40%'
-      }
-    }>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <form
         style={{
           border: 'solid',

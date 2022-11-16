@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { contextVariables } from '../helpers/contextVariables';
 import makeRequest from '../helpers/makeRequest';
+import { FormBox } from '../components/FormBox';
 // Importing material ui components
 import { Box, Button, TextField, Alert } from '@mui/material';
 
@@ -14,34 +15,7 @@ export default function Login () {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '92vh' }}>
-      <form
-        style={{
-          border: 'solid',
-          borderColor: '#6392e3',
-          borderWidth: '0.1vh',
-          borderRadius: '5px',
-          padding: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '250px'
-        }}
-        onSubmit={(e) => {
-          e.preventDefault();
-          const data = { email, password };
-          setters.setOwner(email);
-          makeRequest('/user/auth/login', 'post', data, '').then((res) => {
-            if (res.error === undefined) {
-              setters.setToken(res.token);
-              navigate('/');
-            } else {
-              setAlert(true);
-            }
-          });
-          setEmail('');
-          setPassword('');
-        }}
-      >
+      <FormBox>
         <h3 style={{ color: '#4377cf' }}>
           Enter your login details
         </h3>
@@ -63,12 +37,31 @@ export default function Login () {
           name="password"
         />
         <br />
-        <Button variant='contained' type='submit' value='Submit'>Submit</Button>
+        <Button
+          variant='contained'
+          onClick={(e) => {
+            e.preventDefault();
+            const data = { email, password };
+            setters.setOwner(email);
+            makeRequest('/user/auth/login', 'post', data, '').then((res) => {
+              if (res.error === undefined) {
+                setters.setToken(res.token);
+                navigate('/');
+              } else {
+                setAlert(true);
+              }
+            });
+            setEmail('');
+            setPassword('');
+          }}
+        >
+          Submit
+        </Button>
         <br />
         {alert && (
           <Alert severity="error">Invalid Email or Password</Alert>
         )}
-      </form>
+      </FormBox>
     </Box>
   );
 }
