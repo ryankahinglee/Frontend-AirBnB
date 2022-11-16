@@ -12,8 +12,6 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const [rating, setRating] = React.useState(3);
   const [comment, setComment] = React.useState('');
   const { getters } = React.useContext(contextVariables)
-  const [currentBooking, setBooking] = React.useState(undefined);
-  const [hasBooking, setHasBooking] = React.useState(false);
   const [currentReviews, setCurrentReviews] = React.useState(reviews);
   // Material ui variables
   const [open, setOpen] = React.useState(false);
@@ -25,15 +23,15 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
   const handleClose = () => {
     setOpen(false);
   };
-  React.useEffect(() => {
-    for (const booking of bookings) {
-      if (getters.owner === booking.owner && booking.status === 'accepted' && parseInt(booking.listingId) === id) {
-        setBooking(booking)
-        setHasBooking(true);
-        break;
-      }
+  let currentBooking = null;
+  let hasBooking = false;
+  for (const booking of bookings) {
+    if (getters.owner === booking.owner && booking.status === 'accepted' && parseInt(booking.listingId) === id) {
+      currentBooking = booking;
+      hasBooking = true;
+      break;
     }
-  }, [])
+  }
 
   const submitComment = () => {
     const review = { rating, comment }
