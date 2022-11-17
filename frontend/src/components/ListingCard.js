@@ -9,8 +9,8 @@ import { useNavigate, useSearchParams, createSearchParams } from 'react-router-d
 import { styled } from '@mui/system';
 
 export default function ListingCard ({ id, title, thumbnail, reviews, bookings }) {
-  const [rating, setRating] = React.useState(3);
-  const [comment, setComment] = React.useState('');
+  let rating = 3;
+  let comment = '';
   const { getters } = React.useContext(contextVariables)
   const [currentReviews, setCurrentReviews] = React.useState(reviews);
   // Material ui variables
@@ -106,7 +106,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
               marks
               min={1}
               max={5}
-              onChange={event => setRating(parseInt(event.target.value))}
+              onChange={event => { rating = event.target.value }}
             />
             <TextField
               autoFocus
@@ -116,7 +116,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
               type="text"
               fullWidth
               variant="standard"
-              onChange={event => setComment(event.target.value)}
+              onChange={event => { comment = event.target.value }}
             />
           </DialogContent>
           <DialogActions>
@@ -125,7 +125,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
               handleClose();
               submitComment();
             }}
-            >Subscribe
+            >Confirm Review
             </Button>
           </DialogActions>
         </Dialog>
