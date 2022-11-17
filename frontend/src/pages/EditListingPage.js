@@ -192,6 +192,7 @@ export default function EditListing () {
         >
           <div>
             <Button style={{ borderWidth: '0.3vh', fontWeight: 'bold', margin: '10px' }}
+              name='video-thumbnail-button'
               onClick={(event) => {
                 event.preventDefault();
                 setUseVideo(true);

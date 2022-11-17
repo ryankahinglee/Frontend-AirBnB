@@ -104,10 +104,10 @@ export default function BookingHistory () {
         </DescriptionBox>
         <DescriptionBox>
           <Header>Current Profit this year</Header>
-          <p>{profit} dollars</p>
+          <p name='profit-text'>{profit} dollars</p>
         </DescriptionBox>
         {alert && (
-            <Alert severity="info">{alertText}</Alert>
+            <Alert name='alert-booking' severity="info">{alertText}</Alert>
         )}
         {bookings.map((booking, index) => (
           <BookingBox
@@ -128,6 +128,7 @@ export default function BookingHistory () {
               <Button
                 variant='contained'
                 fullWidth
+                name='accept-booking-button'
                 sx = {{ margin: '5px 0px' }}
                 onClick={() => {
                   makeRequest(`/bookings/accept/${booking.id}`, 'put', undefined, getters.token).then((res) => {

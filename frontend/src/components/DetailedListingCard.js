@@ -38,7 +38,8 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
     }}>
       <img style={{ height: '300px', width: '370px', display: 'inline-block' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <p>
-        <DetailLabel>Title:</DetailLabel>{` ${title}`}
+        <DetailLabel>Title: </DetailLabel>
+        <span name='title-listing'>{`${title}`}</span>
       </p>
       <p>
         <DetailLabel>Property Type:</DetailLabel>{` ${type}`}

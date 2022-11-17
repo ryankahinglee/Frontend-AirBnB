@@ -60,7 +60,7 @@ export default function AvailabilityAdder ({ setCreateAvailStart, createAvailSta
         {'Add Availability Range'}
       </Button>
       {invalidDates && (
-        <Alert severity='error'>Invalid dates, the end date must be after the start date</Alert>
+        <Alert name='alert-invalid' severity='error'>Invalid dates, the end date must be after the start date</Alert>
       )}
     </div>
   );

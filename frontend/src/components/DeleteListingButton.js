@@ -20,7 +20,7 @@ export default function DeleteListingButton ({ lId, desc, listingSetter }) {
 
   return (
     <div>
-      <Button variant='outlined' onClick={() => {
+      <Button variant='outlined' name='delete-button' onClick={() => {
         handleClickOpen();
       }}>
         {desc}
@@ -34,7 +34,7 @@ export default function DeleteListingButton ({ lId, desc, listingSetter }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => {
+          <Button name='confirm-delete-button' onClick={() => {
             makeRequest(`/listings/${lId}`, 'delete', undefined, getters.token).then((res) => {
               if (!('error' in res)) {
                 listingSetter(lId)
