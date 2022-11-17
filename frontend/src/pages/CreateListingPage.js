@@ -29,12 +29,6 @@ export default function CreateListing () {
   const [emptyFieldAlert, setEmptyFieldAlert] = React.useState(false);
   const [bedNumAlert, setBedNumAlert] = React.useState(false);
   const [JSONAlert, setJSONAlert] = React.useState(false);
-<<<<<<< frontend/src/pages/CreateListingPage.js
-  React.useEffect(() => {
-  }, [bedrooms])
-
-=======
->>>>>>> frontend/src/pages/CreateListingPage.js
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <form
