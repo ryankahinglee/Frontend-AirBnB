@@ -82,7 +82,7 @@ export default function ListingAvailabilities () {
           />
         ))
       )}
-      <Button variant='contained' sx = {{ margin: '10px' }} onClick={() => {
+      <Button variant='contained' name='go-live-button' sx = {{ margin: '10px' }} onClick={() => {
         makeRequest(`/listings/publish/${params.lId}`, 'put', { availability: availabilities }, getters.token).then((res) => {
           if (!('error' in res)) {
             navigate('/mylistings');

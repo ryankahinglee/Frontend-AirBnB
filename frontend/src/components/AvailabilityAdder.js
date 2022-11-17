@@ -9,10 +9,11 @@ export default function AvailabilityAdder ({ setCreateAvailStart, createAvailSta
   const [invalidDates, setInvalidDates] = React.useState(false);
   return (
     <div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} name='date-start-add'>
         <DatePicker
           label="Start date"
           value={createAvailStart}
+          name='date-start-add'
           onChange={(newDate) => {
             const month = (parseInt(newDate.$M) + 1).toString()
             const stringDate = `${newDate.$y}-${month}-${newDate.$D}`
@@ -24,6 +25,7 @@ export default function AvailabilityAdder ({ setCreateAvailStart, createAvailSta
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="End date"
+          name='date-end-add'
           value={createAvailEnd}
           onChange={(newDate) => {
             const month = (parseInt(newDate.$M) + 1).toString()
@@ -33,7 +35,7 @@ export default function AvailabilityAdder ({ setCreateAvailStart, createAvailSta
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
-      <Button variant='outlined' onClick={() => {
+      <Button variant='outlined' name='availability-range-button' onClick={() => {
         if (new Date(createAvailEnd) - new Date(createAvailStart) <= 0) {
           setInvalidDates(true);
           return;

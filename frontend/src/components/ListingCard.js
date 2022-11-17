@@ -130,7 +130,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
           </DialogActions>
         </Dialog>
       </Box>}
-      <Button variant='outlined' onClick={() => {
+      <Button variant='outlined' name='view-details-button' onClick={() => {
         let params = {}
         if (conditions.startDate !== undefined && conditions.endDate !== undefined) {
           const startDate = conditions.startDate;

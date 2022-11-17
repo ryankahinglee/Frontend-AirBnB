@@ -264,7 +264,7 @@ export default function CreateListing () {
         <TextField
           label="Type of property"
           variant="outlined"
-          name="type"
+          name="property-type"
           onChange={event => setType(event.target.value)}
           value={type}
           type="text"
@@ -303,6 +303,7 @@ export default function CreateListing () {
             <Select
               value={bedroomType}
               onChange={event => setBedroomType(event.target.value)}
+              name='select-bedroom-type'
             >
               <MenuItem value={'master'}>Master</MenuItem>
               <MenuItem value={'children'}>Children</MenuItem>
@@ -312,7 +313,7 @@ export default function CreateListing () {
             <TextField
               label="Number of beds"
               variant="outlined"
-              name="bedCount"
+              name="bedcount-add"
               onChange={event => setBedCount(event.target.value)}
               value={bedCount}
               type="number"
@@ -321,6 +322,7 @@ export default function CreateListing () {
           <Button
             style={{ margin: '10px' }}
             variant="contained"
+            name='bedroom-add'
             onClick={(event) => {
               event.preventDefault();
               const newBedrooms = bedrooms;
@@ -381,7 +383,7 @@ export default function CreateListing () {
           type="text"
         />
         <br />
-        <Button style={{ margin: '10px' }} variant="contained" component="label">
+        <Button style={{ margin: '10px' }} variant="contained" name='create-button' component="label">
           Create Listing
           <input
             type="submit"
