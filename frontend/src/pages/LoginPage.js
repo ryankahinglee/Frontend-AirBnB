@@ -62,7 +62,7 @@ export default function Login () {
         </Button>
         <br />
         {alert && (
-          <Alert severity="error">Invalid Email or Password</Alert>
+          <Alert name='alert-invalid' severity="error">Invalid Email or Password</Alert>
         )}
       </FormBox>
     </Box>

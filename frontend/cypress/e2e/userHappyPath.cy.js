@@ -12,20 +12,20 @@ describe('user happy path', () => {
   8. Logs back into the application successfully
 
   First user will take the following steps
-  1. Registers successfully
-  2. Creates a new listing successfully
-  3. Updates the thumbnail and title of the listing successfully
-  4. Publish a listing successfully
-  5. Unpublish a listing successfully
-  7. Publish a listing successfully
-  8. Logs out of the application successfully
+  1.  Registers successfully
+  2.  Creates a new listing successfully
+  3.  Updates the thumbnail and title of the listing successfully
+  4.  Publish a listing successfully
+  5.  Unpublish a listing successfully
+  7.  Publish a listing successfully
+  8.  Logs out of the application successfully
 
   Second user will take the following steps
-  1. Registers successfully
-  2. Make a booking successfully
-  3. Logs out of the application successfully
-  4. Logs back into the application successfully
-  5. Logs out of the application successfully
+  9.  Registers successfully
+  10. Make a booking successfully
+  11. Logs out of the application successfully
+  12. Logs back into the application successfully
+  13. Logs out of the application successfully
   */
 
   // Register successfully
@@ -59,7 +59,7 @@ describe('user happy path', () => {
     cy.get('button[name="submit-button"]')
       .click();
   });
-
+  
   it('should navigate to create listing screen successfully', () => {
     cy.wait(1000);
     cy.get('button[name="create-listing-button"]')
@@ -67,12 +67,12 @@ describe('user happy path', () => {
     cy.url().should('include', 'localhost:3000/createlisting')
   });
 
+  let ryanTitle = Math.random().toString(36).substring(4, 8)
   it('should create a new listing successfully', () => {
-    const randomTitle = Math.random().toString(36).substring(4, 8)
     cy.wait(1000);
     cy.get('input[name="title"]')
       .focus()
-      .type(`Ryan's new house&${randomTitle}`);
+      .type(`Ryan's new house&${ryanTitle}`);
     cy.get('input[name="streetNumName"]')
       .focus()
       .type("268 Tumble Avenue");
@@ -124,6 +124,7 @@ describe('user happy path', () => {
     cy.url().should('include', 'localhost:3000/editlisting');
   });
 
+  ryanTitle = ryanTitle + 'edited'
   it('should edit the listing displayed successfully', () => {
     cy.wait(1000);
     cy.get('input[name="title"]')
@@ -259,7 +260,9 @@ describe('user happy path', () => {
 
   it('should navigate to listing booking screen successfully', () => {
     cy.wait(1000);
-    cy.get('button[name="view-details-button"]')
+    cy.get('div[name="listing-card"]')
+      .filter(`:contains(${ryanTitle})`).should('have.length', 1)
+      .find('button[name="view-details-button"]')
       .click();
     cy.url().should('include', 'localhost:3000/listingdetails');
   });
