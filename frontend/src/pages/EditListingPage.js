@@ -389,7 +389,7 @@ export default function EditListing () {
           type="text"
         />
         <br />
-        <Button style={{ margin: '10px' }} variant="contained" component="label">
+        <Button style={{ margin: '10px' }} variant="contained" component="label" name='edit-listing-button'>
           Save Changes
           <input
             type="submit"

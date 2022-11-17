@@ -65,7 +65,7 @@ export default function HostedListing () {
       <ListingTitle>My Listings</ListingTitle>
       <HostedBox>
         {fullListings.map((listing, index) => (
-          <ListingBox key={`fullListing-${index}`}>
+          <ListingBox key={`fullListing-${index}`} name='hosted-listing'>
             <DetailedListingCard
               title={listing.title}
               type={listing.metadata.type}
@@ -83,7 +83,7 @@ export default function HostedListing () {
             <ProfitBox>
               <h2 style={{ color: '#286ee6' }}>Profit margins</h2>
               <ProfitGraph lId={listing.id} />
-              <Button variant='outlined' onClick={() => {
+              <Button variant='outlined' name='view-requests-button' onClick={() => {
                 const params = listing.postedOn
                 navigate({
                   pathname: `/bookingHistory/${listing.id}`,

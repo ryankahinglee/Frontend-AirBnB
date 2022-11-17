@@ -303,7 +303,7 @@ export default function ListingDetails () {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-            <Button sx={{ height: '56px' }} variant='contained' onClick={() => {
+            <Button sx={{ height: '56px' }} name='make-booking-button' variant='contained' onClick={() => {
               if (new Date(bookingEnd) - new Date(bookingStart) <= 0) {
                 setInvalidAlert(true);
                 return;
@@ -336,7 +336,7 @@ export default function ListingDetails () {
               <Alert severity="error">End date must be after start date!</Alert>
             )}
             {alert && (
-            <Alert severity="success">Booking Made!</Alert>
+            <Alert name='alert-success' severity="success">Booking Made!</Alert>
             )}
           </Box>
         </Box>
