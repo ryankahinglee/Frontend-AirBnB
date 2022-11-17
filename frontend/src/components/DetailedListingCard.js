@@ -73,7 +73,7 @@ export default function DetailedListingCard ({ title, type, bedrooms, numBathroo
           <AvailabilityEdit lId={lId} desc={'Publish Listing'} />
         )}
         {publishStatus && (
-          <Button variant='outlined' onClick={() => {
+          <Button variant='outlined' name='unpublish-button' onClick={() => {
             makeRequest(`/listings/unpublish/${lId}`, 'put', undefined, getters.token).then((res) => {
               setPublishStatus(false)
             })
