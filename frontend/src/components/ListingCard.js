@@ -71,20 +71,21 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
     justifyContent: 'space-between',
   })
   return (
-    <ListingBox>
+    <ListingBox name='listing-card'>
       <img style={{ height: '300px', width: '300px' }} alt={`listing thumbnail-${title}`} src={thumbnail}></img>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between'
       }}>
-        <h4 style={{ padding: '0px 10px' }}>{title}</h4>
-        <div style={{ padding: '20px 10px' }}>
+        <h4 style={{ padding: '0px 10px' }} name='listing-title'>{title}</h4>
+        <div name='review-count' style={{ padding: '20px 10px' }}>
           {currentReviews.length} reviews
         </div>
       </Box>
       {hasBooking && <Box>
         <Button variant="outlined"
+          name='leave-review-button'
           onClick={handleClickOpen}
           style={{
             width: '299.8px'
@@ -108,6 +109,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
               marks
               min={1}
               max={5}
+              name='slider-rating'
               onChange={event => { rating = event.target.value }}
             />
             <TextField
@@ -123,7 +125,7 @@ export default function ListingCard ({ id, title, thumbnail, reviews, bookings }
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={() => {
+            <Button name='confirm-review-button' onClick={() => {
               handleClose();
               submitComment();
             }}

@@ -106,7 +106,7 @@ export default function Register () {
           </Button>
         <br />
         {!samePassword && (
-          <Alert severity="warning">Passwords are not the same!</Alert>
+          <Alert name='alert-same-password' severity="warning">Passwords are not the same!</Alert>
         )}
         {alertEmail && (
           <Alert severity="error">Invalid Input, Email has already been taken</Alert>

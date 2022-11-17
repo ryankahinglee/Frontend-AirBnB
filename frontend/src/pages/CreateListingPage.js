@@ -394,7 +394,7 @@ export default function CreateListing () {
           />
         </Button>
         {emptyFieldAlert && (
-          <Alert severity="error">One or more fields are empty. Please fill them. </Alert>
+          <Alert name='alert-empty' severity="error">One or more fields are empty. Please fill them. </Alert>
         )}
       </form>
     </Box>
