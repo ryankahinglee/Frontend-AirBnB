@@ -73,7 +73,7 @@ export default function Register () {
           name="confirmPassword"
         />
         <br />
-        <Button variant='contained' type='submit' value='Submit'
+        <Button variant='contained' type='submit' value='Submit' name='submit'
           onClick={(e) => {
             e.preventDefault();
             if (password === '') {
@@ -86,7 +86,9 @@ export default function Register () {
             }
             const data = { name, email, password };
             setters.setOwner(email);
+            console.log(data);
             makeRequest('/user/auth/register', 'post', data, '').then((res) => {
+              console.log(res);
               if (res.error === undefined) {
                 setters.setToken(res.token);
                 navigate('/');

@@ -11,8 +11,12 @@ export default async function makeRequest (route, method, body, token) {
 
   try {
     const response = await fetch(`http://localhost:5005${route}`, options);
-    const json = await response.json();
-    return json;
+    if (response.ok) {
+      const json = await response.json();
+      return json;
+    } else {
+      throw response
+    }
   } catch (error) {
     console.error(error);
   }

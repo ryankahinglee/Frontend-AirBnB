@@ -35,13 +35,15 @@ export default function Home () {
         }))
       }
     }).then((res) => {
-      const newListings = [];
-      res.forEach((listing) => {
-        if (listing.value.published === true) {
-          newListings.push(listing.value);
-        }
-      })
-      setListings(newListings);
+      if (res !== undefined) {
+        const newListings = [];
+        res.forEach((listing) => {
+          if (listing.value.published === true) {
+            newListings.push(listing.value);
+          }
+        })
+        setListings(newListings);
+      }
     }).then(() => {
       if (getters.token !== '') {
         makeRequest('/bookings', 'get', undefined, getters.token).then((res) => {

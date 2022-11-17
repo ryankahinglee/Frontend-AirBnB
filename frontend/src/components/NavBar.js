@@ -33,8 +33,8 @@ export default function Nav () {
   if (getters.token === '') {
     navButtons = (
       <div>
-        <NavButton variant='contained' onClick={() => { navigate('/login') }}>Login</NavButton>
-        <NavButton variant='contained' onClick={() => { navigate('/register') }}>Register</NavButton>
+        <NavButton variant='contained' name='login-button' onClick={() => { navigate('/login') }}>Login</NavButton>
+        <NavButton variant='contained' name='register-button' onClick={() => { navigate('/register') }}>Register</NavButton>
       </div>
     );
   } else {
