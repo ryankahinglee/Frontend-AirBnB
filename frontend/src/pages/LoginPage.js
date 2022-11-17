@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { contextVariables } from '../helpers/contextVariables';
 import makeRequest from '../helpers/makeRequest';
 import { FormBox } from '../components/FormBox';
-// Importing material ui components
+// From material ui
 import { Box, Button, TextField, Alert } from '@mui/material';
 
 // This page allows login functionality for the website

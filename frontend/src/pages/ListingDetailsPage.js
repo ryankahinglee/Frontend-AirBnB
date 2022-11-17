@@ -7,7 +7,7 @@ import Booking from '../components/Booking';
 import Star from '../components/Star';
 import ImageDisplay from '../components/ImageDisplay';
 
-// Material ui components
+// From material ui
 import { Tooltip, Alert, Box, Button, TextField } from '@mui/material';
 import { styled } from '@mui/system';
 import SpecificRatingReviews from '../components/SpecificRatingReviews';

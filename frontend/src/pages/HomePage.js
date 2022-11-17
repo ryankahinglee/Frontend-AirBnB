@@ -8,6 +8,7 @@ import makeRequest from '../helpers/makeRequest';
 
 import ListingCard from '../components/ListingCard';
 import SearchFilter from '../components/SearchFilter';
+// From material ui
 import { Box, TextField } from '@mui/material'
 
 import { contextVariables } from '../helpers/contextVariables';

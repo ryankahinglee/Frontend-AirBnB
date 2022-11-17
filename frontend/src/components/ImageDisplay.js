@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+// From material ui
 import { ImageList, ImageListItem } from '@mui/material';
 
 // This component displays a property's images including the thumbnail shown when a user pressed on viewDetails on a listing on the home page

@@ -5,6 +5,7 @@ import makeRequest from '../helpers/makeRequest';
 import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../helpers/imageToURLHelper';
 import ImageDeleteButton from '../components/ImageDeleteButton';
+// From material ui
 import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
 // // This page allows for listing editing where all fields are required
