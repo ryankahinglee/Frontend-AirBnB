@@ -1,3 +1,6 @@
+
+// reading JSON files from upload
+
 export function jsonReader (file) {
   try {
     const reader = new FileReader();

@@ -9,6 +9,7 @@ import { Button, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import Star from './Star';
 
+// This component lists a large amount of information regarding a listing and is shown on the hosted listings page
 export default function DetailedListingCard ({ title, type, bedrooms, numBathrooms, thumbnail, reviews, price, lId, listingSetter, published }) {
   const [publishStatus, setPublishStatus] = React.useState(published);
   const { getters } = React.useContext(contextVariables);

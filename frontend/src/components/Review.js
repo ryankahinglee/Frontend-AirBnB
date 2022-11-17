@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Box } from '@mui/material'
 import { styled } from '@mui/system';
 
+// This component displays a singular review's rating and comment which is shown in a listing's details page
 export default function Review ({ rating, comment }) {
   const Label = styled('span')({
     color: '#286ee6'

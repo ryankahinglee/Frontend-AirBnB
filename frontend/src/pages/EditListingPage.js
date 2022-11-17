@@ -7,6 +7,8 @@ import { fileToDataUrl } from '../helpers/imageToURLHelper';
 import ImageDeleteButton from '../components/ImageDeleteButton';
 import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
+// // This page allows for listing editing where all fields are required
+
 export default function EditListing () {
   const navigate = useNavigate();
   const { getters } = React.useContext(contextVariables);

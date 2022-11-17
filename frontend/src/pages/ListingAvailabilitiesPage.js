@@ -7,6 +7,8 @@ import AvailabilityAdder from '../components/AvailabilityAdder';
 import { Alert, Box, Button } from '@mui/material';
 import { styled } from '@mui/system';
 
+// This page allows adding availabilities prior to a listing going live
+
 export default function ListingAvailabilities () {
   const { getters } = React.useContext(contextVariables);
   const params = useParams();

@@ -6,6 +6,8 @@ import makeRequest from '../helpers/makeRequest';
 import { Box, TextField, Alert, Button } from '@mui/material';
 import { FormBox } from '../components/FormBox';
 
+// This page allows registraton functionality for the website
+
 export default function Register () {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');

@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField, Button, Box } from '@mui/material';
 
+// This component is the availabilty range shown when it is added before going live with functionality able to edit it as well as delete it
 export default function Availability ({ start, end, availStartSetter, availEndSetter, availDelete }) {
   return (
     <Box sx={{ margin: '10px' }}>

@@ -9,6 +9,8 @@ import ListingCard from '../components/ListingCard';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 
+// This page displays the filtered available listings after applying advanced filter.
+
 export default function AdvancedSearch () {
   const { getters } = React.useContext(contextVariables);
   const [listings, setListings] = React.useState([]);

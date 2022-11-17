@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+// This is a styled container component
+
 export const FormBox = styled.div`
   border: solid;
   border-color: #6392e3;

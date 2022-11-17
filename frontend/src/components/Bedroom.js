@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { MenuItem, Select, TextField, Button, Box } from '@mui/material';
 import { BedroomBox } from '../components/BedroomBox'
 
+// This component refers to a bedroom component which shows type as well as the number of beds in it as well as the ability to delete them. These components belong in the edit/create listing pages.
 export default function Bedroom ({ bedroomType, bedCount, onBedroomTypeChange, onBedCountChange, bedroomDelete }) {
   return (
     <BedroomBox>
