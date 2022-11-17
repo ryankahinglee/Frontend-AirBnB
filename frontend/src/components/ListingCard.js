@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { contextVariables } from '../helpers/contextVariables';
 
-// Components of material.mui from https://mui.com/material-ui/react-dialog/
+// From material ui
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slider, Box } from '@mui/material'
 import makeRequest from '../helpers/makeRequest';
 import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'

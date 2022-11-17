@@ -6,6 +6,7 @@ import {
 import { contextVariables } from '../helpers/contextVariables';
 import makeRequest from '../helpers/makeRequest';
 import ListingCard from '../components/ListingCard';
+// From material ui
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 

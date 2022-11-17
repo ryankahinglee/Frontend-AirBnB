@@ -3,7 +3,7 @@ import {
   useNavigate,
   createSearchParams
 } from 'react-router-dom';
-// Components of material.mui from https://mui.com/material-ui/react-dialog/
+// From material ui
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';

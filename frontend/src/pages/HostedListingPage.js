@@ -5,6 +5,7 @@ import DetailedListingCard from '../components/DetailedListingCard';
 import ProfitGraph from '../components/ProfitGraph';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { styled } from '@mui/system';
+// From material ui
 import { Box, Button } from '@mui/material';
 
 // This page displays hosted listings and has buttons allowing for editing, publish/unpublish, viewing requests and the profit graph

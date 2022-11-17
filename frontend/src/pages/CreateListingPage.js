@@ -6,6 +6,7 @@ import Bedroom from '../components/Bedroom';
 import { fileToDataUrl } from '../helpers/imageToURLHelper';
 import { jsonReader } from '../helpers/listingUploadHelper';
 import { validateJSON } from '../helpers/JSONValidateHelper';
+// From material ui
 import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
 // This page allows for listing creation where all fields are required

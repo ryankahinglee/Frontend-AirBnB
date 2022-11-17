@@ -2,7 +2,7 @@ import React from 'react';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
 import makeRequest from '../helpers/makeRequest';
-// https://mui.com/material-ui/react-button/ using Material Ui
+// From material ui
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 
