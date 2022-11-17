@@ -75,7 +75,7 @@ export default function Register () {
           name="confirmPassword"
         />
         <br />
-        <Button variant='contained' type='submit' value='Submit'
+        <Button variant='contained' type='submit' value='Submit' name='submit-button'
           onClick={(e) => {
             e.preventDefault();
             if (password === '') {

@@ -41,6 +41,7 @@ export default function Login () {
         <br />
         <Button
           variant='contained'
+          name='submit-login-button'
           onClick={(e) => {
             e.preventDefault();
             const data = { email, password };

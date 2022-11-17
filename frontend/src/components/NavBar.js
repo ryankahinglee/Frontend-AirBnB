@@ -35,15 +35,15 @@ export default function Nav () {
   if (getters.token === '') {
     navButtons = (
       <div>
-        <NavButton variant='contained' onClick={() => { navigate('/login') }}>Login</NavButton>
-        <NavButton variant='contained' onClick={() => { navigate('/register') }}>Register</NavButton>
+        <NavButton variant='contained' name='login-button' onClick={() => { navigate('/login') }}>Login</NavButton>
+        <NavButton variant='contained' name='register-button' onClick={() => { navigate('/register') }}>Register</NavButton>
       </div>
     );
   } else {
     navButtons = (<div>
-      <NavButton variant='contained' onClick={() => { navigate('/createlisting') }}>New Listing</NavButton>
-      <NavButton variant='contained' onClick={() => { navigate('/mylistings') }}>My Listings</NavButton>
-      <NavButton variant='contained' onClick={() => {
+      <NavButton variant='contained' name='create-listing-button' onClick={() => { navigate('/createlisting') }}>New Listing</NavButton>
+      <NavButton variant='contained' name='my-listings-button' onClick={() => { navigate('/mylistings') }}>My Listings</NavButton>
+      <NavButton variant='contained' name='logout-button' onClick={() => {
         makeRequest('/user/auth/logout', 'post', undefined, getters.token).then(() => {
           setters.setToken('');
           navigate('/');
