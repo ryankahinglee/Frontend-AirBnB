@@ -13,6 +13,8 @@ import { Box, TextField } from '@mui/material'
 import { contextVariables } from '../helpers/contextVariables';
 import { styled } from '@mui/system';
 
+// This page refers to the landing page displaying available listings and a user's booked listings if logged in
+
 export default function Home () {
   // Landing screen, list airbnbs here
   const [listings, setListings] = React.useState([]);

@@ -1,3 +1,5 @@
+// validates an uploaded JSON file
+
 export function validateJSON (result) {
   if (!('title' in result) || typeof result.title !== 'string') {
     return false;

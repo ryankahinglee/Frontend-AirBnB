@@ -5,6 +5,8 @@ import { contextVariables } from '../helpers/contextVariables';
 import { Alert, Box, Button } from '@mui/material';
 import { styled } from '@mui/system';
 
+// This page displays a listing's booking statistics including time spent online, profit over a year, days booked in this year, and current booking requests and their related information.
+
 export default function BookingHistory () {
   const params = useParams();
   const [searchParams] = useSearchParams();

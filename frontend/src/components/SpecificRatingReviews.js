@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/system';
 
+// This component refers to the modal which displays reviews for a listing for a specific star rating
 export default function SpecificRatingReviews ({ state, stateSetter, reviews, rating }) {
   const handleClose = () => {
     stateSetter(!state);

@@ -7,6 +7,8 @@ import { useNavigate, createSearchParams } from 'react-router-dom';
 import { styled } from '@mui/system';
 import { Box, Button } from '@mui/material';
 
+// This page displays hosted listings and has buttons allowing for editing, publish/unpublish, viewing requests and the profit graph
+
 export default function HostedListing () {
   const { getters } = React.useContext(contextVariables);
   const [fullListings, setFullListings] = React.useState([]);

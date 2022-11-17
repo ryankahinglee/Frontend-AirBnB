@@ -1,3 +1,5 @@
+// abstracted the fetching process into a makeRequest function
+
 export default async function makeRequest (route, method, body, token) {
   const headers = {
     'Content-Type': 'application/json; charset=UTF-8',

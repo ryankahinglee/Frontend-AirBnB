@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TextField, Button, Alert } from '@mui/material';
 
+// This component allows adding availability ranges prior to going live for a listing. It also disallows conflicting dates when adding availabilities
 export default function AvailabilityAdder ({ setCreateAvailStart, createAvailStart, setCreateAvailEnd, createAvailEnd, availabilities, setAvailabilities, setAlert }) {
   const [invalidDates, setInvalidDates] = React.useState(false);
   return (

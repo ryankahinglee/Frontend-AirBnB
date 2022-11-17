@@ -19,6 +19,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+// This component is responsible for allowing listing filtering for a user's search on the home page including conditions such as price, bedroom amount and availabiltiies etc.
+
 export default function FormDialog () {
   const [open, setOpen] = React.useState(false);
 

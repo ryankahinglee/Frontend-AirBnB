@@ -8,6 +8,8 @@ import { jsonReader } from '../helpers/listingUploadHelper';
 import { validateJSON } from '../helpers/JSONValidateHelper';
 import { Box, Button, TextField, MenuItem, Select, Alert } from '@mui/material';
 
+// This page allows for listing creation where all fields are required
+
 export default function CreateListing () {
   const navigate = useNavigate();
   const { getters } = React.useContext(contextVariables);

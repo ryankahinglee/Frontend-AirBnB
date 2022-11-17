@@ -6,6 +6,8 @@ import { FormBox } from '../components/FormBox';
 // Importing material ui components
 import { Box, Button, TextField, Alert } from '@mui/material';
 
+// This page allows login functionality for the website
+
 export default function Login () {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');

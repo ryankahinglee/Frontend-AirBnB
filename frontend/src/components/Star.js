@@ -1,5 +1,7 @@
 import React from 'react';
 
+// This component displays a star SVG allowing for rating displays
+
 export default function Star () {
   // https://www.tutorialspoint.com/How-to-draw-a-star-in-HTML5-SVG
   return (

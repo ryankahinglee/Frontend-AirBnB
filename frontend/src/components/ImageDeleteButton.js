@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
+// This component allows for property image deletion during edit/creation of a listing. An SVG was used to symbolise this button.
+
 export default function ImageDeleteButton ({ images, imagesSetter, img }) {
   // https://riptutorial.com/svg/example/10317/draw-a-cross-using-diagonal-red-lines
   return (

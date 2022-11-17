@@ -15,6 +15,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+// This page displays detailed information about a listing
+
 export default function ListingDetails () {
   const { getters } = React.useContext(contextVariables);
   const params = useParams();

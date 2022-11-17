@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 
+// This component shows a booking's time period as well as the status of a booking
 export default function Booking ({ dateRange, status }) {
   const BookingBox = styled(Box)({
     border: 'solid',

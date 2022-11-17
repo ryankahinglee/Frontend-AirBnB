@@ -8,6 +8,8 @@ import makeRequest from '../helpers/makeRequest';
 import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'
 import { styled } from '@mui/system';
 
+// This component displays brief information about a listing such as its id, thumbnail and title and contains
+// two buttons where one allows viewing more detail of a listng and another bringing up a modal which allows leaving a review
 export default function ListingCard ({ id, title, thumbnail, reviews, bookings }) {
   let rating = 3;
   let comment = '';

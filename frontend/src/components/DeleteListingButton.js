@@ -4,6 +4,7 @@ import makeRequest from '../helpers/makeRequest';
 import { contextVariables } from '../helpers/contextVariables';
 import { Dialog, DialogTitle, Button, DialogContentText, DialogActions, DialogContent } from '@mui/material';
 
+// This component allows for deleting a listing with a confirmation for the user prior to listing deletion
 export default function DeleteListingButton ({ lId, desc, listingSetter }) {
   const { getters } = React.useContext(contextVariables);
   const [open, setOpen] = React.useState(false);

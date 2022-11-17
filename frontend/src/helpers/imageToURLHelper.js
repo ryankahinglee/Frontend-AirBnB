@@ -1,4 +1,4 @@
-// from assignment 2
+// from assignment 2 (allows image upload to convert to a DataUrl)
 export function fileToDataUrl (file) {
   const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg']
   const valid = validFileTypes.find(type => type === file.type);

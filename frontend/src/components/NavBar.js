@@ -8,6 +8,8 @@ import { styled } from '@mui/system';
 
 import { contextVariables } from '../helpers/contextVariables';
 
+// This component refers to the navigation bar present on all pages allowing for login ,logout, viewing my listings and making new listings
+
 export default function Nav () {
   const { getters, setters } = React.useContext(contextVariables);
   const navigate = useNavigate();

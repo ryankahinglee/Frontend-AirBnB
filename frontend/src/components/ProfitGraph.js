@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 // Components from https://recharts.org/en-US/examples/SimpleBarChart from recharts library
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from 'recharts';
 
+// This component allows display of a profit graph of an owner's profits over past 30 days
+
 export default function ProfitGraph ({ lId }) {
   const { getters } = React.useContext(contextVariables);
   const [plotData, setPlotData] = React.useState();
